@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelFlowyOcelotTails extends ModelBase
+public class ModelFlowyOcelotTails2 extends ModelBase
 {
     /** The back left leg model for the Ocelot. */
     private final ModelRenderer ocelotBackLeftLeg;
@@ -32,7 +32,7 @@ public class ModelFlowyOcelotTails extends ModelBase
     private final ModelRenderer[] ocelotTailParts;
     private float progress;
 
-    public ModelFlowyOcelotTails()
+    public ModelFlowyOcelotTails2()
     {
         this.setTextureOffset("head.main", 0, 0);
         this.setTextureOffset("head.nose", 0, 24);
@@ -195,42 +195,26 @@ public class ModelFlowyOcelotTails extends ModelBase
         }
         else if (entityocelot.isSitting())
         {
-//            this.ocelotBody.rotateAngleX = ((float)Math.PI / 4F);
-//            this.ocelotBody.rotationPointY += -4.0F;
-//            this.ocelotBody.rotationPointZ += 5.0F;
-//            this.ocelotHead.rotationPointY += -3.3F;
-//            ++this.ocelotHead.rotationPointZ;
-//            this.ocelotTail.rotationPointY += 8.0F;
-//            this.ocelotTail.rotationPointZ += -2.0F;
-//            this.ocelotTail.rotateAngleX = 1.7278761F;
-//            this.ocelotFrontLeftLeg.rotateAngleX = -0.15707964F;
-//            this.ocelotFrontLeftLeg.rotationPointY = 15.8F;
-//            this.ocelotFrontLeftLeg.rotationPointZ = -7.0F;
-//            this.ocelotFrontRightLeg.rotateAngleX = -0.15707964F;
-//            this.ocelotFrontRightLeg.rotationPointY = 15.8F;
-//            this.ocelotFrontRightLeg.rotationPointZ = -7.0F;
-//            this.ocelotBackLeftLeg.rotateAngleX = -((float)Math.PI / 2F);
-//            this.ocelotBackLeftLeg.rotationPointY = 21.0F;
-//            this.ocelotBackLeftLeg.rotationPointZ = 1.0F;
-//            this.ocelotBackRightLeg.rotateAngleX = -((float)Math.PI / 2F);
-//            this.ocelotBackRightLeg.rotationPointY = 21.0F;
-//            this.ocelotBackRightLeg.rotationPointZ = 1.0F;
-
-            this.ocelotBody.rotateAngleX = ((float)Math.PI / 2F);
-            this.ocelotTail.rotateAngleZ = -((float)Math.PI / 2F);
-            this.ocelotTail.rotateAngleX = ((float)Math.PI / 2.5F);
-            this.ocelotHead.rotateAngleZ = -1.2707963F;
-            this.ocelotHead.rotateAngleY = 1.2707963F;
-            this.ocelotFrontLeftLeg.rotateAngleX = -1.2707963F;
-            this.ocelotFrontRightLeg.rotateAngleX = -0.47079635F;
-            this.ocelotFrontRightLeg.rotateAngleZ = -0.2F;
-            this.ocelotFrontRightLeg.rotationPointX = -0.2F;
-            this.ocelotBackLeftLeg.rotateAngleX = -0.4F;
-            this.ocelotBackRightLeg.rotateAngleX = 0.5F;
-            this.ocelotBackRightLeg.rotateAngleZ = -0.5F;
-            this.ocelotBackRightLeg.rotationPointX = -0.3F;
-            this.ocelotBackRightLeg.rotationPointY = 20.0F;
-
+            this.ocelotBody.rotateAngleX = ((float)Math.PI / 4F);
+            this.ocelotBody.rotationPointY += -4.0F;
+            this.ocelotBody.rotationPointZ += 5.0F;
+            this.ocelotHead.rotationPointY += -3.3F;
+            ++this.ocelotHead.rotationPointZ;
+            this.ocelotTail.rotationPointY += 8.0F;
+            this.ocelotTail.rotationPointZ += -2.0F;
+            this.ocelotTail.rotateAngleX = 1.7278761F;
+            this.ocelotFrontLeftLeg.rotateAngleX = -0.15707964F;
+            this.ocelotFrontLeftLeg.rotationPointY = 15.8F;
+            this.ocelotFrontLeftLeg.rotationPointZ = -7.0F;
+            this.ocelotFrontRightLeg.rotateAngleX = -0.15707964F;
+            this.ocelotFrontRightLeg.rotationPointY = 15.8F;
+            this.ocelotFrontRightLeg.rotationPointZ = -7.0F;
+            this.ocelotBackLeftLeg.rotateAngleX = -((float)Math.PI / 2F);
+            this.ocelotBackLeftLeg.rotationPointY = 21.0F;
+            this.ocelotBackLeftLeg.rotationPointZ = 1.0F;
+            this.ocelotBackRightLeg.rotateAngleX = -((float)Math.PI / 2F);
+            this.ocelotBackRightLeg.rotationPointY = 21.0F;
+            this.ocelotBackRightLeg.rotationPointZ = 1.0F;
             this.state = 3;
         }
         else
@@ -239,7 +223,7 @@ public class ModelFlowyOcelotTails extends ModelBase
         }
 
         if (entityocelot.isSitting()) {
-            //this.ocelotTail.rotateAngleY = -1.0F;
+            this.ocelotTail.rotateAngleY = -1.0F;
 
             for(int i = 0; i < 15; ++i) {
                 this.ocelotTailParts[i].rotateAngleX = 0.0F;
@@ -249,7 +233,6 @@ public class ModelFlowyOcelotTails extends ModelBase
             float magnitude = (0.5F + limbSwingAmount) * 0.125F;
             float amplitude = limbSwing * 0.6662F + this.progress * 0.6662F;
             this.ocelotTail.rotateAngleY = 0.0F;
-            this.ocelotTail.rotateAngleZ = 0.0F;
             this.ocelotTail.rotateAngleX += MathHelper.sin(amplitude) * magnitude;
 
             for(int i = 0; i < this.ocelotTailParts.length; ++i) {
@@ -257,19 +240,6 @@ public class ModelFlowyOcelotTails extends ModelBase
                 this.ocelotTailParts[i].rotateAngleX = 0.05F;
                 this.ocelotTailParts[i].rotateAngleX += MathHelper.sin(amplitude - (float)(i + 1) * 0.35F) * magnitude;
             }
-
-            this.ocelotHead.rotateAngleX = 0.0F;
-            this.ocelotHead.rotateAngleZ = 0.0F;
-            this.ocelotFrontLeftLeg.rotateAngleX = 0.0F;
-            this.ocelotFrontLeftLeg.rotateAngleZ = 0.0F;
-            this.ocelotFrontRightLeg.rotateAngleX = 0.0F;
-            this.ocelotFrontRightLeg.rotateAngleZ = 0.0F;
-            this.ocelotFrontRightLeg.rotationPointX = -1.2F;
-            this.ocelotBackLeftLeg.rotateAngleX = 0.0F;
-            this.ocelotBackRightLeg.rotateAngleX = 0.0F;
-            this.ocelotBackRightLeg.rotateAngleZ = 0.0F;
-            this.ocelotBackRightLeg.rotationPointX = -1.1F;
-            this.ocelotBackRightLeg.rotationPointY = 18.0F;
         }
     }
 }

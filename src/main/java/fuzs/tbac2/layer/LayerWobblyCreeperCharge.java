@@ -1,8 +1,9 @@
 package fuzs.tbac2.layer;
 
+import fuzs.tbac2.model.ModelWobblyCreeper1;
+import fuzs.tbac2.model.ModelWobblyCreeper2;
 import fuzs.tbac2.render.RenderWobblyCreeper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelCreeper;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -15,7 +16,7 @@ public class LayerWobblyCreeperCharge implements LayerRenderer<EntityCreeper>
 {
     private static final ResourceLocation LIGHTNING_TEXTURE = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
     private final RenderWobblyCreeper creeperRenderer;
-    private final ModelCreeper creeperModel = new ModelCreeper(2.0F);
+    private final ModelWobblyCreeper2 creeperModel = new ModelWobblyCreeper2(2.0F);
 
     public LayerWobblyCreeperCharge(RenderWobblyCreeper creeperRendererIn)
     {

@@ -53,4 +53,15 @@ public class RenderFlowyOcelotTails extends RenderLiving<EntityOcelot>
             GlStateManager.scale(0.8F, 0.8F, 0.8F);
         }
     }
+
+    @Override
+    protected void applyRotations(EntityOcelot entityLiving, float p_77043_2_, float rotationYaw, float partialTicks)
+    {
+        super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
+
+        if (entityLiving.isSitting()) {
+            GlStateManager.translate(0.4F, 0.135F, 0.1F);
+            GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
+        }
+    }
 }

@@ -162,15 +162,28 @@ public class ModelWavingEnderman extends ModelBiped
         }
 
         int i;
-        if (this.isAttacking && !this.isCarrying) {
-            this.bipedRightArm.rotateAngleZ = 2.6F;
-            this.bipedLeftArm.rotateAngleZ = -2.6F;
-            this.bipedRightArm.rotateAngleX = 0.0F;
-            this.bipedLeftArm.rotateAngleX = 0.0F;
+        if (this.isAttacking) {
+            if (!this.isCarrying) {
+                this.bipedRightArm.rotateAngleZ = 2.6F;
+                this.bipedLeftArm.rotateAngleZ = -2.6F;
+                this.bipedRightArm.rotateAngleX = 0.0F;
+                this.bipedLeftArm.rotateAngleX = 0.0F;
 
-            for(i = 0; i < 14; ++i) {
-                this.rightArm[i].rotateAngleZ = MathHelper.sin(ageInTicks * 0.875F + (float)i * 0.45F) * ((float)(i + 8) / 8.0F) * 0.1F;
-                this.leftArm[i].rotateAngleZ = -this.rightArm[i].rotateAngleZ;
+                for (i = 0; i < 14; ++i) {
+                    this.rightArm[i].rotateAngleZ = MathHelper.sin(ageInTicks * 0.875F + (float) i * 0.45F) * ((float) (i + 8) / 8.0F) * 0.1F;
+                    this.leftArm[i].rotateAngleZ = -this.rightArm[i].rotateAngleZ;
+                }
+            } else {
+                for (i = 0; i < 14; ++i) {
+                    int j = i > 7 ? 14 - i : i;
+                    this.rightArm[i].rotateAngleZ = MathHelper.sin(ageInTicks * 0.625F + (float) j * 0.45F) * ((float) (j + 8) / 8.0F) * 0.1F;
+                    this.leftArm[i].rotateAngleZ = -this.rightArm[i].rotateAngleZ;
+                    if (i > 7) {
+                        this.rightArm[i].rotateAngleZ = -this.rightArm[i].rotateAngleZ;
+                    } else {
+                        this.leftArm[i].rotateAngleZ = -this.leftArm[i].rotateAngleZ;
+                    }
+                }
             }
         } else {
             for(i = 0; i < 14; ++i) {

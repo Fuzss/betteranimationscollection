@@ -1,7 +1,8 @@
 package fuzs.tbac2.render;
 
 import fuzs.tbac2.layer.LayerWobblyCreeperCharge;
-import fuzs.tbac2.model.ModelWobblyCreeper;
+import fuzs.tbac2.model.ModelWobblyCreeper1;
+import fuzs.tbac2.model.ModelWobblyCreeper2;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -18,7 +19,7 @@ public class RenderWobblyCreeper extends RenderLiving<EntityCreeper>
 
     public RenderWobblyCreeper(RenderManager renderManagerIn)
     {
-        super(renderManagerIn, new ModelWobblyCreeper(), 0.5F);
+        super(renderManagerIn, new ModelWobblyCreeper1(), 0.5F);
         this.addLayer(new LayerWobblyCreeperCharge(this));
     }
 

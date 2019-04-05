@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -31,11 +32,14 @@ public class LayerWavingHeldBlock implements LayerRenderer<EntityEnderman>
             BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
             GlStateManager.enableRescaleNormal();
             GlStateManager.pushMatrix();
-            GlStateManager.translate(0.0F, 0.6875F, -0.75F);
+            float f = 0.0F;
+            if (entitylivingbaseIn.isScreaming()) {
+                f = MathHelper.cos(ageInTicks * 0.625F + (float) 13 * 0.45F) * ((float) (13 + 8) / 8.0F) * 0.1F;
+            }
+            GlStateManager.translate(-2.0F * f, 0.6875F, -0.75F);
             GlStateManager.rotate(20.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
             GlStateManager.translate(0.25F, 0.1875F, 0.25F);
-            float f = 0.5F;
             GlStateManager.scale(-0.5F, -0.5F, 0.5F);
             int i = entitylivingbaseIn.getBrightnessForRender();
             int j = i % 65536;

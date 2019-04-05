@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelWobblyCreeper extends ModelBase
+public class ModelWobblyCreeper1 extends ModelBase
 {
     public ModelRenderer head;
     public ModelRenderer creeperArmor;
@@ -20,12 +20,14 @@ public class ModelWobblyCreeper extends ModelBase
 
     public ModelRenderer[] bodyparts;
 
-    public ModelWobblyCreeper()
+    protected float magnitude;
+
+    public ModelWobblyCreeper1()
     {
         this(0.0F);
     }
 
-    public ModelWobblyCreeper(float p_i46366_1_)
+    public ModelWobblyCreeper1(float p_i46366_1_)
     {
         this.head = new ModelRenderer(this, 0, 0);
         this.head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, p_i46366_1_);
@@ -94,7 +96,6 @@ public class ModelWobblyCreeper extends ModelBase
         this.leg3.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
         this.leg4.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 
-        float magnitude = 0.0F;
         limbSwingAmount *= 3.5F;
         if (limbSwingAmount < 0.0F) {
             magnitude = 0.0F;
@@ -103,9 +104,10 @@ public class ModelWobblyCreeper extends ModelBase
         } else {
             magnitude = 0.075F;
         }
+        magnitude *= MathHelper.cos(limbSwing * 0.6662F);
 
         for(int i = 0; i < 11; ++i) {
-            this.bodyparts[i].rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * magnitude;
+            this.bodyparts[i].rotateAngleZ = magnitude;
         }
     }
 }

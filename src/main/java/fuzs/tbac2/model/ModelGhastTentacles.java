@@ -1,7 +1,5 @@
 package fuzs.tbac2.model;
 
-import java.util.Random;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -9,6 +7,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class ModelGhastTentacles extends ModelBase
@@ -19,7 +19,6 @@ public class ModelGhastTentacles extends ModelBase
 
     public ModelGhastTentacles()
     {
-        int i = -16;
         this.body = new ModelRenderer(this, 0, 0);
         this.body.addBox(-8.0F, -8.0F, -8.0F, 16, 16, 16);
         this.body.rotationPointY += 8.0F;
@@ -30,20 +29,20 @@ public class ModelGhastTentacles extends ModelBase
             this.tentacles[j] = new ModelRenderer(this, 0, 0);
             float f = (((float)(j % 3) - (float)(j / 3 % 2) * 0.5F + 0.25F) / 2.0F * 2.0F - 1.0F) * 5.0F;
             float f1 = ((float)(j / 3) / 2.0F * 2.0F - 1.0F) * 5.0F;
-            int k = 8 + 3 * j % 7;
-            this.tentacles[j].addBox(-1.0F, 0.0F, -1.0F, 2, 6, 2);
+            int k = random.nextInt(7) + 8;
+            this.tentacles[j].addBox(-1.0F, 0.0F, -1.0F, 2, 1, 2);
             this.tentacles[j].rotationPointX = f;
             this.tentacles[j].rotationPointZ = f1;
             this.tentacles[j].rotationPointY = 15.0F;
 
-            for(int l = 0; l < k - 1; ++l) {
-                this.tentacles2[j][l] = new ModelRenderer(this, 0, 1 + l);
-                this.tentacles2[j][l].addBox(-1.0F, 0.0F, -1.0F, 2, 1, 2);
-                this.tentacles2[j][l].rotationPointY = 1.0F;
-                if (l == 0) {
-                    this.tentacles[j].addChild(this.tentacles2[j][l]);
+            for(int i = 0; i < k - 1; ++i) {
+                this.tentacles2[j][i] = new ModelRenderer(this, 0, 1 + i);
+                this.tentacles2[j][i].addBox(-1.0F, 0.0F, -1.0F, 2, 1, 2);
+                this.tentacles2[j][i].rotationPointY = 1.0F;
+                if (i == 0) {
+                    this.tentacles[j].addChild(this.tentacles2[j][i]);
                 } else {
-                    this.tentacles2[j][l - 1].addChild(this.tentacles2[j][l]);
+                    this.tentacles2[j][i - 1].addChild(this.tentacles2[j][i]);
                 }
             }
         }
@@ -58,11 +57,12 @@ public class ModelGhastTentacles extends ModelBase
     {
         for (int i = 0; i < this.tentacles.length; ++i)
         {
-            this.tentacles[i].rotateAngleX = 0.2F * MathHelper.sin(ageInTicks * 0.3F + (float)i) + 0.4F;
-            int k = 8 + 3 * i % 7;
+            this.tentacles[i].rotateAngleX = 0.2F * MathHelper.sin(ageInTicks * 0.2F + (float)i) + 0.4F;
 
-            for(int j = 0; j < k - 1; ++j) {
-                this.tentacles2[j][j].rotateAngleX = 0.15F * MathHelper.sin(ageInTicks * 0.3F + (float)j - (float)j / 2.0F);
+            int l = this.tentacles2[i].length;
+            for(int j = 0; j < l - 1; ++j) {
+                if (this.tentacles2[i][j] != null)
+                this.tentacles2[i][j].rotateAngleX = 0.2F * MathHelper.sin(ageInTicks * 0.2F + (float)i - (float)j / 2.0F);
             }
         }
     }
