@@ -49,7 +49,7 @@ public class LayerWobblyCreeperCharge implements LayerRenderer<EntityCreeper>
             GlStateManager.matrixMode(5888);
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
-            GlStateManager.depthMask(flag);
+            GlStateManager.depthMask(true);
         }
     }
 

@@ -27,16 +27,8 @@ public class LayerSpiderKneesEyes<T extends EntitySpider> implements LayerRender
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
-
-        if (entitylivingbaseIn.isInvisible())
-        {
-            GlStateManager.depthMask(false);
-        }
-        else
-        {
-            GlStateManager.depthMask(true);
-        }
-
+        boolean flag = entitylivingbaseIn.isInvisible();
+        GlStateManager.depthMask(!flag);
         int i = 61680;
         int j = i % 65536;
         int k = i / 65536;
@@ -51,6 +43,7 @@ public class LayerSpiderKneesEyes<T extends EntitySpider> implements LayerRender
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
         this.spiderRenderer.setLightmap(entitylivingbaseIn);
         GlStateManager.disableBlend();
+        GlStateManager.depthMask(true);
         GlStateManager.enableAlpha();
     }
 
