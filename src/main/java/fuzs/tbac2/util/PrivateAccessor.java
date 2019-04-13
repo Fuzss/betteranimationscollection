@@ -12,8 +12,10 @@ package fuzs.tbac2.util;
 import fuzs.tbac2.tweaks.EntityAIAttackRangedEasyBow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.entity.ai.EntityAIAttackRanged;
 import net.minecraft.entity.ai.EntityAIAttackRangedBow;
 import net.minecraft.entity.monster.AbstractSkeleton;
+import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.util.Timer;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -30,6 +32,7 @@ public interface PrivateAccessor {
 
     String[] ENTITYANIMAL_INLOVE = new String[]{"inLove", "field_70881_d"};
     String[] ABSTRACTSKELETON_AIRARROWATTACK = new String[]{"aiArrowAttack", "field_85037_d"};
+    String[] AIENTITYATTACKRANGED_RANGEDATTACKTIME = new String[]{"rangedAttackTime", "field_75320_d"};
     
     default int getInLove(EntityAnimal instance) {
         try {
@@ -47,5 +50,14 @@ public interface PrivateAccessor {
             LOGGER.error("getAIArrowAttack() failed", ex);
         }
         return null;
+    }
+
+    default int getRangedAttackTime(EntityAIAttackRanged instance) {
+        try {
+            return ObfuscationReflectionHelper.getPrivateValue(EntityAIAttackRanged.class, instance, AIENTITYATTACKRANGED_RANGEDATTACKTIME[1]);
+        } catch (Exception ex) {
+            LOGGER.error("getRangedAttackTime() failed", ex);
+        }
+        return 0;
     }
 }

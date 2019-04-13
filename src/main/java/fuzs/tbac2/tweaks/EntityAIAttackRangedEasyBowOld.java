@@ -4,6 +4,8 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.item.ItemBow;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 
 public class EntityAIAttackRangedEasyBowOld extends EntityAIBase
@@ -32,11 +34,6 @@ public class EntityAIAttackRangedEasyBowOld extends EntityAIBase
     private int maxattackTime;
     private float field_96562_i;
     private float maxAttackDistance;
-
-    public EntityAIAttackRangedEasyBowOld(IRangedAttackMob attacker, double movespeed, int p_i1649_4_, float p_i1649_5_)
-    {
-        this(attacker, movespeed, p_i1649_4_, p_i1649_4_, p_i1649_5_);
-    }
 
     public EntityAIAttackRangedEasyBowOld(IRangedAttackMob attacker, double movespeed, int p_i1650_4_, int maxattackTime, float maxAttackDistanceIn)
     {
@@ -73,8 +70,13 @@ public class EntityAIAttackRangedEasyBowOld extends EntityAIBase
         else
         {
             this.attackTarget = entitylivingbase;
-            return true;
+            return this.isBowInMainhand();
         }
+    }
+
+    private boolean isBowInMainhand()
+    {
+        return !this.entityHost.getHeldItemMainhand().isEmpty() && this.entityHost.getHeldItemMainhand().getItem() instanceof ItemBow;
     }
 
     /**
@@ -86,13 +88,24 @@ public class EntityAIAttackRangedEasyBowOld extends EntityAIBase
     }
 
     /**
+     * Execute a one shot task or start executing a continuous task
+     */
+    public void startExecuting()
+    {
+        super.startExecuting();
+        ((IRangedAttackMob)this.entityHost).setSwingingArms(true);
+    }
+
+    /**
      * Resets the task
      */
     public void resetTask()
     {
         this.attackTarget = null;
+        ((IRangedAttackMob)this.entityHost).setSwingingArms(false);
         this.seeTime = 0;
         this.attackTime = -1;
+        this.entityHost.resetActiveHand();
     }
 
     /**
@@ -100,8 +113,14 @@ public class EntityAIAttackRangedEasyBowOld extends EntityAIBase
      */
     public void updateTask()
     {
-        double d0 = this.entityHost.getDistanceSq(this.attackTarget.posX, this.attackTarget.getEntityBoundingBox().minY, this.attackTarget.posZ);
-        boolean flag = this.entityHost.getEntitySenses().canSee(this.attackTarget);
+
+        double d0 = this.entityHost.getDistanceSq(attackTarget.posX, attackTarget.getEntityBoundingBox().minY, attackTarget.posZ);
+        boolean flag = this.entityHost.getEntitySenses().canSee(attackTarget);
+
+        if (flag != this.seeTime > 0)
+        {
+            this.seeTime = 0;
+        }
 
         if (flag)
         {
@@ -109,7 +128,7 @@ public class EntityAIAttackRangedEasyBowOld extends EntityAIBase
         }
         else
         {
-            this.seeTime = 0;
+            --this.seeTime;
         }
 
         if (d0 <= (double)this.maxAttackDistance && this.seeTime >= 20)
@@ -118,25 +137,31 @@ public class EntityAIAttackRangedEasyBowOld extends EntityAIBase
         }
         else
         {
-            this.entityHost.getNavigator().tryMoveToEntityLiving(this.attackTarget, this.entityMoveSpeed);
+            this.entityHost.getNavigator().tryMoveToEntityLiving(attackTarget, this.entityMoveSpeed);
         }
 
-        this.entityHost.getLookHelper().setLookPositionWithEntity(this.attackTarget, 30.0F, 30.0F);
+        this.entityHost.getLookHelper().setLookPositionWithEntity(attackTarget, 30.0F, 30.0F);
 
-        if (--this.attackTime == 0)
+        if (--this.attackTime == 0 && this.entityHost.isHandActive())
         {
-            if (d0 > (double)this.maxAttackDistance || !flag)
+            if (d0 > (double)this.maxAttackDistance || (!flag && this.seeTime < -60))
             {
+                this.entityHost.resetActiveHand();
                 return;
             }
 
-            float f = MathHelper.sqrt(d0) / this.field_96562_i;
-            float lvt_5_1_ = MathHelper.clamp(f, 0.1F, 1.0F);
-            this.rangedAttackEntityHost.attackEntityWithRangedAttack(this.attackTarget, lvt_5_1_);
-            this.attackTime = MathHelper.floor(f * (float)(this.maxattackTime - this.field_96561_g) + (float)this.field_96561_g);
+            int i = this.entityHost.getItemInUseMaxCount();
+
+            if (i >= 20) {
+                this.entityHost.resetActiveHand();
+                this.rangedAttackEntityHost.attackEntityWithRangedAttack(attackTarget, ItemBow.getArrowVelocity(i));
+                float f = MathHelper.sqrt(d0) / this.field_96562_i;
+                this.attackTime = MathHelper.floor(f * (float) (this.maxattackTime - this.field_96561_g) + (float) this.field_96561_g);
+            }
         }
         else if (this.attackTime < 0)
         {
+            this.entityHost.setActiveHand(EnumHand.MAIN_HAND);
             float f2 = MathHelper.sqrt(d0) / this.field_96562_i;
             this.attackTime = MathHelper.floor(f2 * (float)(this.maxattackTime - this.field_96561_g) + (float)this.field_96561_g);
         }

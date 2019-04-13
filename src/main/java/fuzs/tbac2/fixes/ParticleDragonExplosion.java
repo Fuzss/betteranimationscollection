@@ -1,10 +1,19 @@
 package fuzs.tbac2.fixes;
 
 import fuzs.tbac2.tweaks.EntityAIAttackRangedEasyBow;
+import fuzs.tbac2.tweaks.EntityAIAttackRangedEasyBowOld;
 import fuzs.tbac2.util.PrivateAccessor;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIAttackRanged;
 import net.minecraft.entity.ai.EntityAIAttackRangedBow;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.monster.AbstractSkeleton;
+import net.minecraft.entity.monster.EntitySnowman;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -13,20 +22,41 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ParticleDragonExplosion implements PrivateAccessor {
 
-    public void dragonExplosion(EntityMobGriefingEvent evt) {
-        if (evt.getEntity() instanceof EntityDragon) {
+    @SubscribeEvent
+    public void create(LivingEvent.LivingUpdateEvent evt) {
+        if (evt.getEntity() instanceof AbstractSkeleton) {
 
+            AbstractSkeleton abstractskeleton = (AbstractSkeleton) evt.getEntity();
+            ItemStack itemstack = abstractskeleton.getHeldItemMainhand();
+
+            System.out.println("Current attack time is: " + abstractskeleton.getAttackTarget());
+
+            if (itemstack.getItem() instanceof net.minecraft.item.ItemBow) {
+                EntityAIAttackRangedBow aiarrowattack = getAIArrowAttack(abstractskeleton);
+                abstractskeleton.tasks.removeTask(aiarrowattack);
+                boolean flag = abstractskeleton.getEntityWorld().getDifficulty() == EnumDifficulty.HARD;
+                EntityAIAttackRangedEasyBowOld aiarroweasyattack = new EntityAIAttackRangedEasyBowOld(abstractskeleton, 1.0D, 20, flag ? 40 : 20, 15.0F);
+                //EntityAIAttackRangedEasyBow<AbstractSkeleton> aiarroweasyattack = new EntityAIAttackRangedEasyBow<>(abstractskeleton, 1.0D, flag ? 40 : 20, 15.0F);
+                abstractskeleton.tasks.addTask(4, aiarroweasyattack);
+            }
         }
     }
 
     @SubscribeEvent
-    public void create(LivingEvent.LivingUpdateEvent evt) {
-        if (evt.getEntity() instanceof AbstractSkeleton) {
-            AbstractSkeleton abstractskeleton = (AbstractSkeleton) evt.getEntity();
-            EntityAIAttackRangedBow aiarrowattack = getAIArrowAttack(abstractskeleton);
-            abstractskeleton.tasks.removeTask(aiarrowattack);
-            EntityAIAttackRangedEasyBow aiarroweasyattack = new EntityAIAttackRangedEasyBow<>(abstractskeleton, 1.0D, 20, 15.0F);
-            abstractskeleton.tasks.addTask(4, aiarroweasyattack);
+    public void createSnowman(LivingEvent.LivingUpdateEvent evt) {
+        if (evt.getEntity() instanceof EntitySnowman) {
+
+            EntitySnowman snowman = (EntitySnowman) evt.getEntity();
+
+            for (EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry : snowman.tasks.taskEntries) {
+                EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
+
+                if (entityaibase instanceof EntityAIAttackRanged && entityaitasks$entityaitaskentry.using) {
+                    int attackTime = getRangedAttackTime((EntityAIAttackRanged) entityaibase);
+                    System.out.println("Current attack time is: " + attackTime);
+                }
+
+            }
         }
     }
 
