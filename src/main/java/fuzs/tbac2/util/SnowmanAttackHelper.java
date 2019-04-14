@@ -1,4 +1,4 @@
-package fuzs.tbac2.fixes;
+package fuzs.tbac2.util;
 
 import fuzs.tbac2.util.PrivateAccessor;
 import net.minecraft.entity.Entity;
@@ -18,7 +18,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class ParticleDragonExplosion implements PrivateAccessor {
+public class SnowmanAttackHelper implements PrivateAccessor {
 
     @SubscribeEvent
     public void createSnowman(LivingEvent.LivingUpdateEvent evt) {
@@ -31,7 +31,7 @@ public class ParticleDragonExplosion implements PrivateAccessor {
 
                 if (entityaibase instanceof EntityAIAttackRanged && entityaitasks$entityaitaskentry.using) {
                     int attackTime = getRangedAttackTime((EntityAIAttackRanged) entityaibase);
-                    System.out.println("Current attack time is: " + attackTime);
+                    //System.out.println("Current attack time is: " + attackTime);
                 }
 
             }

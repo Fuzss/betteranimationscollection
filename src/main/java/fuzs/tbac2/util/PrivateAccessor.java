@@ -9,7 +9,6 @@
  */
 package fuzs.tbac2.util;
 
-import fuzs.tbac2.tweaks.EntityAIAttackRangedEasyBow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.entity.ai.EntityAIAttackRanged;
@@ -41,15 +40,6 @@ public interface PrivateAccessor {
             LOGGER.error("setInLove() failed", ex);
         }
         return 0;
-    }
-
-    default EntityAIAttackRangedBow getAIArrowAttack(AbstractSkeleton instance) {
-        try {
-            return ObfuscationReflectionHelper.getPrivateValue(AbstractSkeleton.class, instance, ABSTRACTSKELETON_AIRARROWATTACK[1]);
-        } catch (Exception ex) {
-            LOGGER.error("getAIArrowAttack() failed", ex);
-        }
-        return null;
     }
 
     default int getRangedAttackTime(EntityAIAttackRanged instance) {

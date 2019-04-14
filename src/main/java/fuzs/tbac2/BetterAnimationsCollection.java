@@ -2,6 +2,7 @@ package fuzs.tbac2;
 
 import fuzs.tbac2.fixes.*;
 import fuzs.tbac2.render.*;
+import fuzs.tbac2.util.SnowmanAttackHelper;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
 import net.minecraftforge.common.MinecraftForge;
@@ -44,7 +45,7 @@ public class BetterAnimationsCollection {
         MinecraftForge.EVENT_BUS.register(new ParticleCreateWither());
         MinecraftForge.EVENT_BUS.register(new ParticleAnimalBreed());
         MinecraftForge.EVENT_BUS.register(new ParticleBlockAction());
-        MinecraftForge.EVENT_BUS.register(new ParticleDragonExplosion());
+        MinecraftForge.EVENT_BUS.register(new SnowmanAttackHelper());
     }
 
 }
