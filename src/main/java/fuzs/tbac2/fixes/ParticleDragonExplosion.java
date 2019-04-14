@@ -1,7 +1,5 @@
 package fuzs.tbac2.fixes;
 
-import fuzs.tbac2.tweaks.EntityAIAttackRangedEasyBow;
-import fuzs.tbac2.tweaks.EntityAIAttackRangedEasyBowOld;
 import fuzs.tbac2.util.PrivateAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,26 +19,6 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ParticleDragonExplosion implements PrivateAccessor {
-
-    @SubscribeEvent
-    public void create(LivingEvent.LivingUpdateEvent evt) {
-        if (evt.getEntity() instanceof AbstractSkeleton) {
-
-            AbstractSkeleton abstractskeleton = (AbstractSkeleton) evt.getEntity();
-            ItemStack itemstack = abstractskeleton.getHeldItemMainhand();
-
-            System.out.println("Current attack time is: " + abstractskeleton.getAttackTarget());
-
-            if (itemstack.getItem() instanceof net.minecraft.item.ItemBow) {
-                EntityAIAttackRangedBow aiarrowattack = getAIArrowAttack(abstractskeleton);
-                abstractskeleton.tasks.removeTask(aiarrowattack);
-                boolean flag = abstractskeleton.getEntityWorld().getDifficulty() == EnumDifficulty.HARD;
-                EntityAIAttackRangedEasyBowOld aiarroweasyattack = new EntityAIAttackRangedEasyBowOld(abstractskeleton, 1.0D, 20, flag ? 40 : 20, 15.0F);
-                //EntityAIAttackRangedEasyBow<AbstractSkeleton> aiarroweasyattack = new EntityAIAttackRangedEasyBow<>(abstractskeleton, 1.0D, flag ? 40 : 20, 15.0F);
-                abstractskeleton.tasks.addTask(4, aiarroweasyattack);
-            }
-        }
-    }
 
     @SubscribeEvent
     public void createSnowman(LivingEvent.LivingUpdateEvent evt) {
