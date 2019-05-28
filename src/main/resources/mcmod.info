@@ -1,10 +1,11 @@
 [
 {
-  "modid": "tbac2",
-  "name": "The Better Animations Collection 2",
-  "description": "Changing the in-game models to allow for better animations and subtle effects.",
-  "version": "1.0",
-  "url": "https://minecraft.curseforge.com/projects/???",
-  "authorList": ["Fuzs"]
+  "modid": "betteranimationscollection2",
+  "name": "Better Animations Collection 2",
+  "description": "${mod_description}",
+  "version": "${mod_version}",
+  "mcversion": "${mc_version}",
+  "url": "https://minecraft.curseforge.com/projects/${mod_slug}",
+  "authorList": ["${mod_author}"]
 }
 ]
