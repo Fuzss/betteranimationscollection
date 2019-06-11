@@ -14,22 +14,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModelJigglySlime extends ModelBase
 {
     /** The slime's bodies, both the inside box and the outside box */
-    ModelRenderer slimeBodies;
+    public ModelRenderer slimeBodies;
     /** The slime's right eye */
-    ModelRenderer slimeRightEye;
+    public ModelRenderer slimeRightEye;
     /** The slime's left eye */
-    ModelRenderer slimeLeftEye;
+    public ModelRenderer slimeLeftEye;
     /** The slime's mouth */
-    ModelRenderer slimeMouth;
+    public ModelRenderer slimeMouth;
 
-    private float progress;
-    private float slimy;
-
-    public ModelJigglySlime(int p_i1157_1_)
+    public ModelJigglySlime(int size)
     {
-        if (p_i1157_1_ > 0)
+        if (size > 0)
         {
-            this.slimeBodies = new ModelRenderer(this, 0, p_i1157_1_);
+            this.slimeBodies = new ModelRenderer(this, 0, size);
             this.slimeBodies.addBox(-3.0F, 17.0F, -3.0F, 6, 6, 6);
             this.slimeRightEye = new ModelRenderer(this, 32, 0);
             this.slimeRightEye.addBox(-3.25F, 18.0F, -3.5F, 2, 2, 2);
@@ -43,7 +40,7 @@ public class ModelJigglySlime extends ModelBase
         }
         else
         {
-            this.slimeBodies = new ModelRenderer(this, 0, p_i1157_1_);
+            this.slimeBodies = new ModelRenderer(this, 0, size);
             this.slimeBodies.addBox(-4.0F, 16.0F, -4.0F, 8, 8, 8);
         }
     }
@@ -54,25 +51,33 @@ public class ModelJigglySlime extends ModelBase
      * "far" arms and legs can swing at most.
      */
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        if (this.slimeRightEye != null) {
+
+        if (this.slimeRightEye != null && entityIn instanceof EntitySlime) {
+
+            EntityLivingBase entity = (EntityLivingBase)entityIn;
+            float progress = limbSwing + ageInTicks * 0.33F;
+            float slimy = ((EntitySlime) entity).squishAmount;
+
             float magnitude = 0.25F;
-            if (this.slimy < 0.0F) {
-                magnitude += -this.slimy * 0.5F;
+            if (slimy < 0.0F) {
+                magnitude += -slimy * 0.5F;
             }
 
-            this.slimeRightEye.rotationPointX = MathHelper.sin(this.progress * 0.5F + 0.5F) * magnitude - 0.125F;
-            this.slimeRightEye.rotationPointY = MathHelper.sin(this.progress * 0.45F + 1.5F) * magnitude;
-            this.slimeRightEye.rotationPointZ = MathHelper.sin(this.progress * 0.475F + 2.5F) * magnitude * 0.25F;
-            this.slimeLeftEye.rotationPointX = MathHelper.sin(this.progress * 0.525F + 1.0F) * magnitude + 0.125F;
-            this.slimeLeftEye.rotationPointY = MathHelper.sin(this.progress * 0.475F + 3.0F) * magnitude;
-            this.slimeLeftEye.rotationPointZ = MathHelper.sin(this.progress * 0.425F + 2.0F) * magnitude * 0.25F;
-            this.slimeMouth.rotationPointX = MathHelper.sin(this.progress * 0.55F + 3.75F) * magnitude;
-            this.slimeMouth.rotationPointY = MathHelper.sin(this.progress * 0.625F + 1.75F) * magnitude;
-            this.slimeMouth.rotationPointZ = MathHelper.sin(this.progress * 0.6F + 2.75F) * magnitude * 0.25F;
-            this.slimeBodies.rotationPointX = MathHelper.sin(this.progress * 0.3F) * magnitude * 0.5F;
-            this.slimeBodies.rotationPointY = MathHelper.sin(this.progress * 0.33F) * magnitude * 0.5F;
-            this.slimeBodies.rotationPointZ = MathHelper.sin(this.progress * 0.375F) * magnitude * 0.25F;
+            this.slimeRightEye.rotationPointX = MathHelper.sin(progress * 0.5F + 0.5F) * magnitude - 0.125F;
+            this.slimeRightEye.rotationPointY = MathHelper.sin(progress * 0.45F + 1.5F) * magnitude;
+            this.slimeRightEye.rotationPointZ = MathHelper.sin(progress * 0.475F + 2.5F) * magnitude * 0.25F;
+            this.slimeLeftEye.rotationPointX = MathHelper.sin(progress * 0.525F + 1.0F) * magnitude + 0.125F;
+            this.slimeLeftEye.rotationPointY = MathHelper.sin(progress * 0.475F + 3.0F) * magnitude;
+            this.slimeLeftEye.rotationPointZ = MathHelper.sin(progress * 0.425F + 2.0F) * magnitude * 0.25F;
+            this.slimeMouth.rotationPointX = MathHelper.sin(progress * 0.55F + 3.75F) * magnitude;
+            this.slimeMouth.rotationPointY = MathHelper.sin(progress * 0.625F + 1.75F) * magnitude;
+            this.slimeMouth.rotationPointZ = MathHelper.sin(progress * 0.6F + 2.75F) * magnitude * 0.25F;
+            this.slimeBodies.rotationPointX = MathHelper.sin(progress * 0.3F) * magnitude * 0.5F;
+            this.slimeBodies.rotationPointY = MathHelper.sin(progress * 0.33F) * magnitude * 0.5F;
+            this.slimeBodies.rotationPointZ = MathHelper.sin(progress * 0.375F) * magnitude * 0.25F;
+
         }
+
     }
 
     /**
@@ -80,13 +85,6 @@ public class ModelJigglySlime extends ModelBase
      */
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (entityIn instanceof EntityLivingBase) {
-            EntityLivingBase entity = (EntityLivingBase)entityIn;
-            this.progress = limbSwing + ageInTicks * 0.33F;
-            if (entity instanceof EntitySlime) {
-                this.slimy = ((EntitySlime)entity).squishAmount;
-            }
-        }
         this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
         GlStateManager.translate(0.0F, 0.001F, 0.0F);
         this.slimeBodies.render(scale);

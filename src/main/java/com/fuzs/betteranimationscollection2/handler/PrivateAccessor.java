@@ -7,17 +7,11 @@
 **    May you find forgiveness for yourself and forgive others.
 **    May you share freely, never taking more than you give.
  */
-package com.fuzs.betteranimationscollection2.util;
+package com.fuzs.betteranimationscollection2.handler;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackRanged;
-import net.minecraft.entity.ai.EntityAIAttackRangedBow;
-import net.minecraft.entity.monster.AbstractSkeleton;
-import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.util.Timer;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

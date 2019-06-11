@@ -1,0 +1,27 @@
+package com.fuzs.betteranimationscollection2.feature;
+
+import com.fuzs.betteranimationscollection2.config.ConfigHandler;
+import com.fuzs.betteranimationscollection2.helper.ConfigPropHelper;
+import com.fuzs.betteranimationscollection2.render.RenderAnimatedSnowManStick;
+import net.minecraft.entity.monster.EntitySnowman;
+
+public class FeatureSnowman extends Feature {
+
+    public static int leftChance;
+
+    public FeatureSnowman() {
+        super(EntitySnowman.class, RenderAnimatedSnowManStick::new);
+    }
+
+    @Override
+    public String getName() {
+        return "snowman";
+    }
+
+    @Override
+    public void setupConfig() {
+        super.setupConfig();
+        leftChance = ConfigPropHelper.loadPropInt("left chance", this.getCategory(), 5, "Chance for a left handed snowman out of 100.", 0, 100, false);
+    }
+
+}

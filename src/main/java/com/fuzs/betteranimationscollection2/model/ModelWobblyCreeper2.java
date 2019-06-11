@@ -11,17 +11,20 @@ public class ModelWobblyCreeper2 extends ModelWobblyCreeper1
     public ModelRenderer body1;
     public ModelRenderer body2;
 
-    public ModelWobblyCreeper2(float p_i46366_1_)
+    /**
+     * Replaces the charged model with a much simpler one as the default one has way too many elements now which would overlap due to the doubles size
+     */
+    public ModelWobblyCreeper2(float scale)
     {
-        super(p_i46366_1_);
+        super(scale);
         this.head = new ModelRenderer(this, 0, 0);
-        this.head.addBox(-4.0F, -7.0F, -4.0F, 8, 8, 8, p_i46366_1_);
+        this.head.addBox(-4.0F, -7.0F, -4.0F, 8, 8, 8, scale);
         this.head.setRotationPoint(0.0F, -7.0F, 0.0F);
         this.body1 = new ModelRenderer(this, 16, 22);
-        this.body1.addBox(-4.0F, -6.0F, -2.0F, 8, 6, 4, p_i46366_1_);
+        this.body1.addBox(-4.0F, -6.0F, -2.0F, 8, 6, 4, scale);
         this.body1.setRotationPoint(0.0F, 18.0F, 0.0F);
         this.body2 = new ModelRenderer(this, 16, 16);
-        this.body2.addBox(-4.0F, -6.0F, -2.0F, 8, 6, 4, p_i46366_1_);
+        this.body2.addBox(-4.0F, -6.0F, -2.0F, 8, 6, 4, scale);
         this.body2.setRotationPoint(0.0F, -6.0F, 0.0F);
         this.body1.addChild(this.body2);
         this.body2.addChild(this.head);
@@ -48,7 +51,12 @@ public class ModelWobblyCreeper2 extends ModelWobblyCreeper1
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        this.body1.rotateAngleZ = this.body2.rotateAngleZ = 3 * magnitude;
-        this.head.rotateAngleZ = 4 * magnitude;
+
+        this.body1.rotateAngleX = this.bodyparts[2].rotateAngleX * 3;
+        this.body2.rotateAngleX = this.bodyparts[8].rotateAngleX * 6;
+        this.body1.rotateAngleZ = this.bodyparts[2].rotateAngleZ * 3;
+        this.body2.rotateAngleZ = this.bodyparts[8].rotateAngleZ * 6;
+        this.head.rotateAngleX *= 3;
+        this.head.rotateAngleZ *= 3;
     }
 }

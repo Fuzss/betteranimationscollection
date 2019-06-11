@@ -1,6 +1,7 @@
 package com.fuzs.betteranimationscollection2.model;
 
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelMagmaCube;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,10 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ModelMagmaCubeBurger extends ModelBase
 {
-    ModelRenderer[] segments = new ModelRenderer[8];
-    ModelRenderer core;
-
-    private float progress;
+    public ModelRenderer[] segments = new ModelRenderer[8];
+    public ModelRenderer core;
 
     public ModelMagmaCubeBurger()
     {
@@ -50,18 +49,14 @@ public class ModelMagmaCubeBurger extends ModelBase
     {
         EntityMagmaCube entitymagmacube = (EntityMagmaCube)entitylivingbaseIn;
 
-        this.progress = 0.0F;
+        float progress = 0.0F;
         if (entitylivingbaseIn != null) {
-            this.progress = (float)entitylivingbaseIn.deathTime;
-            if (this.progress > 10.0F) {
-                this.progress = 10.0F;
+            progress = (float)entitylivingbaseIn.deathTime;
+            if (progress > 10.0F) {
+                progress = 10.0F;
             }
 
-            if (this.progress > 0.0F) {
-                this.core.isHidden = true;
-            } else {
-                this.core.isHidden = false;
-            }
+            this.core.isHidden = progress > 0.0F;
         }
 
         float f = entitymagmacube.prevSquishFactor + (entitymagmacube.squishFactor - entitymagmacube.prevSquishFactor) * partialTickTime;
@@ -74,10 +69,10 @@ public class ModelMagmaCubeBurger extends ModelBase
         for (int i = 0; i < this.segments.length; ++i)
         {
             this.segments[i].rotationPointY = (float)(-(4 - i)) * f * 1.7F;
-            this.segments[i].rotationPointY += (float)(10 - i) * this.progress * 0.325F;
-            this.segments[i].rotationPointX = this.progress * 2.0F - (this.progress <= 0.0F ? 0.0F : (float)(7 - i) * 0.675F);
-            this.segments[i].rotateAngleZ = this.progress * 0.195F;
-            this.segments[i].rotateAngleY = (float)(5 * i % 7 - 3) * this.progress * 0.05F;
+            this.segments[i].rotationPointY += (float)(10 - i) * progress * 0.325F;
+            this.segments[i].rotationPointX = progress * 2.0F - (progress <= 0.0F ? 0.0F : (float)(7 - i) * 0.675F);
+            this.segments[i].rotateAngleZ = progress * 0.195F;
+            this.segments[i].rotateAngleY = (float)(5 * i % 7 - 3) * progress * 0.05F;
         }
     }
 

@@ -1,22 +1,32 @@
 package com.fuzs.betteranimationscollection2;
 
+import com.fuzs.betteranimationscollection2.config.ConfigHandler;
+import com.fuzs.betteranimationscollection2.feature.Feature;
+import com.fuzs.betteranimationscollection2.feature.FeatureRegistry;
 import com.fuzs.betteranimationscollection2.render.*;
+import com.fuzs.betteranimationscollection2.handler.SoundEventHandler;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
 
 @Mod(
         modid = BetterAnimationsCollection2.MODID,
         name = BetterAnimationsCollection2.NAME,
         version = BetterAnimationsCollection2.VERSION,
         acceptedMinecraftVersions = BetterAnimationsCollection2.RANGE,
+        clientSideOnly = BetterAnimationsCollection2.CLIENT,
+        guiFactory = BetterAnimationsCollection2.GUI,
         certificateFingerprint = BetterAnimationsCollection2.FINGERPRINT
 )
 public class BetterAnimationsCollection2
@@ -25,6 +35,8 @@ public class BetterAnimationsCollection2
     public static final String NAME = "Better Animations Collection 2";
     public static final String VERSION = "@VERSION@";
     public static final String RANGE = "[1.11, 1.12.2]";
+    public static final boolean CLIENT = true;
+    public static final String GUI = "com.fuzs.betteranimationscollection2.config.GuiFactory";
     public static final String FINGERPRINT = "@FINGERPRINT@";
 
     public static final Logger LOGGER = LogManager.getLogger(BetterAnimationsCollection2.NAME);
@@ -32,25 +44,16 @@ public class BetterAnimationsCollection2
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
 
-        RenderingRegistry.registerEntityRenderingHandler(EntitySlime.class, RenderJigglySlime::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityOcelot.class, RenderFlowyOcelotTails::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityCow.class, RenderCowUdder::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityMooshroom.class, RenderMooshroomUdder::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityCreeper.class, RenderWobblyCreeper::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityEnderman.class, RenderWavingEnderman::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntitySheep.class, RenderKneelingSheep::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityMagmaCube.class, RenderMagmaCubeBurger::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityGhast.class, RenderGhastTentacles::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityPig.class, RenderOinkyPig::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityWolf.class, RenderFluffyWolfTail::new);
+        FeatureRegistry.populate();
+        ConfigHandler.init(event.getSuggestedConfigurationFile());
+        FeatureRegistry.REGISTRY.forEach(Feature::register);
 
-        if (!Loader.isModLoaded("mobends")) {
-            RenderingRegistry.registerEntityRenderingHandler(EntitySpider.class, RenderSpiderKnees::new);
-            RenderingRegistry.registerEntityRenderingHandler(EntityCaveSpider.class, RenderCaveSpiderKnees::new);
-            RenderingRegistry.registerEntityRenderingHandler(EntitySquid.class, RenderSquidTentacles::new);
-        }
+    }
 
-        //MinecraftForge.EVENT_BUS.register(new SnowmanAttackHelper());
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+
+        MinecraftForge.EVENT_BUS.register(new SoundEventHandler());
         
     }
 
