@@ -30,13 +30,11 @@ public class ModelFluffyWolfTail extends ModelBase
     /** The wolf's mane */
     ModelRenderer wolfMane;
 
-    ModelRenderer[] wolfTailParts;
+    public ModelRenderer[] wolfTailParts = new ModelRenderer[8];
     private float progress;
 
     public ModelFluffyWolfTail()
     {
-        float f = 0.0F;
-        float f1 = 13.5F;
         this.wolfHeadMain = new ModelRenderer(this, 0, 0);
         this.wolfHeadMain.addBox(-2.0F, -3.0F, -2.0F, 6, 6, 4, 0.0F);
         this.wolfHeadMain.setRotationPoint(-1.0F, 13.5F, -7.0F);
@@ -59,10 +57,9 @@ public class ModelFluffyWolfTail extends ModelBase
         this.wolfLeg4.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, 0.0F);
         this.wolfLeg4.setRotationPoint(0.5F, 16.0F, -4.0F);
         this.wolfTail = new ModelRenderer(this, 9, 18);
-        this.wolfTail.addBox(0.0F, 0.0F, -1.0F, 2, 1, 2, 0.0F);
+        this.wolfTail.addBox(-1.0F, 0.0F, -1.0F, 2, 1, 2, 0.0F);
         this.wolfTail.setRotationPoint(-1.0F, 12.0F, 8.0F);
 
-        this.wolfTailParts = new ModelRenderer[8];
         for(int i = 0; i < 8; ++i) {
             this.wolfTailParts[i] = new ModelRenderer(this, 9, Math.min(19 + i, 25));
             float puffy = 0.1F;

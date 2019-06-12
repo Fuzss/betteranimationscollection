@@ -30,7 +30,7 @@ public class SoundEventHandler implements ISoundEventListener {
         put("entity.snowman.shoot", EntitySnowman.class);
     }};
 
-    // list of entities whose model should do something when they are damaged
+    // list of entities whose model should do something when they are hurt
     private final List<Class<?>> hurts = new ArrayList<Class<?>>(){{
         add(EntityVillager.class);
         add(EntityIronGolem.class);

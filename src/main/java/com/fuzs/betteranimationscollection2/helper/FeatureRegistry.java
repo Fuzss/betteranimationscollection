@@ -21,7 +21,7 @@ public class FeatureRegistry {
         registerFeature(FeatureMagmaCube.class);
         registerFeature(FeatureGhast.class);
         registerFeature(FeaturePig.class);
-        //registerFeature(FeatureWolf.class);
+        registerFeature(FeatureWolf.class);
         registerFeature(FeatureVillager.class);
         registerFeature(FeatureIronGolem.class);
         registerFeature(FeatureSnowman.class);
@@ -29,6 +29,9 @@ public class FeatureRegistry {
         registerFeature(FeatureCaveSpider.class);
         registerFeature(FeatureSquid.class);
         registerFeature(FeatureChicken.class);
+        registerFeature(FeatureZombie.class);
+        registerFeature(FeaturePigZombie.class);
+        registerFeature(FeatureHusk.class);
 
     }
 
