@@ -1,6 +1,6 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.render.RenderWigglyVillagerNose;
+import com.fuzs.betteranimationscollection2.renderer.render.RenderWigglyVillagerNose;
 import net.minecraft.entity.passive.EntityVillager;
 
 public class FeatureVillager extends Feature {
@@ -12,6 +12,11 @@ public class FeatureVillager extends Feature {
     @Override
     public String getName() {
         return "villager";
+    }
+
+    @Override
+    protected String getDescription() {
+        return "";
     }
 
     @Override

@@ -1,8 +1,7 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.config.ConfigHandler;
 import com.fuzs.betteranimationscollection2.helper.ConfigPropHelper;
-import com.fuzs.betteranimationscollection2.render.RenderGhastTentacles;
+import com.fuzs.betteranimationscollection2.renderer.render.RenderGhastTentacles;
 import net.minecraft.entity.monster.EntityGhast;
 
 public class FeatureGhast extends Feature {
@@ -17,6 +16,11 @@ public class FeatureGhast extends Feature {
     @Override
     public String getName() {
         return "ghast";
+    }
+
+    @Override
+    protected String getDescription() {
+        return "Divides ghast tentacles into parts and makes them wiggle realistically, like those tentacle monsters you always see at the movies. Makes them a little more scary, but ultimately nicer to look at.";
     }
 
     @Override

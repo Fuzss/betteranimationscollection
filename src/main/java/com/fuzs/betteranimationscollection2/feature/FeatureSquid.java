@@ -1,8 +1,7 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.config.ConfigHandler;
 import com.fuzs.betteranimationscollection2.helper.ConfigPropHelper;
-import com.fuzs.betteranimationscollection2.render.RenderSquidTentacles;
+import com.fuzs.betteranimationscollection2.renderer.render.RenderSquidTentacles;
 import net.minecraft.entity.passive.EntitySquid;
 
 public class FeatureSquid extends Feature {
@@ -16,6 +15,11 @@ public class FeatureSquid extends Feature {
     @Override
     public String getName() {
         return "squid";
+    }
+
+    @Override
+    protected String getDescription() {
+        return "";
     }
 
     @Override

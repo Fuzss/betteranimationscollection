@@ -1,6 +1,6 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.render.RenderCaveSpiderKnees;
+import com.fuzs.betteranimationscollection2.renderer.render.RenderCaveSpiderKnees;
 import net.minecraft.entity.monster.EntityCaveSpider;
 
 public class FeatureCaveSpider extends Feature {
@@ -12,6 +12,11 @@ public class FeatureCaveSpider extends Feature {
     @Override
     public String getName() {
         return "cavespider";
+    }
+
+    @Override
+    protected String getDescription() {
+        return "";
     }
 
     @Override

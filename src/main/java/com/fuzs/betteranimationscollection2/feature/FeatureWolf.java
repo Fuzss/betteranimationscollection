@@ -1,6 +1,6 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.render.RenderFluffyWolfTail;
+import com.fuzs.betteranimationscollection2.renderer.render.RenderFluffyWolfTail;
 import net.minecraft.entity.passive.EntityWolf;
 
 public class FeatureWolf extends Feature {
@@ -12,6 +12,11 @@ public class FeatureWolf extends Feature {
     @Override
     public String getName() {
         return "wolf";
+    }
+
+    @Override
+    protected String getDescription() {
+        return "";
     }
 
     @Override

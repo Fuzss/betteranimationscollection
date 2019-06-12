@@ -1,6 +1,6 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.render.RenderMagmaCubeBurger;
+import com.fuzs.betteranimationscollection2.renderer.render.RenderMagmaCubeBurger;
 import net.minecraft.entity.monster.EntityMagmaCube;
 
 public class FeatureMagmaCube extends Feature {
@@ -12,6 +12,11 @@ public class FeatureMagmaCube extends Feature {
     @Override
     public String getName() {
         return "magmacube";
+    }
+
+    @Override
+    protected String getDescription() {
+        return "";
     }
 
     @Override

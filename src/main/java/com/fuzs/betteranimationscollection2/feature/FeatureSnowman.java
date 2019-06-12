@@ -1,8 +1,7 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.config.ConfigHandler;
 import com.fuzs.betteranimationscollection2.helper.ConfigPropHelper;
-import com.fuzs.betteranimationscollection2.render.RenderAnimatedSnowManStick;
+import com.fuzs.betteranimationscollection2.renderer.render.RenderAnimatedSnowManStick;
 import net.minecraft.entity.monster.EntitySnowman;
 
 public class FeatureSnowman extends Feature {
@@ -16,6 +15,11 @@ public class FeatureSnowman extends Feature {
     @Override
     public String getName() {
         return "snowman";
+    }
+
+    @Override
+    protected String getDescription() {
+        return "Test";
     }
 
     @Override

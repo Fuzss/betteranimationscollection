@@ -1,8 +1,8 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.config.ConfigHandler;
+import com.fuzs.betteranimationscollection2.handler.ConfigHandler;
 import com.fuzs.betteranimationscollection2.helper.ConfigPropHelper;
-import com.fuzs.betteranimationscollection2.render.RenderWobblyCreeper;
+import com.fuzs.betteranimationscollection2.renderer.render.RenderWobblyCreeper;
 import net.minecraft.entity.monster.EntityCreeper;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -19,6 +19,11 @@ public class FeatureCreeper extends Feature {
     @Override
     public String getName() {
         return "creeper";
+    }
+
+    @Override
+    protected String getDescription() {
+        return "";
     }
 
     @Override

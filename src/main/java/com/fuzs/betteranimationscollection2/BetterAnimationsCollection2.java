@@ -1,15 +1,10 @@
 package com.fuzs.betteranimationscollection2;
 
-import com.fuzs.betteranimationscollection2.config.ConfigHandler;
+import com.fuzs.betteranimationscollection2.handler.ConfigHandler;
 import com.fuzs.betteranimationscollection2.feature.Feature;
-import com.fuzs.betteranimationscollection2.feature.FeatureRegistry;
-import com.fuzs.betteranimationscollection2.render.*;
+import com.fuzs.betteranimationscollection2.helper.FeatureRegistry;
 import com.fuzs.betteranimationscollection2.handler.SoundEventHandler;
-import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.*;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
@@ -18,7 +13,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 
 @Mod(
         modid = BetterAnimationsCollection2.MODID,
@@ -36,7 +32,7 @@ public class BetterAnimationsCollection2
     public static final String VERSION = "@VERSION@";
     public static final String RANGE = "[1.11, 1.12.2]";
     public static final boolean CLIENT = true;
-    public static final String GUI = "com.fuzs.betteranimationscollection2.config.GuiFactory";
+    public static final String GUI = "com.fuzs.betteranimationscollection2.helper.GuiFactory";
     public static final String FINGERPRINT = "@FINGERPRINT@";
 
     public static final Logger LOGGER = LogManager.getLogger(BetterAnimationsCollection2.NAME);
@@ -44,8 +40,13 @@ public class BetterAnimationsCollection2
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
 
+        // populate registry
         FeatureRegistry.populate();
+        // sort registry alphabetically
+        FeatureRegistry.REGISTRY.sort((it, ti) -> it.getName().compareToIgnoreCase(ti.getName()));
+        // create config from registry entries
         ConfigHandler.init(event.getSuggestedConfigurationFile());
+        // register registry renderers
         FeatureRegistry.REGISTRY.forEach(Feature::register);
 
     }

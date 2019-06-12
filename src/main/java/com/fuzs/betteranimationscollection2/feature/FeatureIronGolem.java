@@ -1,6 +1,6 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.render.RenderWigglyIronGolemNose;
+import com.fuzs.betteranimationscollection2.renderer.render.RenderWigglyIronGolemNose;
 import net.minecraft.entity.monster.EntityIronGolem;
 
 public class FeatureIronGolem extends Feature {
@@ -12,6 +12,11 @@ public class FeatureIronGolem extends Feature {
     @Override
     public String getName() {
         return "irongolem";
+    }
+
+    @Override
+    protected String getDescription() {
+        return "";
     }
 
     @Override

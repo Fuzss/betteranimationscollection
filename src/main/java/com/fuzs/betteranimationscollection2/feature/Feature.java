@@ -1,10 +1,9 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.config.ConfigHandler;
+import com.fuzs.betteranimationscollection2.handler.ConfigHandler;
 import com.fuzs.betteranimationscollection2.helper.ConfigPropHelper;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Loader;
@@ -36,18 +35,20 @@ public abstract class Feature<T extends Entity> {
 
     public abstract String getName();
 
+    protected abstract String getDescription();
+
     protected String[] incompatibleMods() {
         return new String[0];
     }
 
     public void setupConfig() {
 
-        ConfigHandler.config.getCategory(this.getCategory());
+        ConfigHandler.config.getCategory(this.getCategory()).setComment(this.getDescription());
         this.enabled = ConfigPropHelper.loadPropBoolean("enabled", this.getCategory(), true, "Is this feature enabled.", true);
 
         String[] incompatible = this.incompatibleMods();
         if (incompatible.length > 0) {
-            this.forced = ConfigPropHelper.loadPropBoolean("forced", this.getCategory(), false, "Enable even if incompatible mods are loaded. Is incompatible with: " + Arrays.toString(incompatible), true);
+            this.forced = ConfigPropHelper.loadPropBoolean("forced", this.getCategory(), false, "Enable even if incompatible mods are loaded. Is incompatible with: " + ConfigPropHelper.arrayToCustomString(incompatible), true);
         }
 
     }
