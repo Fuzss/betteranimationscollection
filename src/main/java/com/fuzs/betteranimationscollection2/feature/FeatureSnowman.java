@@ -19,7 +19,7 @@ public class FeatureSnowman extends Feature {
 
     @Override
     protected String getDescription() {
-        return "Test";
+        return "This makes a snowman's arm swing when it throws a snowball. There are even rumors of some snowman being left-handed!";
     }
 
     @Override

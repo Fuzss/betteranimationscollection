@@ -44,20 +44,18 @@ public class ModelWobblyCreeper1 extends ModelCreeper
         }
         this.bodyparts[10].addChild(this.head);
 
-        if (FeatureCreeper.fixLegs) {
-            this.leg1 = new ModelRenderer(this, 0, 16);
-            this.leg1.addBox(-2.0F, 0.0F, 0.0F, 4, 6, 4, scale);
-            this.leg1.setRotationPoint(-2.0F, 18.0F, 2.0F);
-            this.leg2 = new ModelRenderer(this, 0, 16);
-            this.leg2.addBox(-2.0F, 0.0F, 0.0F, 4, 6, 4, scale);
-            this.leg2.setRotationPoint(2.0F, 18.0F, 2.0F);
-            this.leg3 = new ModelRenderer(this, 0, 16);
-            this.leg3.addBox(-2.0F, 0.0F, -4.0F, 4, 6, 4, scale);
-            this.leg3.setRotationPoint(-2.0F, 18.0F, -2.0F);
-            this.leg4 = new ModelRenderer(this, 0, 16);
-            this.leg4.addBox(-2.0F, 0.0F, -4.0F, 4, 6, 4, scale);
-            this.leg4.setRotationPoint(2.0F, 18.0F, -2.0F);
-        }
+        this.leg1 = new ModelRenderer(this, 0, 16);
+        this.leg1.addBox(-2.0F, 0.0F, 0.0F, 4, 6, 4, scale);
+        this.leg1.setRotationPoint(-2.0F, 18.0F, 2.0F);
+        this.leg2 = new ModelRenderer(this, 0, 16);
+        this.leg2.addBox(-2.0F, 0.0F, 0.0F, 4, 6, 4, scale);
+        this.leg2.setRotationPoint(2.0F, 18.0F, 2.0F);
+        this.leg3 = new ModelRenderer(this, 0, 16);
+        this.leg3.addBox(-2.0F, 0.0F, -4.0F, 4, 6, 4, scale);
+        this.leg3.setRotationPoint(-2.0F, 18.0F, -2.0F);
+        this.leg4 = new ModelRenderer(this, 0, 16);
+        this.leg4.addBox(-2.0F, 0.0F, -4.0F, 4, 6, 4, scale);
+        this.leg4.setRotationPoint(2.0F, 18.0F, -2.0F);
     }
 
     /**

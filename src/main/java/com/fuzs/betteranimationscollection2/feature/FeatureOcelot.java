@@ -6,8 +6,9 @@ import net.minecraft.entity.passive.EntityOcelot;
 
 public class FeatureOcelot extends Feature {
 
-    public static boolean liedown;
+    public static boolean lieDown;
     public static boolean lieBedOnly;
+    public static int swing;
 
     public FeatureOcelot() {
         super(EntityOcelot.class, RenderFlowyOcelotTails::new);
@@ -20,14 +21,15 @@ public class FeatureOcelot extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "Takes away the stick tails of the current ocelots and gives them something nicer instead. Fully animated flowing tails that move while they stand or run. Also makes cats lie down instead of sitting like in Minecraft 1.14.";
     }
 
     @Override
     public void setupConfig() {
         super.setupConfig();
-        liedown = ConfigPropHelper.loadPropBoolean("lie down", this.getCategory(), true, "Lie down instead of sitting.", false);
-        lieBedOnly = ConfigPropHelper.loadPropBoolean("lie bed only", this.getCategory(), false, "Lie down on beds only instead of sitting.", false);
+        lieDown = ConfigPropHelper.loadPropBoolean("lie down", this.getCategory(), true, "Lie down instead of sitting.", false);
+        lieBedOnly = ConfigPropHelper.loadPropBoolean("lie bed only", this.getCategory(), true, "Lie down on beds only instead of sitting. \"lie down\" has to be enabled.", false);
+        swing = ConfigPropHelper.loadPropInt("tail swing", this.getCategory(), 7, "Swing amount of the tail.", 1, 20, false);
     }
 
 }

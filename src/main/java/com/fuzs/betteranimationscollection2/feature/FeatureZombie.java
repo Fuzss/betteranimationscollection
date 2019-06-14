@@ -16,7 +16,7 @@ public class FeatureZombie extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "This one makes the knees of zombies bend when they walk around. Looks pretty fluid and nice. You'll like it, trust me.";
     }
 
     @Override

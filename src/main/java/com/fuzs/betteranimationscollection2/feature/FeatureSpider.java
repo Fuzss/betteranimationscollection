@@ -16,7 +16,7 @@ public class FeatureSpider extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "A truly stunning visual addition. Spiders now finally have the knees they've always dreamed of.";
     }
 
     @Override

@@ -26,8 +26,8 @@ public class FeatureGhast extends Feature {
     @Override
     public void setupConfig() {
         super.setupConfig();
-        length = ConfigPropHelper.loadPropInt("length", this.getCategory(), 14, "Define the max length of the tentacles.", 2, 14, true);
-        speed = ConfigPropHelper.loadPropInt("speed", this.getCategory(), 5, "Animation speed of the tentacles.", 1, 20, false);
+        length = ConfigPropHelper.loadPropInt("max length", this.getCategory(), 14, "Define the max length of the tentacles.", 2, 14, true);
+        speed = ConfigPropHelper.loadPropInt("animation swing", this.getCategory(), 5, "Animation swing of the tentacles.", 1, 20, false);
     }
 
 }

@@ -16,7 +16,7 @@ public class FeatureMagmaCube extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "Adds a custom death animation to magma cubes, which causes their bodies to form into a pile of steamy, delicious hamburger patties when they die. Unfortunately, you can't eat them because they're way too hot.";
     }
 
     @Override

@@ -16,12 +16,7 @@ public class FeaturePig extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
-    }
-
-    @Override
-    protected String[] incompatibleMods() {
-        return new String[]{"muddypigs"};
+        return "A very subtle animation, makes a pig's snout move when it oinks. It only moves up and down ever so slightly, but it's there. Just a little bit more life for your livestock.";
     }
 
     @Override

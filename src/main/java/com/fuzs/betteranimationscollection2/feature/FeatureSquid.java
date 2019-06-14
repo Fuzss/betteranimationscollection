@@ -19,7 +19,7 @@ public class FeatureSquid extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "Gives a jellyfish-like effect to the swimming animation of squids. Also makes their tentacles flow more while moving.";
     }
 
     @Override

@@ -16,7 +16,7 @@ public class FeatureVillager extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "A subtle change, this makes villagers wiggle their big noses whenever they make their unique \"hmmm\" sound! It's a small change, but who doesn't get a kick out of it?";
     }
 
     @Override

@@ -21,7 +21,7 @@ public class FeatureCow extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "This makes the udders on cows wobble around when they walk. Also makes their udders have nipples.";
     }
 
     @Override

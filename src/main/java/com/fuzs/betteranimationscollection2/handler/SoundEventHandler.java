@@ -93,11 +93,10 @@ public class SoundEventHandler implements ISoundEventListener {
 
     }
 
-    private boolean checkPos(float f1, float f2) {
+    private boolean checkPos(float entityPos, float soundPos) {
 
-        f1 = (int) (f1 * 8) / 8.0F;
-        float range = 0.5F;
-        return f1 - range < f2 && f1 + range > f2;
+        entityPos = (int) (entityPos * 8) / 8.0F;
+        return entityPos - ConfigHandler.soundRange < soundPos && entityPos + ConfigHandler.soundRange > soundPos;
 
     }
 

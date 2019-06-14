@@ -23,6 +23,15 @@ public class ConfigPropHelper {
 
     }
 
+    public static double loadPropDouble(String name, String category, double defaultValue, String comment, double min, double max, boolean restart) {
+
+        String s = comment + " [range: " + min + " ~ " + max + ", default: " + defaultValue + "]";
+        Property prop = ConfigHandler.config.get(category, name, defaultValue, s, min, max);
+        prop.setLanguageKey(name).setRequiresMcRestart(restart).setHasSlidingControl(true);
+        return prop.getDouble(defaultValue);
+
+    }
+
     public static String arrayToCustomString(String[] array) {
 
         if (array == null || array.length < 1) {

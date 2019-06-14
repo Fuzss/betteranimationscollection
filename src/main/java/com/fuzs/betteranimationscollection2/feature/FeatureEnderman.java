@@ -20,13 +20,13 @@ public class FeatureEnderman extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "If an enderman is angry it will wave its arms around wildly while chasing its target. Suits their twisted nature very well.";
     }
 
     @Override
     public void setupConfig() {
         super.setupConfig();
-        speed = ConfigPropHelper.loadPropInt("speed", this.getCategory(), 5, "Animation speed of the arms.", 1, 20, false);
+        speed = ConfigPropHelper.loadPropInt("animation swing", this.getCategory(), 5, "Animation swing of the arms.", 1, 20, false);
         whileCarrying = ConfigPropHelper.loadPropBoolean("while carrying", this.getCategory(), true, "Flail arms while carrying a block.", false);
     }
 

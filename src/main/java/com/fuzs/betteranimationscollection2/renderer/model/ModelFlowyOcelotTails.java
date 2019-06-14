@@ -168,7 +168,7 @@ public class ModelFlowyOcelotTails extends ModelBase
     {
         EntityOcelot entityocelot = (EntityOcelot)entitylivingbaseIn;
         BlockPos pos = new BlockPos((int) entityocelot.posX, (int) entityocelot.posY, (int) entityocelot.posZ);
-        boolean flag = FeatureOcelot.lieBedOnly && entityocelot.world.getBlockState(pos).getBlock() instanceof BlockBed;
+        boolean flag = FeatureOcelot.lieDown && (!FeatureOcelot.lieBedOnly || entityocelot.world.getBlockState(pos).getBlock() instanceof BlockBed);
 
         // reset
         this.ocelotHead.rotateAngleX = 0.0F;
@@ -215,7 +215,7 @@ public class ModelFlowyOcelotTails extends ModelBase
         }
         else if (entityocelot.isSitting())
         {
-            if (FeatureOcelot.liedown || flag) {
+            if (flag) {
                 this.ocelotBody.rotateAngleX = ((float)Math.PI / 2F);
                 this.ocelotTail.rotateAngleX = ((float)Math.PI / 2.5F);
                 this.ocelotTail.rotateAngleY = 0.0F;
@@ -275,7 +275,7 @@ public class ModelFlowyOcelotTails extends ModelBase
             for(int i = 0; i < this.ocelotTailParts.length; ++i) {
                 this.ocelotTailParts[i].rotateAngleZ = 0.0F;
                 this.ocelotTailParts[i].rotateAngleX = 0.05F;
-                this.ocelotTailParts[i].rotateAngleX += MathHelper.sin(amplitude - (float)(i + 1) * 0.35F) * magnitude;
+                this.ocelotTailParts[i].rotateAngleX += MathHelper.sin(amplitude - (float)(i + 1) * (float) FeatureOcelot.swing * 0.05F) * magnitude;
             }
         }
     }

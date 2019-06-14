@@ -90,19 +90,19 @@ public class ModelBuckaBuckaChicken extends ModelChicken
         this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
 
-        if (FeatureChicken.movewings && ageInTicks == 0) {
-            float f = limbSwingAmount * FeatureChicken.wingspeed * 0.1F;
+        if (FeatureChicken.moveWings && ageInTicks == 0) {
+            float f = limbSwingAmount * FeatureChicken.wingSpeed * 0.1F;
             this.rightWing.rotateAngleZ = MathHelper.sin(limbSwing) * f + f;
             this.leftWing.rotateAngleZ = -(MathHelper.sin(limbSwing) * f + f);
         } else {
             this.rightWing.rotateAngleZ = ageInTicks;
             this.leftWing.rotateAngleZ = -ageInTicks;
         }
-        if (FeatureChicken.movehead) {
-            this.head.rotationPointZ = -4.0F + MathHelper.cos(limbSwing) * FeatureChicken.headspeed * 0.5F * limbSwingAmount;
+        if (FeatureChicken.moveHead) {
+            this.head.rotationPointZ = -4.0F + MathHelper.cos(limbSwing) * FeatureChicken.headSpeed * 0.5F * limbSwingAmount;
         }
-        if (FeatureChicken.movechin) {
-            this.chin.rotateAngleX = MathHelper.sin(limbSwing) * (float) FeatureChicken.chinspeed * 0.1F * limbSwingAmount;
+        if (FeatureChicken.moveChin) {
+            this.chin.rotateAngleX = MathHelper.sin(limbSwing) * (float) FeatureChicken.chinSpeed * 0.1F * limbSwingAmount;
             this.chin.rotateAngleX -= this.bill2.rotateAngleX;
         }
     }

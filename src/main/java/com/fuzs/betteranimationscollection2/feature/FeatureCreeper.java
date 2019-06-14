@@ -9,7 +9,6 @@ import org.apache.commons.lang3.ArrayUtils;
 public class FeatureCreeper extends Feature {
 
     public static int mode;
-    public static boolean fixLegs;
     private final String[] modes = new String[] {"side", "front", "circle", "random"};
 
     public FeatureCreeper() {
@@ -23,14 +22,13 @@ public class FeatureCreeper extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "Remember the very popular TNT music video by CaptainSparklez with the really cute wobbly Creeper? Well, it's in the game now. The full thing, the real deal, exactly like the video. Probably the best custom animation in the entire collection.";
     }
 
     @Override
     public void setupConfig() {
         super.setupConfig();
-        mode = ArrayUtils.indexOf(this.modes, ConfigHandler.config.getString("mode", this.getCategory(), "side", "Different modes for the walking animation.", this.modes));
-        fixLegs = ConfigPropHelper.loadPropBoolean("fix leg rotation point", this.getCategory(), true, "Move leg rotation point towards the body so the legs don't seem to float when the entity is walking.", true);
+        mode = ArrayUtils.indexOf(this.modes, ConfigHandler.config.getString("wobble mode", this.getCategory(), "side", "Different modes for the walking animation.", this.modes));
     }
 
 }

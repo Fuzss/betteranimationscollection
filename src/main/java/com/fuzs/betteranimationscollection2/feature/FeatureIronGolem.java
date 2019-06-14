@@ -16,7 +16,7 @@ public class FeatureIronGolem extends Feature {
 
     @Override
     protected String getDescription() {
-        return "";
+        return "A subtle change, this makes iron golems wiggle their big noses whenever they're hurt. Exactly the same animation as for villagers, except for iron golems!";
     }
 
     @Override
