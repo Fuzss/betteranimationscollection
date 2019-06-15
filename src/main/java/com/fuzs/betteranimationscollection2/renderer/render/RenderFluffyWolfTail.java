@@ -38,7 +38,7 @@ public class RenderFluffyWolfTail extends RenderLiving<EntityWolf>
     {
         if (entity.isWolfWet())
         {
-            float f = entity.getBrightness() * entity.getShadingWhileWet(partialTicks);
+            float f = entity.getBrightness(partialTicks) * entity.getShadingWhileWet(partialTicks);
             GlStateManager.color(f, f, f);
         }
 

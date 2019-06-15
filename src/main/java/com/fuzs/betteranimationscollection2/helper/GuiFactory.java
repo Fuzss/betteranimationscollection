@@ -11,7 +11,9 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.config.GuiConfig;
 
-@SuppressWarnings("unused")
+import javax.annotation.Nullable;
+
+@SuppressWarnings({"unused", "deprecation"})
 public class GuiFactory implements IModGuiFactory {
 
     public void initialize(Minecraft minecraftInstance) {
@@ -21,12 +23,23 @@ public class GuiFactory implements IModGuiFactory {
         return null;
     }
 
+    @Nullable
+    @Override
+    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
+        return null;
+    }
+
     public boolean hasConfigGui() {
         return true;
     }
 
     public GuiScreen createConfigGui(GuiScreen parentScreen) {
         return new GuiFactory.ConfigGui(parentScreen);
+    }
+
+    @Override
+    public Class<? extends GuiScreen> mainConfigGuiClass() {
+        return null;
     }
 
     private class ConfigGui extends GuiConfig {

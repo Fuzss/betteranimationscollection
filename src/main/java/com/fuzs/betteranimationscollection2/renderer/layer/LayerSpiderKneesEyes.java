@@ -34,14 +34,14 @@ public class LayerSpiderKneesEyes<T extends EntitySpider> implements LayerRender
         int k = i / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
+        Minecraft.getMinecraft().entityRenderer.func_191514_d(true);
         this.spiderRenderer.getMainModel().render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-        Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
-        i = entitylivingbaseIn.getBrightnessForRender();
+        Minecraft.getMinecraft().entityRenderer.func_191514_d(false);
+        i = entitylivingbaseIn.getBrightnessForRender(partialTicks);
         j = i % 65536;
         k = i / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
-        this.spiderRenderer.setLightmap(entitylivingbaseIn);
+        this.spiderRenderer.setLightmap(entitylivingbaseIn, partialTicks);
         GlStateManager.disableBlend();
         GlStateManager.depthMask(true);
         GlStateManager.enableAlpha();
