@@ -21,6 +21,7 @@ import java.util.Collections;
         name = BetterAnimationsCollection2.NAME,
         version = BetterAnimationsCollection2.VERSION,
         acceptedMinecraftVersions = BetterAnimationsCollection2.RANGE,
+        dependencies = BetterAnimationsCollection2.DEPENDENCIES,
         clientSideOnly = BetterAnimationsCollection2.CLIENT,
         guiFactory = BetterAnimationsCollection2.GUI,
         certificateFingerprint = BetterAnimationsCollection2.FINGERPRINT
@@ -31,6 +32,7 @@ public class BetterAnimationsCollection2
     public static final String NAME = "Better Animations Collection 2";
     public static final String VERSION = "@VERSION@";
     public static final String RANGE = "[1.12.2]";
+    public static final String DEPENDENCIES = "required-after:forge@[14.23.5.2802,)";
     public static final boolean CLIENT = true;
     public static final String GUI = "com.fuzs.betteranimationscollection2.helper.GuiFactory";
     public static final String FINGERPRINT = "@FINGERPRINT@";
