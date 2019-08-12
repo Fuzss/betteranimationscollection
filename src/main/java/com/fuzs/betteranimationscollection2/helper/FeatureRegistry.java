@@ -11,27 +11,27 @@ public class FeatureRegistry {
 
     public static void populate() {
 
-        registerFeature(FeatureSlime.class);
-        registerFeature(FeatureOcelot.class);
-        registerFeature(FeatureCow.class);
-        registerFeature(FeatureMooshroom.class);
-        registerFeature(FeatureCreeper.class);
-        registerFeature(FeatureEnderman.class);
-        registerFeature(FeatureSheep.class);
-        registerFeature(FeatureMagmaCube.class);
-        registerFeature(FeatureGhast.class);
-        registerFeature(FeaturePig.class);
-        registerFeature(FeatureWolf.class);
-        registerFeature(FeatureVillager.class);
-        registerFeature(FeatureIronGolem.class);
+//        registerFeature(FeatureSlime.class);
+//        registerFeature(FeatureOcelot.class);
+//        registerFeature(FeatureCow.class);
+//        registerFeature(FeatureMooshroom.class);
+//        registerFeature(FeatureCreeper.class);
+//        registerFeature(FeatureEnderman.class);
+//        registerFeature(FeatureSheep.class);
+//        registerFeature(FeatureMagmaCube.class);
+//        registerFeature(FeatureGhast.class);
+//        registerFeature(FeaturePig.class);
+//        registerFeature(FeatureWolf.class);
+//        registerFeature(FeatureVillager.class);
+//        registerFeature(FeatureIronGolem.class);
         registerFeature(FeatureSnowman.class);
-        registerFeature(FeatureSpider.class);
-        registerFeature(FeatureCaveSpider.class);
-        registerFeature(FeatureSquid.class);
-        registerFeature(FeatureChicken.class);
-        registerFeature(FeatureZombie.class);
-        registerFeature(FeaturePigZombie.class);
-        registerFeature(FeatureHusk.class);
+//        registerFeature(FeatureSpider.class);
+//        registerFeature(FeatureCaveSpider.class);
+//        registerFeature(FeatureSquid.class);
+//        registerFeature(FeatureChicken.class);
+//        registerFeature(FeatureZombie.class);
+//        registerFeature(FeaturePigZombie.class);
+//        registerFeature(FeatureHusk.class);
 
     }
 

@@ -1,12 +1,15 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.handler.ConfigHandler;
-import com.fuzs.betteranimationscollection2.helper.ConfigPropHelper;
+import com.fuzs.betteranimationscollection2.handler.CustomRenderingHandler;
+import com.fuzs.betteranimationscollection2.helper.ConfigHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.Loader;
 
 import java.util.Arrays;
 
@@ -15,46 +18,62 @@ public abstract class Feature<T extends Entity> {
     private final Class<T> entityClazz;
     private final IRenderFactory<? super T> renderFactory;
 
-    private boolean enabled;
-    private boolean forced;
+    private ForgeConfigSpec.BooleanValue enabled;
+    private ForgeConfigSpec.BooleanValue forced;
+    private ForgeConfigSpec.BooleanValue compatibility;
 
     public Feature(Class<T> clazz, IRenderFactory<? super T> factory) {
         this.entityClazz = clazz;
         this.renderFactory = factory;
     }
 
+    @SuppressWarnings("unchecked")
     public void register() {
+
         if (this.isEnabled()) {
-            RenderingRegistry.registerEntityRenderingHandler(this.entityClazz, this.renderFactory);
+
+            if (ConfigHelper.getConfigBoolean(this.compatibility)) {
+                System.out.println("Registering via custom method");
+                CustomRenderingHandler.registerEntityRenderingHandler(this.entityClazz, ((IEntityRenderer<T, EntityModel<T>>) this.renderFactory.createRenderFor(Minecraft.getInstance().getRenderManager())).getEntityModel());
+            } else {
+                System.out.println("Registering via default method");
+                RenderingRegistry.registerEntityRenderingHandler(this.entityClazz, this.renderFactory);
+            }
+
         }
+
     }
 
     public boolean isEnabled() {
-        return this.enabled && (this.forced || Arrays.stream(this.incompatibleMods()).noneMatch(Loader::isModLoaded));
+        return this.enabled.get() && (ConfigHelper.getConfigBoolean(this.forced)
+                || Arrays.stream(this.incompatibleMods()).noneMatch(it -> ModList.get().isLoaded(it)));
     }
 
     public abstract String getName();
 
-    protected abstract String getDescription();
+    public abstract String getDescription();
+
+    public boolean hasCompatibility() {
+        return true;
+    }
 
     protected String[] incompatibleMods() {
         return new String[0];
     }
 
-    public void setupConfig() {
+    public void setupConfig(ForgeConfigSpec.Builder builder) {
 
-        ConfigHandler.config.getCategory(this.getCategory()).setComment(this.getDescription());
-        this.enabled = ConfigPropHelper.loadPropBoolean("enabled", this.getCategory(), true, "Is this feature enabled.", true);
+        this.enabled = builder.comment("Is this feature enabled.").define("enabled", true);
 
         String[] incompatible = this.incompatibleMods();
         if (incompatible.length > 0) {
-            this.forced = ConfigPropHelper.loadPropBoolean("forced", this.getCategory(), false, "Enable even if incompatible mods are loaded. Is incompatible with: " + ConfigPropHelper.arrayToCustomString(incompatible), true);
+            this.forced = builder.comment("Enable even if incompatible mods are loaded. Is incompatible with: " + ConfigHelper.arrayToCustomString(incompatible)).define("forced", false);
         }
 
-    }
+        if (this.hasCompatibility()) {
+            this.compatibility = builder.comment("Apply model in a more mod compatible way.").define("compatibility", false);
+        }
 
-    protected String getCategory() {
-        return Configuration.CATEGORY_GENERAL + Configuration.CATEGORY_SPLITTER + this.getName();
     }
 
 }

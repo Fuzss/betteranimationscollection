@@ -1,15 +1,15 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.helper.ConfigPropHelper;
-import com.fuzs.betteranimationscollection2.renderer.render.RenderAnimatedSnowManStick;
-import net.minecraft.entity.monster.EntitySnowman;
+import com.fuzs.betteranimationscollection2.renderer.render.AnimatedSnowManStickRenderer;
+import net.minecraft.entity.passive.SnowGolemEntity;
+import net.minecraftforge.common.ForgeConfigSpec;
 
-public class FeatureSnowman extends Feature {
+public class FeatureSnowman extends Feature<SnowGolemEntity> {
 
-    public static int leftChance;
+    public static ForgeConfigSpec.IntValue leftChance;
 
     public FeatureSnowman() {
-        super(EntitySnowman.class, RenderAnimatedSnowManStick::new);
+        super(SnowGolemEntity.class, AnimatedSnowManStickRenderer::new);
     }
 
     @Override
@@ -18,14 +18,14 @@ public class FeatureSnowman extends Feature {
     }
 
     @Override
-    protected String getDescription() {
-        return "This makes a snowman's arm swing when it throws a snowball. There are even rumors of some snowman being left-handed!";
+    public String getDescription() {
+        return "This makes a snowman's arm swing when it throws a snowball. There are even rumors of some snowmen being left-handed!";
     }
 
     @Override
-    public void setupConfig() {
-        super.setupConfig();
-        leftChance = ConfigPropHelper.loadPropInt("left chance", this.getCategory(), 5, "Chance for a left handed snowman out of 100.", 0, 100, false);
+    public void setupConfig(ForgeConfigSpec.Builder builder) {
+        super.setupConfig(builder);
+        leftChance = builder.comment("Chance for a left handed snowman out of 100.").defineInRange("left chance", 5, 0, 100);
     }
 
 }

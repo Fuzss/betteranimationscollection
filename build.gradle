@@ -1,63 +1,126 @@
+
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven { url = "https://files.minecraftforge.net/maven" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
+
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+
+import net.minecraftforge.gradle.common.task.SignJar
+
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
 version = "${mod_version}"
 group = "${mod_group}"
+archivesBaseName = "${mod_id}"
 
 // custom properties
-ext.author = "${mod_author}"
-ext.slug = "${mod_slug}"
-ext.description = "${mod_description}"
+ext {
 
-sourceCompatibility = targetCompatibility = '1.8' // need this here so eclipse task generates correctly
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+    name = "${mod_name}"
+    author = "${mod_author}"
+    description = "${mod_description}"
+    url = "${mod_url}"
+    forge = "${forge_version.replaceAll("\\..*", "")}"
+    mc = "${mc_version}"
+
 }
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
-    mappings = "${mcp_version}"
-    replace '@VERSION@', project.version
-    replace '@FINGERPRINT@', project.findProperty('signSHA1')
-    runDir = "run"
-    makeObfSourceJar = false
+
+    mappings channel: "${mcp_channel}", version: "${mcp_version}"
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+        }
+
+        server {
+            workingDirectory project.file('run')
+        }
+    }
 }
 
-jar {
-    archiveName "${mod_name}-v${mod_version}-${mc_version}.jar" // use archiveFileName in the future
+dependencies {
+
+    minecraft "net.minecraftforge:forge:${project.ext.mc}-${forge_version}"
+
 }
 
 processResources {
 
     // this will ensure that this task is redone when the versions change.
-    inputs.property "mod_version", project.ext.author
-    inputs.property "mc_version", project.minecraft.version
-    inputs.property "mod_slug", project.ext.slug
+    inputs.property "mod_id", project.archivesBaseName
+    inputs.property "mod_name", project.ext.name
+    inputs.property "mod_version", project.version
+    inputs.property "mod_url", project.ext.url
     inputs.property "mod_description", project.ext.description
     inputs.property "mod_author", project.ext.author
+    inputs.property "forge_version", project.ext.forge
+    inputs.property "mc_version", project.ext.mc
 
-    // replace stuff in mcmod.info and pack.mcmeta
+    // replace stuff in mods.toml and pack.mcmeta
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info', 'pack.mcmeta'
-        expand 'mod_version':project.version, 'mc_version':project.minecraft.version, 'mod_slug':project.ext.slug, 'mod_description':project.ext.description, 'mod_author':project.ext.author
+
+        include 'META-INF/mods.toml', 'pack.mcmeta'
+
+        expand (
+
+                'mod_id': project.archivesBaseName,
+                'mod_name': project.ext.name,
+                'mod_version': project.version,
+                'mod_url': project.ext.url,
+                'mod_description': project.ext.description,
+                'mod_author': project.ext.author,
+                'forge_version': project.ext.forge,
+                'mc_version': project.ext.mc
+
+        )
+
     }
 
-    // copy everything else except mcmod.info and pack.mcmeta
+    // copy everything else except mods.toml and pack.mcmeta
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info', 'pack.mcmeta'
+
+        exclude 'META-INF/mods.toml', 'pack.mcmeta'
+
     }
 }
 
-task signJar(type: SignJar, dependsOn: reobfJar) {
+jar {
+
+    manifest {
+        attributes([
+
+                "Specification-Title": project.name,
+                "Specification-Version": "1.0", // We are version 1.0 of ourselves
+                "Specification-Vendor": project.ext.author.toLowerCase(),
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version,
+                "Implementation-Vendor" : project.ext.author.toLowerCase(),
+                "Implementation-Vendor-Id" : project.group,
+                "Implementation-URL" : project.ext.url,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+
+        ])
+    }
+
+    archiveName "${project.ext.name.replaceAll("\\s", "")}-v${mod_version}-${mc_version}.jar" // use archiveFileName in the future
+
+}
+
+// seems to work ok for now, but Forge doesn't currently use the key anyways
+task signJar(type: SignJar, dependsOn: jar) {
 
     onlyIf {
         project.hasProperty('keyStore')
