@@ -10,8 +10,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class AnimatedSnowManStickModel<T extends Entity> extends SnowManModel<T>
+public class SnowManStickModel<T extends Entity> extends SnowManModel<T>
 {
+    private final RendererModel rightHand;
+    private final RendererModel leftHand;
+
+    public SnowManStickModel() {
+        super();
+        this.rightHand = (RendererModel) ReflectionHelper.getModelPart(this, ReflectionHelper.SNOWMANMODEL_RIGHTHAND);
+        this.leftHand = (RendererModel) ReflectionHelper.getModelPart(this, ReflectionHelper.SNOWMANMODEL_LEFTHAND);
+    }
+
     /**
      * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
@@ -32,8 +41,7 @@ public class AnimatedSnowManStickModel<T extends Entity> extends SnowManModel<T>
 
             // makes 5% of snowman render left handed, like for skeletons in vanilla
             boolean left = Math.abs(entitylivingIn.getUniqueID().getLeastSignificantBits() % 100) < FeatureSnowman.leftChance.get();
-            RendererModel hand = left ? ReflectionHelper.getModelPart(this, ReflectionHelper
-                    .SNOWMANMODEL_RIGHTHAND) : ReflectionHelper.getModelPart(this, ReflectionHelper.SNOWMANMODEL_LEFTHAND);
+            RendererModel hand = left ? this.rightHand : this.leftHand;
 
             if (time > 0 && time < 8) {
                 hand.rotateAngleX = 1.5F - (float) time * 1.5F / 8.0F;

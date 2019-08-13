@@ -29,7 +29,8 @@ ext {
     author = "${mod_author}"
     description = "${mod_description}"
     url = "${mod_url}"
-    forge = "${forge_version.replaceAll("\\..*", "")}"
+    loader = "${loader_version.replaceAll("\\..*", "")}"
+    forge = "${forge_version}"
     mc = "${mc_version}"
 
 }
@@ -53,7 +54,7 @@ minecraft {
 
 dependencies {
 
-    minecraft "net.minecraftforge:forge:${project.ext.mc}-${forge_version}"
+    minecraft "net.minecraftforge:forge:${project.ext.mc}-${loader_version}"
 
 }
 
@@ -66,6 +67,7 @@ processResources {
     inputs.property "mod_url", project.ext.url
     inputs.property "mod_description", project.ext.description
     inputs.property "mod_author", project.ext.author
+    inputs.property "loader_version", project.ext.loader
     inputs.property "forge_version", project.ext.forge
     inputs.property "mc_version", project.ext.mc
 
@@ -82,6 +84,7 @@ processResources {
                 'mod_url': project.ext.url,
                 'mod_description': project.ext.description,
                 'mod_author': project.ext.author,
+                'loader_version': project.ext.loader,
                 'forge_version': project.ext.forge,
                 'mc_version': project.ext.mc
 

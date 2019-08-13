@@ -1,5 +1,6 @@
 package com.fuzs.betteranimationscollection2.feature;
 
+import com.fuzs.betteranimationscollection2.BetterAnimationsCollection2;
 import com.fuzs.betteranimationscollection2.handler.CustomRenderingHandler;
 import com.fuzs.betteranimationscollection2.helper.ConfigHelper;
 import net.minecraft.client.Minecraft;
@@ -33,11 +34,15 @@ public abstract class Feature<T extends Entity> {
         if (this.isEnabled()) {
 
             if (ConfigHelper.getConfigBoolean(this.compatibility)) {
-                System.out.println("Registering via custom method");
+
+                BetterAnimationsCollection2.LOGGER.info("Registering \"" + this.getName() + "\" via custom method");
                 CustomRenderingHandler.registerEntityRenderingHandler(this.entityClazz, ((IEntityRenderer<T, EntityModel<T>>) this.renderFactory.createRenderFor(Minecraft.getInstance().getRenderManager())).getEntityModel());
+
             } else {
-                System.out.println("Registering via default method");
+
+                BetterAnimationsCollection2.LOGGER.info("Registering \"" + this.getName() + "\" via default method");
                 RenderingRegistry.registerEntityRenderingHandler(this.entityClazz, this.renderFactory);
+
             }
 
         }

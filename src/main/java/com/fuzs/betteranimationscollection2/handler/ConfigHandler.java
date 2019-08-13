@@ -19,7 +19,7 @@ public class ConfigHandler {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
         builder.push("general");
-        soundRange = builder.comment("Range for the sound detection system to look for a mob that made a certain sound. Setting this to 0 will prevent all sound based animations.").defineInRange("sound detection range", 0.5, 0.0, 5.0);
+        soundRange = builder.comment("Range in blocks for the sound detection system to look for a mob that made a certain sound. Setting this to 0 will prevent all sound based animations.").defineInRange("sound detection range", 0.5, 0.0, 5.0);
         builder.pop();
 
         for (Feature feature : FeatureRegistry.REGISTRY) {

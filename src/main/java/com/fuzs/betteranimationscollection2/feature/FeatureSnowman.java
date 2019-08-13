@@ -1,6 +1,6 @@
 package com.fuzs.betteranimationscollection2.feature;
 
-import com.fuzs.betteranimationscollection2.renderer.render.AnimatedSnowManStickRenderer;
+import com.fuzs.betteranimationscollection2.renderer.render.SnowManStickRenderer;
 import net.minecraft.entity.passive.SnowGolemEntity;
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -9,7 +9,7 @@ public class FeatureSnowman extends Feature<SnowGolemEntity> {
     public static ForgeConfigSpec.IntValue leftChance;
 
     public FeatureSnowman() {
-        super(SnowGolemEntity.class, AnimatedSnowManStickRenderer::new);
+        super(SnowGolemEntity.class, SnowManStickRenderer::new);
     }
 
     @Override
