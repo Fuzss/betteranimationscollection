@@ -30,7 +30,7 @@ public class SnowManStickModel<T extends Entity> extends SnowManModel<T>
     {
         super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 
-        // this only works because EntityLiving#livingSoundTime is manually being synced to the client in SoundEventHandler
+        // this only works because MobEntity#livingSoundTime is manually being synced to the client in SoundEventHandler
         if (entityIn instanceof MobEntity) {
 
             MobEntity entitylivingIn = (MobEntity) entityIn;

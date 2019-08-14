@@ -126,7 +126,8 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
 
     public void setLivingAnimations(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
 
-        if (entitylivingbaseIn != null) {
+        // this only works because MobEntity#livingSoundTime is manually being synced to the client in SoundEventHandler
+        if (entitylivingbaseIn instanceof MobEntity) {
 
             MobEntity entitylivingIn = (MobEntity) entitylivingbaseIn;
             int time = entitylivingIn.livingSoundTime + entitylivingIn.getTalkInterval();

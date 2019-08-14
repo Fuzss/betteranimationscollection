@@ -34,6 +34,10 @@ public class ReflectionHelper {
     public static final String SLIMEMODEL_RIGHTEYE = "field_78198_b";
     public static final String SLIMEMODEL_LEFTEYE = "field_78199_c";
     public static final String SLIMEMODEL_MOUTH = "field_78197_d";
+    // iron golem
+    public static final String IRONGOLEMMODEL_HEAD = "field_78178_a";
+    // squid
+    public static final String SQUIDMODEL_TENTACLES = "field_78201_b";
 
     private static final String LIVINGRENDERER_ENTITYMODEL = "field_77045_g";
 

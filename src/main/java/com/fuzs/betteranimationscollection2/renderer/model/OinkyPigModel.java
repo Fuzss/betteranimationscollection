@@ -35,7 +35,7 @@ public class OinkyPigModel<T extends Entity> extends PigModel<T>
 
     public void setLivingAnimations(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
     {
-        // this only works because EntityLiving#livingSoundTime is manually being synced to the client in SoundEventHandler
+        // this only works because MobEntity#livingSoundTime is manually being synced to the client in SoundEventHandler
         if (entitylivingbaseIn instanceof MobEntity) {
 
             MobEntity entitylivingIn = (MobEntity) entitylivingbaseIn;

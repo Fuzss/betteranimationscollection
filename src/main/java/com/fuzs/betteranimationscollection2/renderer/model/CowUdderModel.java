@@ -45,19 +45,31 @@ public class CowUdderModel<T extends Entity> extends CowModel<T>
     public void render(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         // prevent calves from having an utter
-        this.utter.isHidden = this.isChild && !FeatureCow.utterChild.get();
+        this.utter.isHidden = this.isChild && !this.hasChildUdder();
         // hide nipples when disabled
         for (RendererModel renderer : this.nipples) {
-            renderer.isHidden = !FeatureCow.nipples.get();
+            renderer.isHidden = !this.hasNipples();
         }
         super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
     }
 
     public void setLivingAnimations(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
     {
-        int i = FeatureCow.swing.get();
+        int i = this.getSwing();
         this.utter.rotateAngleX = MathHelper.sin(limbSwing * 0.5F) * limbSwingAmount * i * 0.05F;
         this.utter.rotateAngleY = MathHelper.cos(limbSwing) * limbSwingAmount * i * 0.125F;
+    }
+
+    protected boolean hasNipples() {
+        return FeatureCow.nipples.get();
+    }
+
+    protected boolean hasChildUdder() {
+        return FeatureCow.utterChild.get();
+    }
+
+    protected int getSwing() {
+        return FeatureCow.swing.get();
     }
 
 }
