@@ -54,7 +54,7 @@ public class ModelFlailingEnderman extends ModelEnderman
     {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 
-        if (this.isAttacking) {
+        if (this.isAttacking && (!this.isCarrying || FeatureEnderman.whileCarrying)) {
 
             float f = (float) FeatureEnderman.speed * 0.025F;
             if (!this.isCarrying) {
@@ -69,7 +69,7 @@ public class ModelFlailingEnderman extends ModelEnderman
                     this.leftArm[i].rotateAngleZ = -this.rightArm[i].rotateAngleZ;
                 }
 
-            } else if (FeatureEnderman.whileCarrying) {
+            } else {
 
                 for (int i = 0; i < this.rightArm.length; ++i) {
                     int j = i > this.rightArm.length / 2 ? this.rightArm.length - i : i;
