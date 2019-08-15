@@ -19,7 +19,6 @@ public class IronGolemNoseModel<T extends IronGolemEntity> extends IronGolemMode
     }
 
     public IronGolemNoseModel(float scale, float offset) {
-
         super(scale, offset);
         RendererModel head = new RendererModel(this).setTextureSize(128, 128);
         head.setRotationPoint(0.0F, 0.0F + offset, -2.0F);
@@ -32,7 +31,6 @@ public class IronGolemNoseModel<T extends IronGolemEntity> extends IronGolemMode
         head.addChild(this.nose);
 
         ReflectionHelper.setModelPart(this, head, ReflectionHelper.IRONGOLEMMODEL_HEAD);
-
     }
 
     /**

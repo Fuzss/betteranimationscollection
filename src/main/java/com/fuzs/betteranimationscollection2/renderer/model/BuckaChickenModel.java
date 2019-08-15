@@ -27,8 +27,6 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
 
     public BuckaChickenModel() {
 
-        super();
-
         this.head = (RendererModel) ReflectionHelper.getModelPart(this, ReflectionHelper.CHICKENMODEL_HEAD);
         this.body = (RendererModel) ReflectionHelper.getModelPart(this, ReflectionHelper.CHICKENMODEL_BODY);
         this.rightLeg = (RendererModel) ReflectionHelper.getModelPart(this, ReflectionHelper.CHICKENMODEL_RIGHTLEG);
@@ -63,12 +61,10 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
-    {
+    public void render(@Nonnull T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         this.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
-        if (this.isChild)
-        {
+        if (this.isChild) {
             GlStateManager.pushMatrix();
             GlStateManager.translatef(0.0F, 5.0F * scale, 2.0F * scale);
             this.head.render(scale);
@@ -82,9 +78,7 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
             this.rightWing.render(scale);
             this.leftWing.render(scale);
             GlStateManager.popMatrix();
-        }
-        else
-        {
+        } else {
             this.head.render(scale);
             this.body.render(scale);
             this.rightLeg.render(scale);

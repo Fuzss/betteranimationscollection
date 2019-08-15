@@ -38,6 +38,15 @@ public class ReflectionHelper {
     public static final String IRONGOLEMMODEL_HEAD = "field_78178_a";
     // squid
     public static final String SQUIDMODEL_TENTACLES = "field_78201_b";
+    // wolf
+    public static final String WOLFMODEL_HEAD = "field_78185_a";
+    public static final String WOLFMODEL_BODY = "field_78183_b";
+    public static final String WOLFMODEL_LEG1 = "field_78184_c";
+    public static final String WOLFMODEL_LEG2 = "field_78181_d";
+    public static final String WOLFMODEL_LEG3 = "field_78182_e";
+    public static final String WOLFMODEL_LEG4 = "field_78179_f";
+    public static final String WOLFMODEL_TAIL = "field_78180_g";
+    public static final String WOLFMODEL_MANE = "field_78186_h";
 
     private static final String LIVINGRENDERER_ENTITYMODEL = "field_77045_g";
 

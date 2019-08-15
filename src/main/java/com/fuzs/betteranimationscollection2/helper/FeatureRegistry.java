@@ -15,13 +15,13 @@ public class FeatureRegistry {
 //        registerFeature(FeatureOcelot.class);
         registerFeature(FeatureCow.class);
         registerFeature(FeatureMooshroom.class);
-//        registerFeature(FeatureCreeper.class);
-//        registerFeature(FeatureEnderman.class);
-//        registerFeature(FeatureSheep.class);
+        registerFeature(FeatureCreeper.class);
+        registerFeature(FeatureEnderman.class);
+        registerFeature(FeatureSheep.class);
         registerFeature(FeatureMagmaCube.class);
         registerFeature(FeatureGhast.class);
         registerFeature(FeaturePig.class);
-//        registerFeature(FeatureWolf.class);
+        registerFeature(FeatureWolf.class);
         registerFeature(FeatureVillager.class);
         registerFeature(FeatureIronGolem.class);
         registerFeature(FeatureSnowman.class);

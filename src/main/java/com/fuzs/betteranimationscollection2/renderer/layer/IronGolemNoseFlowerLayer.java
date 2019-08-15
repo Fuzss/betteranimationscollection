@@ -7,7 +7,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.entity.model.IronGolemModel;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,7 +26,6 @@ public class IronGolemNoseFlowerLayer extends LayerRenderer<IronGolemEntity, Iro
          GlStateManager.rotatef(5.0F + 180.0F * this.getEntityModel().func_205071_a().rotateAngleX / (float)Math.PI, 1.0F, 0.0F, 0.0F);
          GlStateManager.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
          GlStateManager.translatef(-0.9375F, -0.625F, -0.9375F);
-         float f = 0.5F;
          GlStateManager.scalef(0.5F, -0.5F, 0.5F);
          int i = entityIn.getBrightnessForRender();
          int j = i % 65536;

@@ -18,8 +18,7 @@ public class OinkyPigModel<T extends Entity> extends PigModel<T>
         this(6, 0.0F);
     }
 
-    public OinkyPigModel(int height, float scale)
-    {
+    public OinkyPigModel(int height, float scale) {
         super(scale);
         // overwrite normal head as it already includes the snout
         this.headModel = new RendererModel(this, 0, 0);
@@ -33,8 +32,7 @@ public class OinkyPigModel<T extends Entity> extends PigModel<T>
         this.childYOffset = 4.0F;
     }
 
-    public void setLivingAnimations(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
-    {
+    public void setLivingAnimations(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
         // this only works because MobEntity#livingSoundTime is manually being synced to the client in SoundEventHandler
         if (entitylivingbaseIn instanceof MobEntity) {
 

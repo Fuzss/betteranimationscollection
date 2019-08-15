@@ -16,9 +16,7 @@ public class CowUdderModel<T extends Entity> extends CowModel<T>
     private final RendererModel utter;
     private final RendererModel[] nipples = new RendererModel[4];
 
-    public CowUdderModel()
-    {
-        super();
+    public CowUdderModel() {
         // body has to be replaced as it already includes the utter normally
         this.field_78148_b = new RendererModel(this, 18, 4);
         this.field_78148_b.addBox(-6.0F, -10.0F, -7.0F, 12, 18, 10, 0.0F);

@@ -15,7 +15,6 @@ public class MagmaCubeBurgerModel<T extends SlimeEntity> extends MagmaCubeModel<
     private final RendererModel core;
 
     public MagmaCubeBurgerModel() {
-        super();
         this.segments = (RendererModel[]) ReflectionHelper.getModelPart(this, ReflectionHelper.MAGMACUBEMODEL_SEGMENTS);
         this.core = (RendererModel) ReflectionHelper.getModelPart(this, ReflectionHelper.MAGMACUBEMODEL_CORE);
     }

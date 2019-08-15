@@ -16,7 +16,6 @@ public class SnowManStickModel<T extends Entity> extends SnowManModel<T>
     private final RendererModel leftHand;
 
     public SnowManStickModel() {
-        super();
         this.rightHand = (RendererModel) ReflectionHelper.getModelPart(this, ReflectionHelper.SNOWMANMODEL_RIGHTHAND);
         this.leftHand = (RendererModel) ReflectionHelper.getModelPart(this, ReflectionHelper.SNOWMANMODEL_LEFTHAND);
     }
@@ -26,8 +25,7 @@ public class SnowManStickModel<T extends Entity> extends SnowManModel<T>
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor)
-    {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 
         // this only works because MobEntity#livingSoundTime is manually being synced to the client in SoundEventHandler

@@ -19,9 +19,7 @@ public class SpiderKneesModel<T extends Entity> extends SpiderModel<T>
     private final RendererModel spiderLeg7;
     private final RendererModel spiderLeg8;
 
-    public SpiderKneesModel()
-    {
-        super();
+    public SpiderKneesModel() {
         this.spiderLeg1 = new RendererModel(this, 18, 0);
         this.spiderLeg1.addBox(-7.0F, -1.0F, -1.0F, 8, 2, 2);
         this.spiderLeg1.setRotationPoint(-4.0F, 15.0F, 2.0F);
@@ -73,7 +71,6 @@ public class SpiderKneesModel<T extends Entity> extends SpiderModel<T>
         ReflectionHelper.setModelPart(this, this.spiderLeg6, ReflectionHelper.SPIDERMODEL_SPIDERLEG6);
         ReflectionHelper.setModelPart(this, this.spiderLeg7, ReflectionHelper.SPIDERMODEL_SPIDERLEG7);
         ReflectionHelper.setModelPart(this, this.spiderLeg8, ReflectionHelper.SPIDERMODEL_SPIDERLEG8);
-
     }
 
     /**
@@ -81,8 +78,7 @@ public class SpiderKneesModel<T extends Entity> extends SpiderModel<T>
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor)
-    {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         this.spiderLeg1.rotateAngleZ += 0.675F;
         this.spiderLeg2.rotateAngleZ -= 0.675F;

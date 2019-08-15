@@ -49,7 +49,7 @@ public abstract class Feature<T extends Entity> {
 
     }
 
-    public boolean isEnabled() {
+    private boolean isEnabled() {
         return this.enabled.get() && (ConfigHelper.getConfigBoolean(this.forced)
                 || Arrays.stream(this.incompatibleMods()).noneMatch(it -> ModList.get().isLoaded(it)));
     }
@@ -76,7 +76,7 @@ public abstract class Feature<T extends Entity> {
         }
 
         if (this.hasCompatibility()) {
-            this.compatibility = builder.comment("Apply model in a more mod compatible way.").define("compatibility", false);
+            this.compatibility = builder.comment("Apply model in a more mod compatible way. Only enable when necessary").define("compatibility", false);
         }
 
     }

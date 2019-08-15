@@ -17,9 +17,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T>
     private final RendererModel[] tentacles = new RendererModel[9];
     private final RendererModel[][] tentacles2 = new RendererModel[9][];
 
-    public GhastTentaclesModel()
-    {
-        super();
+    public GhastTentaclesModel() {
         Random random = new Random(1660L);
 
         for (int i = 0; i < this.tentacles.length; ++i)
@@ -50,7 +48,6 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T>
         }
 
         ReflectionHelper.setModelPart(this, this.tentacles, ReflectionHelper.GHASTMODEL_TENTACLES);
-
     }
 
     /**
@@ -61,8 +58,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T>
     public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         float speed = 1.0F / (float) FeatureGhast.speed.get();
 
-        for (int i = 0; i < this.tentacles.length; ++i)
-        {
+        for (int i = 0; i < this.tentacles.length; ++i) {
             this.tentacles[i].rotateAngleX = speed * MathHelper.sin(ageInTicks * speed + (float) i) + 0.4F;
 
             for(int j = 0; j < this.tentacles2[i].length; ++j) {
