@@ -31,7 +31,7 @@ public class BetterAnimationsCollection2
     public static final String MODID = "betteranimationscollection2";
     public static final String NAME = "Better Animations Collection 2";
     public static final String VERSION = "@VERSION@";
-    public static final String RANGE = "[1.10, 1.10.2]";
+    public static final String RANGE = "[1.9.4]";
     public static final boolean CLIENT = true;
     public static final String GUI = "com.fuzs.betteranimationscollection2.helper.GuiFactory";
     public static final String FINGERPRINT = "@FINGERPRINT@";
@@ -41,6 +41,7 @@ public class BetterAnimationsCollection2
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
 
+        MinecraftForge.EVENT_BUS.register(new ConfigHandler());
         // populate registry
         FeatureRegistry.populate();
         // sort registry alphabetically

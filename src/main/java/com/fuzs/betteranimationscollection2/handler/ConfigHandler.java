@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.File;
 
-@Mod.EventBusSubscriber()
 public class ConfigHandler {
 
     public static Configuration config;
@@ -39,7 +38,7 @@ public class ConfigHandler {
     }
 
     @SubscribeEvent
-    public static void onConfigurationChanged(OnConfigChangedEvent event) {
+    public void onConfigurationChanged(OnConfigChangedEvent event) {
         if (event.getModID().equalsIgnoreCase(BetterAnimationsCollection2.MODID)) {
             loadConfiguration();
         }
