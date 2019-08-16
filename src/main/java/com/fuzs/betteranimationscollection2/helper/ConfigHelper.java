@@ -1,6 +1,9 @@
 package com.fuzs.betteranimationscollection2.helper;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
 
 public class ConfigHelper {
 
@@ -22,6 +25,14 @@ public class ConfigHelper {
 
     public static boolean getConfigBoolean(ForgeConfigSpec.ConfigValue<Boolean> value) {
         return value != null && value.get();
+    }
+
+    public static String[] getEnumDescription(String comment, Class<? extends Enum<?>> clazz) {
+
+        String[] comments = new String[]{comment, "Valid values:"};
+        String[] modes = Arrays.stream(clazz.getEnumConstants()).map(Enum::toString).toArray(String[]::new);
+        return ArrayUtils.addAll(comments, modes);
+
     }
 
 }

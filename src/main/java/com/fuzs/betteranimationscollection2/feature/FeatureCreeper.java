@@ -1,5 +1,6 @@
 package com.fuzs.betteranimationscollection2.feature;
 
+import com.fuzs.betteranimationscollection2.helper.ConfigHelper;
 import com.fuzs.betteranimationscollection2.renderer.render.WobblyCreeperRenderer;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -33,9 +34,7 @@ public class FeatureCreeper extends Feature<CreeperEntity> {
     @Override
     public void setupConfig(ForgeConfigSpec.Builder builder) {
         super.setupConfig(builder);
-        String[] comments = new String[]{"Different modes for the walking animation.", "Valid values:"};
-        String[] modes = Arrays.stream(CreeperMode.values()).map(Enum::toString).toArray(String[]::new);
-        mode = builder.comment(ArrayUtils.addAll(comments, modes)).defineEnum("wobble mode", CreeperMode.SIDE);
+        mode = builder.comment(ConfigHelper.getEnumDescription("Different modes for the walking animation.", CreeperMode.class)).defineEnum("wobble mode", CreeperMode.SIDE);
     }
 
     @SuppressWarnings("unused")
