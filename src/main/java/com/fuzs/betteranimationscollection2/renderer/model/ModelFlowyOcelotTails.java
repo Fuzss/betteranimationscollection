@@ -168,7 +168,7 @@ public class ModelFlowyOcelotTails extends ModelBase
     {
         EntityOcelot entityocelot = (EntityOcelot)entitylivingbaseIn;
         BlockPos pos = new BlockPos((int) entityocelot.posX, (int) entityocelot.posY, (int) entityocelot.posZ);
-        boolean flag = FeatureOcelot.lieDown && (!FeatureOcelot.lieBedOnly || entityocelot.world.getBlockState(pos).getBlock() instanceof BlockBed);
+        boolean flag = FeatureOcelot.lieDown && (!FeatureOcelot.lieBedOnly || entityocelot.worldObj.getBlockState(pos).getBlock() instanceof BlockBed);
 
         // reset
         this.ocelotHead.rotateAngleX = 0.0F;

@@ -3,7 +3,9 @@ package com.fuzs.betteranimationscollection2.renderer.layer;
 import com.fuzs.betteranimationscollection2.renderer.render.RenderFluffyWolfTail;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,7 +26,8 @@ public class LayerFluffyWolfTailCollar implements LayerRenderer<EntityWolf>
         if (entitylivingbaseIn.isTamed() && !entitylivingbaseIn.isInvisible())
         {
             this.wolfRenderer.bindTexture(WOLF_COLLAR);
-            float[] afloat = entitylivingbaseIn.getCollarColor().getColorComponentValues();
+            EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entitylivingbaseIn.getCollarColor().getMetadata());
+            float[] afloat = EntitySheep.getDyeRgb(enumdyecolor);
             GlStateManager.color(afloat[0], afloat[1], afloat[2]);
             this.wolfRenderer.getMainModel().render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         }

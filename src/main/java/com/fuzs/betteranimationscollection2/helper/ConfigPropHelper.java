@@ -18,7 +18,7 @@ public class ConfigPropHelper {
 
         String s = comment + " [range: " + min + " ~ " + max + ", default: " + defaultValue + "]";
         Property prop = ConfigHandler.config.get(category, name, defaultValue, s, min, max);
-        prop.setLanguageKey(name).setRequiresMcRestart(restart).setHasSlidingControl(true);
+        prop.setLanguageKey(name).setRequiresMcRestart(restart);
         return prop.getInt(defaultValue);
 
     }
@@ -27,7 +27,7 @@ public class ConfigPropHelper {
 
         String s = comment + " [range: " + min + " ~ " + max + ", default: " + defaultValue + "]";
         Property prop = ConfigHandler.config.get(category, name, defaultValue, s, min, max);
-        prop.setLanguageKey(name).setRequiresMcRestart(restart).setHasSlidingControl(true);
+        prop.setLanguageKey(name).setRequiresMcRestart(restart);
         return prop.getDouble(defaultValue);
 
     }

@@ -51,7 +51,7 @@ public class SoundEventHandler implements ISoundEventListener {
         EntityLivingBase entity = evt.getEntityLiving();
         boolean flag = this.hurts.stream().anyMatch(it -> it.isInstance(entity));
 
-        if (entity.world.isRemote) {
+        if (entity.worldObj.isRemote) {
 
             if (flag || this.sounds.values().stream().anyMatch(it -> it.isInstance(entity))) {
 
@@ -76,7 +76,7 @@ public class SoundEventHandler implements ISoundEventListener {
 
         if (this.sounds.keySet().stream().anyMatch(it -> soundIn.getSoundLocation().getResourcePath().equals(it))) {
 
-            for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList)
+            for (Entity entity : Minecraft.getMinecraft().theWorld.loadedEntityList)
             {
                 if (this.checkPos((float) entity.posX, soundIn.getXPosF()) && this.checkPos((float) entity.posY, soundIn.getYPosF()) && this.checkPos((float) entity.posZ, soundIn.getZPosF()))
                 {

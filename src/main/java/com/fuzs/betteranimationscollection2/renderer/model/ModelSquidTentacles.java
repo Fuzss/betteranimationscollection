@@ -63,7 +63,7 @@ public class ModelSquidTentacles extends ModelBase
         if (entityIn instanceof EntityLivingBase) {
             EntityLivingBase entity = (EntityLivingBase) entityIn;
             float progress = ageInTicks / 1.75F;
-            float magnitude = MathHelper.sqrt(MathHelper.abs((float)entity.motionX) + MathHelper.abs((float)entity.motionY) + MathHelper.abs((float)entity.motionZ)) - 0.075F;
+            float magnitude = MathHelper.sqrt_float(MathHelper.abs((float)entity.motionX) + MathHelper.abs((float)entity.motionY) + MathHelper.abs((float)entity.motionZ)) - 0.075F;
             magnitude *= 0.375F;
             if (magnitude < 0.0F || !entity.isInWater()) {
                 magnitude = 0.0F;

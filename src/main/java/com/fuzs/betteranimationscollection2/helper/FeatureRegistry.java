@@ -31,7 +31,6 @@ public class FeatureRegistry {
         registerFeature(FeatureChicken.class);
         registerFeature(FeatureZombie.class);
         registerFeature(FeaturePigZombie.class);
-        registerFeature(FeatureHusk.class);
 
     }
 

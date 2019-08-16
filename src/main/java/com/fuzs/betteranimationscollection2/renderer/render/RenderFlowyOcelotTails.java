@@ -57,11 +57,11 @@ public class RenderFlowyOcelotTails extends RenderLiving<EntityOcelot>
         }
     }
 
-    protected void applyRotations(EntityOcelot entityLiving, float p_77043_2_, float rotationYaw, float partialTicks)
+    protected void rotateCorpse(EntityOcelot entityLiving, float p_77043_2_, float rotationYaw, float partialTicks)
     {
-        super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
+        super.rotateCorpse(entityLiving, p_77043_2_, rotationYaw, partialTicks);
         BlockPos pos = new BlockPos((int) entityLiving.posX, (int) entityLiving.posY, (int) entityLiving.posZ);
-        boolean flag = FeatureOcelot.lieDown && (!FeatureOcelot.lieBedOnly || entityLiving.world.getBlockState(pos).getBlock() instanceof BlockBed);
+        boolean flag = FeatureOcelot.lieDown && (!FeatureOcelot.lieBedOnly || entityLiving.worldObj.getBlockState(pos).getBlock() instanceof BlockBed);
 
         if (entityLiving.isSitting() && flag) {
             GlStateManager.translate(0.4F, 0.135F, 0.1F);

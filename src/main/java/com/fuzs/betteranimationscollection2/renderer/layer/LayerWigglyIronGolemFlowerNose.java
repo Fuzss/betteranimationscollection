@@ -35,7 +35,7 @@ public class LayerWigglyIronGolemFlowerNose implements LayerRenderer<EntityIronG
             GlStateManager.translate(-0.9375F, -0.625F, -0.9375F);
             float f = 0.5F;
             GlStateManager.scale(0.5F, -0.5F, 0.5F);
-            int i = entitylivingbaseIn.getBrightnessForRender();
+            int i = entitylivingbaseIn.getBrightnessForRender(partialTicks);
             int j = i % 65536;
             int k = i / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);

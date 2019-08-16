@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.File;
 
-@Mod.EventBusSubscriber(modid = BetterAnimationsCollection2.MODID)
+@Mod.EventBusSubscriber()
 public class ConfigHandler {
 
     public static Configuration config;

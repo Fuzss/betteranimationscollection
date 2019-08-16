@@ -17,21 +17,23 @@ public class GuiFactory implements IModGuiFactory {
     public void initialize(Minecraft minecraftInstance) {
     }
 
+    @Override
+    public Class<? extends GuiScreen> mainConfigGuiClass() {
+        return ConfigGui.class;
+    }
+
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
         return null;
     }
 
-    public boolean hasConfigGui() {
-        return true;
+    @Override
+    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
+        return null;
     }
 
-    public GuiScreen createConfigGui(GuiScreen parentScreen) {
-        return new GuiFactory.ConfigGui(parentScreen);
-    }
+    public static class ConfigGui extends GuiConfig {
 
-    private class ConfigGui extends GuiConfig {
-
-        private ConfigGui(GuiScreen parentScreen) {
+        public ConfigGui(GuiScreen parentScreen) {
             super(parentScreen, new ConfigElement(ConfigHandler.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(),
                     BetterAnimationsCollection2.MODID, false, false,
                     GuiConfig.getAbridgedConfigPath(ConfigHandler.config.toString()));
