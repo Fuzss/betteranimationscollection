@@ -40,9 +40,7 @@ public class LayerWobblyCreeperCharge implements LayerRenderer<EntityCreeper>
             GlStateManager.disableLighting();
             GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
             this.creeperModel.setModelAttributes(this.creeperRenderer.getMainModel());
-            Minecraft.getMinecraft().entityRenderer.func_191514_d(true);
             this.creeperModel.render(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-            Minecraft.getMinecraft().entityRenderer.func_191514_d(false);
             GlStateManager.matrixMode(5890);
             GlStateManager.loadIdentity();
             GlStateManager.matrixMode(5888);
