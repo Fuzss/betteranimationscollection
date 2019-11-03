@@ -16,8 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 @Mod(BetterAnimationsCollection2.MODID)
-public class BetterAnimationsCollection2
-{
+public class BetterAnimationsCollection2 {
+
     public static final String MODID = "betteranimationscollection2";
     public static final String NAME = "Better Animations Collection 2";
     public static final Logger LOGGER = LogManager.getLogger(BetterAnimationsCollection2.NAME);
@@ -34,7 +34,7 @@ public class BetterAnimationsCollection2
 
     }
 
-    public void clientSetup(final FMLClientSetupEvent evt) {
+    private void clientSetup(final FMLClientSetupEvent evt) {
 
         MinecraftForge.EVENT_BUS.register(new SoundEventHandler());
         MinecraftForge.EVENT_BUS.register(new CustomRenderingHandler());

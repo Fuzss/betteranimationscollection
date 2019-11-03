@@ -32,6 +32,7 @@ public class FeatureRegistry {
 //        registerFeature(FeatureZombie.class);
 //        registerFeature(FeaturePigZombie.class);
 //        registerFeature(FeatureHusk.class);
+        registerFeature(FeatureWanderingTrader.class);
 
     }
 

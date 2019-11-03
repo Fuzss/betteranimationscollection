@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.PigEntity;
@@ -27,6 +28,7 @@ public class SoundEventHandler implements ISoundEventListener {
     private final Map<String, Class<?>> sounds = new HashMap<String, Class<?>>(){{
         put("entity.pig.ambient", PigEntity.class);
         put("entity.villager.ambient", VillagerEntity.class);
+        put("entity.wandering_trader.ambient", WanderingTraderEntity.class);
         put("entity.chicken.ambient", ChickenEntity.class);
         put("entity.snow_golem.shoot", SnowGolemEntity.class);
     }};
@@ -34,6 +36,7 @@ public class SoundEventHandler implements ISoundEventListener {
     // list of entities whose model should do something when they are hurt
     private final List<Class<?>> hurts = new ArrayList<Class<?>>(){{
         add(VillagerEntity.class);
+        add(WanderingTraderEntity.class);
         add(IronGolemEntity.class);
     }};
 

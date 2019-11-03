@@ -47,6 +47,10 @@ public class ReflectionHelper {
     public static final String WOLFMODEL_LEG4 = "field_78179_f";
     public static final String WOLFMODEL_TAIL = "field_78180_g";
     public static final String WOLFMODEL_MANE = "field_78186_h";
+    // ocelot
+    public static final String OCELOTMODEL_OCELOTTAIL = "field_78158_e";
+    public static final String OCELOTMODEL_OCELOTTAIL2 = "field_78155_f";
+    // cat
 
     private static final String LIVINGRENDERER_ENTITYMODEL = "field_77045_g";
 

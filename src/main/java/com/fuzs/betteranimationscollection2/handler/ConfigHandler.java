@@ -1,12 +1,9 @@
 package com.fuzs.betteranimationscollection2.handler;
 
-import com.fuzs.betteranimationscollection2.BetterAnimationsCollection2;
 import com.fuzs.betteranimationscollection2.feature.Feature;
 import com.fuzs.betteranimationscollection2.helper.FeatureRegistry;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = BetterAnimationsCollection2.MODID)
 public class ConfigHandler {
 
     private static final ForgeConfigSpec.Builder BUILDER = createBuilder();

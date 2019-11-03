@@ -30,7 +30,7 @@ public class FeatureSquid extends Feature<SquidEntity> {
     @Override
     public void setupConfig(ForgeConfigSpec.Builder builder) {
         super.setupConfig(builder);
-        length = builder.comment("Define the max length of the tentacles.").defineInRange("length", 8, 1, 8);
+        length = builder.comment("Define the length of the tentacles.").defineInRange("length", 8, 1, 8);
     }
 
 }
