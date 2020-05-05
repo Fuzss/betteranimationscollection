@@ -40,6 +40,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 minecraft {
 
     mappings channel: "${mcp_channel}", version: "${mcp_version}"
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
@@ -50,6 +51,7 @@ minecraft {
             workingDirectory project.file('run')
         }
     }
+
 }
 
 dependencies {
@@ -98,6 +100,7 @@ processResources {
         exclude 'META-INF/mods.toml', 'pack.mcmeta'
 
     }
+
 }
 
 jar {
@@ -122,7 +125,7 @@ jar {
 
 }
 
-// seems to work ok for now, but Forge doesn't currently use the key anyways
+// seems to work ok for now, but Forge currently doesn't use the key anyways
 task signJar(type: SignJar, dependsOn: jar) {
 
     onlyIf {
@@ -135,6 +138,7 @@ task signJar(type: SignJar, dependsOn: jar) {
     keyPass = project.findProperty('keyPass')
     inputFile = jar.archivePath
     outputFile = jar.archivePath
+
 }
 
 build.dependsOn signJar

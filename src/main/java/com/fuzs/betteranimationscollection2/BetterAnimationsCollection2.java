@@ -1,10 +1,9 @@
 package com.fuzs.betteranimationscollection2;
 
-import com.fuzs.betteranimationscollection2.feature.Feature;
-import com.fuzs.betteranimationscollection2.handler.ConfigHandler;
-import com.fuzs.betteranimationscollection2.handler.CustomRenderingHandler;
-import com.fuzs.betteranimationscollection2.handler.SoundEventHandler;
-import com.fuzs.betteranimationscollection2.helper.FeatureRegistry;
+import com.fuzs.betteranimationscollection2.feature.core.Feature;
+import com.fuzs.betteranimationscollection2.feature.core.Features;
+import com.fuzs.betteranimationscollection2.handler.ConfigBuildHandler;
+import com.fuzs.betteranimationscollection2.handler.SoundSyncHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -16,8 +15,8 @@ import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 @Mod(BetterAnimationsCollection2.MODID)
-public class BetterAnimationsCollection2
-{
+public class BetterAnimationsCollection2 {
+
     public static final String MODID = "betteranimationscollection2";
     public static final String NAME = "Better Animations Collection 2";
     public static final Logger LOGGER = LogManager.getLogger(BetterAnimationsCollection2.NAME);
@@ -26,21 +25,16 @@ public class BetterAnimationsCollection2
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         // populate registry
-        FeatureRegistry.populate();
-        // sort registry alphabetically
-        FeatureRegistry.REGISTRY.sort((it, ti) -> it.getName().compareToIgnoreCase(ti.getName()));
+        Features.create();
         // create config from registry entries
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigHandler.SPEC, MODID + ".toml");
-
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigBuildHandler.SPEC, MODID + ".toml");
     }
 
     public void clientSetup(final FMLClientSetupEvent evt) {
 
-        MinecraftForge.EVENT_BUS.register(new SoundEventHandler());
-        MinecraftForge.EVENT_BUS.register(new CustomRenderingHandler());
+        MinecraftForge.EVENT_BUS.register(new SoundSyncHandler());
         // register entity renderers
-        FeatureRegistry.REGISTRY.forEach(Feature::register);
-        
+        Features.REGISTRY.forEach(Feature::register);
     }
 
 }

@@ -9,14 +9,14 @@ loaderVersion="[${loader_version},)"
     displayURL="${mod_url}"
     authors="${mod_author}"
 
-[[dependencies.consolehud]]
+[[dependencies.betteranimationscollection2]]
     modId="forge"
     mandatory=true
     versionRange="[${forge_version},)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.consolehud]]
+[[dependencies.betteranimationscollection2]]
     modId="minecraft"
     mandatory=true
     versionRange="[${mc_version},)"
