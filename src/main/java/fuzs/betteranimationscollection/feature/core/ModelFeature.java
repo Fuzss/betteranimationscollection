@@ -1,6 +1,6 @@
-package com.fuzs.betteranimationscollection2.feature.core;
+package fuzs.betteranimationscollection.feature.core;
 
-import com.fuzs.betteranimationscollection2.BetterAnimationsCollection2;
+import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -19,17 +19,17 @@ public abstract class ModelFeature<T extends Entity> extends Feature<T> {
     @Override
     protected final void loadModel() {
 
-        BetterAnimationsCollection2.LOGGER.info("Registering \"" + this.getName() + "\" model for all entities");
-        Minecraft.getInstance().getRenderManager().renderers.values().forEach(renderer -> {
+        BetterAnimationsCollection.LOGGER.info("Registering \"" + this.getName() + "\" model for all entities");
+        Minecraft.getInstance().getEntityRenderDispatcher().renderers.values().forEach(renderer -> {
 
             if (renderer instanceof LivingRenderer) {
 
                 @SuppressWarnings("rawtypes")
                 LivingRenderer livingRenderer = ((LivingRenderer<?, ? extends EntityModel<?>>) renderer);
                 EntityModel<T> model = this.entityModel.get();
-                if (livingRenderer.entityModel.getClass().equals(model.getClass().getSuperclass())) {
+                if (livingRenderer.model.getClass().equals(model.getClass().getSuperclass())) {
 
-                    livingRenderer.entityModel = model;
+                    livingRenderer.model = model;
                 }
             }
         });

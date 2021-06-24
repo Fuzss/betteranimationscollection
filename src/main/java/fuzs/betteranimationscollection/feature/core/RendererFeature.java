@@ -1,6 +1,6 @@
-package com.fuzs.betteranimationscollection2.feature.core;
+package fuzs.betteranimationscollection.feature.core;
 
-import com.fuzs.betteranimationscollection2.BetterAnimationsCollection2;
+import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -25,7 +25,7 @@ public abstract class RendererFeature<T extends Entity> extends Feature<T> {
     @Override
     protected final void loadModel() {
 
-        BetterAnimationsCollection2.LOGGER.info("Registering \"" + this.getName() + "\" model for vanilla entities");
+        BetterAnimationsCollection.LOGGER.info("Registering \"" + this.getName() + "\" model for vanilla entities");
         RenderingRegistry.registerEntityRenderingHandler(this.entityType, this.renderFactory);
     }
 

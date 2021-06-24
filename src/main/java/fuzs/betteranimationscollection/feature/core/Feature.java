@@ -1,4 +1,4 @@
-package com.fuzs.betteranimationscollection2.feature.core;
+package fuzs.betteranimationscollection.feature.core;
 
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.ForgeConfigSpec;
