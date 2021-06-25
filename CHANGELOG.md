@@ -3,17 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [v1.0.2-1.16.5] - 2021-06-24
+## [v1.2b1-1.16.5] - 2021-06-25
 ### Added
-- Elements can now be made persistent, removing the user's ability to disable them
-
-## [v1.0.1-1.16.5] - 2021-06-23
+- Oinky pig animation
+- Bucka chicken animation
+- Ghast tentacles animation
 ### Changed
-- Moved package location to `fuzs.puzzleslib`
-
-## [v1.0-1.16.5] - 2021-06-20
-### Added
-- Initial release
-- Setup CurseGradle for automatic upload to CurseForge
+- New dependency: [Puzzles Lib]
+- Big internal rewrite, animations will be added back over time
+- Sound based animations should now play for the correct mob much more reliably
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
+[Puzzles Lib]: https://www.curseforge.com/minecraft/mc-mods/puzzles-lib

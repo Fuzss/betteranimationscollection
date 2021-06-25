@@ -2,10 +2,9 @@ package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.renderer.entity.model.OinkyPigModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.util.SoundEvents;
-
-import java.util.function.Supplier;
 
 public class OinkyPigElement extends ModelElement {
 
@@ -19,11 +18,11 @@ public class OinkyPigElement extends ModelElement {
     @Override
     public void setupClient() {
 
-        SyncSoundElement.addNoisyEntity(PigEntity.class, SoundEvents.PIG_AMBIENT);
+        SoundDetectionElement.addNoisyEntity(PigEntity.class, SoundEvents.PIG_AMBIENT);
     }
 
     @Override
-    protected EntityModel<?> getEntityModel() {
+    protected EntityModel<? extends LivingEntity> getEntityModel() {
 
         return new OinkyPigModel<>();
     }

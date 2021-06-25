@@ -33,7 +33,8 @@ group = "${mod_group}"
 ext.id = "${mod_id}"
 ext.modversion = "${mod_version}"
 ext.author = "${mod_author}"
-ext.loader = "${loader_version.replaceAll("\\..*", "")}"
+ext.loader = "${loader_version}"
+ext.puzzles = "${puzzles_version.substring(1, puzzles_version.indexOf("-"))}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -47,8 +48,8 @@ minecraft {
         client {
 
             workingDirectory project.file('run')
-            arg "-mixin.config=META-INF/${project.id}.mixins.json".toString()
             jvmArgs '-ea'
+            arg "-mixin.config=META-INF/${project.id}.mixins.json".toString()
             properties 'mixin.env.remapRefMap': 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
         }
@@ -56,8 +57,8 @@ minecraft {
         server {
 
             workingDirectory project.file('run')
-            arg "-mixin.config=META-INF/${project.id}.mixins.json".toString()
             jvmArgs '-ea'
+            arg "-mixin.config=META-INF/${project.id}.mixins.json".toString()
             properties 'mixin.env.remapRefMap': 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
         }
@@ -76,9 +77,10 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
 
     // local maven
-    compile "fuzs.puzzleslib:PuzzlesLib:v1.0.2-1.16.5"
-    // curse maven
-//    compile fg.deobf("curse.maven:puzzles-lib:3362029")
+    compile "fuzs.puzzleslib:PuzzlesLib:${puzzles_version}"
+    // try use curse maven when local maven is not available
+    // file id is end of url (7 digits usually) when on file details page on curse
+//    compile fg.deobf("curse.maven:puzzles-lib:<file-id>")
 }
 
 mixin {
@@ -98,16 +100,16 @@ processResources {
     inputs.property "mod_description", "${mod_description}"
     inputs.property "mod_author", project.author
     inputs.property "loader_version", project.loader
-    inputs.property "forge_version", "${loader_version}"
+    inputs.property "forge_version", project.loader
     inputs.property "mc_version", "${mc_version}"
     inputs.property "next_mc_version", "${next_mc_version}"
-    inputs.property "puzzles_version", "${puzzles_version}"
+    inputs.property "puzzles_version", project.puzzles
     inputs.property "pack_format", "${pack_format}"
 
     // replace stuff in mods.toml and pack.mcmeta
     from(sourceSets.main.resources.srcDirs) {
 
-        include 'META-INF/mods.toml', 'META-INF/MANIFEST.MF', 'pack.mcmeta'
+        include 'META-INF/mods.toml', 'pack.mcmeta'
 
         expand (
 
@@ -120,10 +122,10 @@ processResources {
                 'mod_description': "${mod_description}",
                 'mod_author': project.author,
                 'loader_version': project.loader,
-                'forge_version': "${loader_version}",
+                'forge_version': project.loader,
                 'mc_version': "${mc_version}",
                 "next_mc_version": "${next_mc_version}",
-                "puzzles_version": "${puzzles_version}",
+                "puzzles_version": project.puzzles,
                 "pack_format": "${pack_format}"
         )
     }
@@ -131,7 +133,7 @@ processResources {
     // copy everything else except mods.toml and pack.mcmeta
     from(sourceSets.main.resources.srcDirs) {
 
-        exclude 'META-INF/mods.toml', 'META-INF/MANIFEST.MF', 'pack.mcmeta'
+        exclude 'META-INF/mods.toml', 'pack.mcmeta'
     }
 }
 
@@ -175,8 +177,7 @@ def createSignJarTask(def name, def jarTask) {
         alias = project.findProperty('keyStoreAlias')
         storePass = project.findProperty('keyStorePass')
         keyPass = project.findProperty('keyStoreKeyPass')
-        inputFile = jarTask.archivePath
-        outputFile = jarTask.archivePath
+        inputFile = outputFile = jarTask.archivePath
         dependsOn jarTask
         group 'jar'
     }
@@ -230,6 +231,7 @@ curseforge {
     def changelogFile = file('CHANGELOG.md')
     if (!changelogFile.getText("UTF-8").find(version)) {
 
+//        println("ERROR: Aborting upload to CurseForge: No changelog specified for version " + version)
         return
     }
 
@@ -252,7 +254,7 @@ curseforge {
     options {
 
         // doesn't upload, only prints json to console
-        debug = true
+//        debug = true
         javaVersionAutoDetect = false
         forgeGradleIntegration = false
     }
