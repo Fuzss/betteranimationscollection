@@ -1,9 +1,6 @@
 package fuzs.betteranimationscollection;
 
-import fuzs.betteranimationscollection.client.element.BuckaChickenElement;
-import fuzs.betteranimationscollection.client.element.GhastTentaclesElement;
-import fuzs.betteranimationscollection.client.element.OinkyPigElement;
-import fuzs.betteranimationscollection.client.element.SoundDetectionElement;
+import fuzs.betteranimationscollection.client.element.*;
 import fuzs.puzzleslib.PuzzlesLib;
 import fuzs.puzzleslib.element.AbstractElement;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,6 +20,7 @@ public class BetterAnimationsCollection {
     public static final AbstractElement OINKY_PIG = PuzzlesLib.register(MODID, "oinky_pig", OinkyPigElement::new, Dist.CLIENT);
     public static final AbstractElement BUCKA_CHICKEN = PuzzlesLib.register(MODID, "bucka_chicken", BuckaChickenElement::new, Dist.CLIENT);
     public static final AbstractElement GHAST_TENTACLES = PuzzlesLib.register(MODID, "ghast_tentacles", GhastTentaclesElement::new, Dist.CLIENT);
+    public static final AbstractElement SQUID_TENTACLES = PuzzlesLib.register(MODID, "squid_tentacles", SquidTentaclesElement::new, Dist.CLIENT);
 
     public BetterAnimationsCollection() {
 

@@ -43,7 +43,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
                 S model = (S) this.getEntityModel();
                 if (livingRenderer.model.getClass().isInstance(model)) {
 
-                    BetterAnimationsCollection.LOGGER.info("Replaced {} with {} in EntityRenderDispatcher", livingRenderer.model.getClass().getSimpleName(), model.getClass().getSimpleName());
+                    BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for {} in EntityRenderDispatcher", livingRenderer.getModel().getClass().getSimpleName(), model.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
                     this.rendererToOrigModel.putIfAbsent(livingRenderer, livingRenderer.getModel());
                     livingRenderer.model = model;
                 }
@@ -57,8 +57,8 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
         // cast is not redundant
         this.rendererToOrigModel.forEach((key, value) -> {
 
-            BetterAnimationsCollection.LOGGER.info("Restored {} in EntityRenderDispatcher", value.getClass().getSimpleName());
             ((LivingRenderer<T, S>) key).model = (S) value;
+            BetterAnimationsCollection.LOGGER.info("Restored {} for {} in EntityRenderDispatcher", value.getClass().getSimpleName(), key.getClass().getSimpleName());
         });
     }
 

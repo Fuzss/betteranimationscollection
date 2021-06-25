@@ -5,9 +5,10 @@ The format is based on [Keep a Changelog].
 
 ## [v1.2b1-1.16.5] - 2021-06-25
 ### Added
-- Oinky pig animation
-- Bucka chicken animation
-- Ghast tentacles animation
+- Re-added oinky pig animation
+- Re-added bucka chicken animation
+- Re-added ghast tentacles animation
+- Re-added squid tentacles animation
 ### Changed
 - New dependency: [Puzzles Lib]
 - Big internal rewrite, animations will be added back over time

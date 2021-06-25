@@ -25,7 +25,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
         builder.add(this.parts.get(0));
 
         Random random = new Random(1660L);
-        for (int i = 0; i < this.tentacles.length; ++i) {
+        for (int i = 0; i < this.tentacles.length; i++) {
 
             this.tentacles[i] = new ModelRenderer(this, 0, 0);
             this.tentacles[i].addBox(-1.0F, 0.0F, -1.0F, 2, 1, 2);
@@ -38,7 +38,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
             int randomLength = random.nextInt(element.length / 2) + element.length / 2 + 1;
             this.tentacles2[i] = new ModelRenderer[randomLength - 1];
 
-            for(int j = 0; j < this.tentacles2[i].length; ++j) {
+            for (int j = 0; j < this.tentacles2[i].length; j++) {
 
                 this.tentacles2[i][j] = new ModelRenderer(this, 0, 1 + j);
                 this.tentacles2[i][j].addBox(-1.0F, 0.0F, -1.0F, 2, 1, 2);
