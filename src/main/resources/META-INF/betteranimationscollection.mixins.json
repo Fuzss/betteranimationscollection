@@ -7,6 +7,7 @@
   "mixins": [
   ],
   "client": [
+    "client.accessor.ISaddleLayerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

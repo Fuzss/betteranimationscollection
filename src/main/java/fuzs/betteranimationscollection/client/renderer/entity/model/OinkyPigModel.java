@@ -15,17 +15,17 @@ public class OinkyPigModel<T extends Entity> extends PigModel<T> {
 
     public OinkyPigModel() {
 
-        this(6, 0.0F);
+        this(0.0F);
     }
 
-    public OinkyPigModel(int height, float scale) {
+    public OinkyPigModel(float scale) {
 
         super(scale);
 
         // overwrite normal head as it already includes the snout
         this.head = new ModelRenderer(this, 0, 0);
         this.head.addBox(-4.0F, -4.0F, -8.0F, 8, 8, 8, scale);
-        this.head.setPos(0.0F, (float) (18 - height), -6.0F);
+        this.head.setPos(0.0F, (float) (18 - 6), -6.0F);
 
         // make snout a separate part
         this.snout = new ModelRenderer(this, 16, 16);
