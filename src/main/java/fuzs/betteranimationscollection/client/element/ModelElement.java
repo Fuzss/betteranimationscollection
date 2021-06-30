@@ -16,7 +16,6 @@ import net.minecraft.entity.LivingEntity;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -42,9 +41,9 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
     protected abstract EntityModel<? extends LivingEntity> getEntityModel();
 
-    protected final <T extends EntityModel<? extends Entity>> void addLayerTransformer(Predicate<LayerRenderer<?, ?>> filter, Function<LayerRenderer<?, ?>, LayerModelAccessor<T>> transformer, Supplier<?> model) {
+    protected final void addLayerTransformer(Predicate<LayerRenderer<?, ?>> filter, Supplier<? extends EntityModel<? extends Entity>> model) {
 
-        this.layerTransformers.add(new LayerTransformer<>(filter, transformer, (Supplier<T>) model));
+        this.layerTransformers.add(new LayerTransformer<>(filter, model));
     }
 
     private <T extends LivingEntity, M extends EntityModel<T>> void switchModels() {
@@ -60,53 +59,65 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
                     BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for {}", livingRenderer.getModel().getClass().getSimpleName(), model.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
                     this.rendererToOrigModel.putIfAbsent(livingRenderer, livingRenderer.getModel());
                     ((ILivingRendererAccessor<T, M>) livingRenderer).setModel(model);
-                    this.transformLayers(livingRenderer);
+                    this.transformLayers(livingRenderer, true);
                 }
             }
         });
-    }
-
-    private <T extends LivingEntity, M extends EntityModel<T>> void transformLayers(LivingRenderer<T, M> livingRenderer) {
-
-        if (this.layerTransformers.isEmpty()) {
-
-            return;
-        }
-
-        for (LayerRenderer<T, M> layer : ((ILivingRendererAccessor<T, M>) livingRenderer).getLayers()) {
-
-            for (LayerTransformer<?> layerTransformer : this.layerTransformers) {
-
-                if (layerTransformer.applyTransform(layer)) {
-
-                    BetterAnimationsCollection.LOGGER.info("Replaced layer model in {} for {}", layer.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
-                    break;
-                }
-            }
-        }
     }
 
     private <T extends LivingEntity, S extends EntityModel<T>> void restoreModels() {
 
         this.rendererToOrigModel.forEach((key, value) -> {
 
-            ((ILivingRendererAccessor<T, S>) key).setModel((S) value);
             BetterAnimationsCollection.LOGGER.info("Restored {} for {}", value.getClass().getSimpleName(), key.getClass().getSimpleName());
+            ((ILivingRendererAccessor<T, S>) key).setModel((S) value);
+            this.transformLayers(key, false);
         });
     }
 
-    public static class LayerTransformer<M extends EntityModel<? extends Entity>> {
+    private void transformLayers(LivingRenderer<?, ?> livingRenderer, boolean transform) {
+
+        if (this.layerTransformers.isEmpty()) {
+
+            return;
+        }
+
+        for (LayerRenderer<?, ?> layer : ((ILivingRendererAccessor<?, ?>) livingRenderer).getLayers()) {
+
+            if (layer instanceof LayerModelAccessor) {
+
+                for (LayerTransformer<?> layerTransformer : this.layerTransformers) {
+
+                    if (transform) {
+
+                        if (layerTransformer.applyTransform(layer)) {
+
+                            BetterAnimationsCollection.LOGGER.info("Replaced layer model in {} for {}", layer.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
+                            break;
+                        }
+                    } else {
+
+                        if (layerTransformer.applyRestore(layer)) {
+
+                            BetterAnimationsCollection.LOGGER.info("Restored layer model in {} for {}", layer.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static class LayerTransformer<M extends EntityModel<? extends Entity>> {
 
         private final Predicate<LayerRenderer<?, ?>> filter;
-        private final Function<LayerRenderer<?, ?>, LayerModelAccessor<M>> transformer;
         private final Supplier<M> model;
 
         private M origModel;
 
-        public LayerTransformer(Predicate<LayerRenderer<?, ?>> filter, Function<LayerRenderer<?, ?>, LayerModelAccessor<M>> transformer, Supplier<M> model) {
+        public LayerTransformer(Predicate<LayerRenderer<?, ?>> filter, Supplier<M> model) {
 
             this.filter = filter;
-            this.transformer = transformer;
             this.model = model;
         }
 
@@ -124,7 +135,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
             if (this.filter.test(layerRenderer)) {
 
-                LayerModelAccessor<M> modelAccessor = this.transformer.apply(layerRenderer);
+                LayerModelAccessor<M> modelAccessor = (LayerModelAccessor<M>) layerRenderer;
                 if (preserveOriginal && this.origModel == null) {
 
                     this.origModel = modelAccessor.getModel();

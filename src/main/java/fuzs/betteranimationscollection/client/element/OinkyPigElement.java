@@ -1,6 +1,5 @@
 package fuzs.betteranimationscollection.client.element;
 
-import fuzs.betteranimationscollection.client.renderer.entity.layers.LayerModelAccessor;
 import fuzs.betteranimationscollection.client.renderer.entity.model.OinkyPigModel;
 import net.minecraft.client.renderer.entity.layers.SaddleLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -28,7 +27,7 @@ public class OinkyPigElement extends SoundModelElement {
     @Override
     public void setupClient() {
 
-        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SaddleLayer, layerRenderer -> (LayerModelAccessor<?>) layerRenderer, () -> new OinkyPigModel<>(0.5F));
+        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SaddleLayer, () -> new OinkyPigModel<>(0.5F));
     }
 
     @Override

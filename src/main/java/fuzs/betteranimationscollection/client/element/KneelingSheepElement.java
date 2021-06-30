@@ -1,6 +1,5 @@
 package fuzs.betteranimationscollection.client.element;
 
-import fuzs.betteranimationscollection.client.renderer.entity.layers.LayerModelAccessor;
 import fuzs.betteranimationscollection.client.renderer.entity.model.KneelingSheepModel;
 import fuzs.betteranimationscollection.client.renderer.entity.model.KneelingSheepWoolModel;
 import net.minecraft.client.renderer.entity.layers.SheepWoolLayer;
@@ -18,7 +17,7 @@ public class KneelingSheepElement extends ModelElement {
     @Override
     public void setupClient() {
 
-        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SheepWoolLayer, layerRenderer -> (LayerModelAccessor<?>) layerRenderer, KneelingSheepWoolModel::new);
+        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SheepWoolLayer, KneelingSheepWoolModel::new);
     }
 
     @Override
