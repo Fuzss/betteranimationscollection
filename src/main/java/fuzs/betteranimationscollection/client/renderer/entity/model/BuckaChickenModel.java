@@ -24,10 +24,9 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
     private final ModelRenderer redThing;
     private final ModelRenderer billBottom;
 
-    @SuppressWarnings("unchecked")
     public BuckaChickenModel() {
 
-        IChickenModelAccessor<T> modelAccessor = (IChickenModelAccessor<T>) this;
+        IChickenModelAccessor modelAccessor = (IChickenModelAccessor) this;
         this.head = modelAccessor.getHead();
         this.body = modelAccessor.getBody();
         this.leg0 = modelAccessor.getLeg0();

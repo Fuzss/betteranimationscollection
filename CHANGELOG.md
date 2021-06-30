@@ -4,12 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog].
 
 ## [v1.2b3-1.16.5] - 2021-06-30
+### Added
+- Re-added spider knees model
+- Re-added animated snow man stick model
 ### Changed
 - Removed access transformer in favor of accessor mixins
 
 ## [v1.2b2-1.16.5] - 2021-06-30
 ### Added
-- Re-added kneeling sheep animation
+- Re-added kneeling sheep model
 ### Changed
 - Updated [Puzzles Lib] to v1.0.6
 - Ambient sounds some mobs may play an animation for can now be customized to enable support for modded variants of vanilla mobs
@@ -17,10 +20,10 @@ The format is based on [Keep a Changelog].
 
 ## [v1.2b1-1.16.5] - 2021-06-25
 ### Added
-- Re-added oinky pig animation
-- Re-added bucka chicken animation
-- Re-added ghast tentacles animation
-- Re-added squid tentacles animation
+- Re-added oinky pig model
+- Re-added bucka chicken model
+- Re-added ghast tentacles model
+- Re-added squid tentacles model
 ### Changed
 - New dependency: [Puzzles Lib]
 - Big internal rewrite, animations will be added back over time

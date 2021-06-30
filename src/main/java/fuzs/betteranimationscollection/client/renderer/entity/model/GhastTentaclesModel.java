@@ -19,7 +19,6 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
     private final ModelRenderer[] tentacles = new ModelRenderer[9];
     private final ModelRenderer[][] tentacles2 = new ModelRenderer[9][];
 
-    @SuppressWarnings("unchecked")
     public GhastTentaclesModel() {
 
         ImmutableList.Builder<ModelRenderer> builder = ImmutableList.builder();
@@ -56,7 +55,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
             }
         }
 
-        ((IGhastModelAccessor<T>) this).setParts(builder.build());
+        ((IGhastModelAccessor) this).setParts(builder.build());
     }
 
     @Override

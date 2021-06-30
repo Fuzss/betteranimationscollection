@@ -37,7 +37,7 @@ public abstract class SoundModelElement extends ModelElement {
     @Override
     public void setupClientConfig(OptionsBuilder builder) {
 
-        builder.define("Ambient Sounds", this.defaultSounds).comment("Ambient mob sounds to play an animation for.", "Useful for adding support for modded mob variations which have different sounds from their vanilla counterparts.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
+        builder.define("Mob Sounds", this.defaultSounds).comment("Mob sounds to play a unique animation for.", "Useful for adding support for modded mob variations which have different sounds from their vanilla counterparts.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
 
             if (this.sounds != null) {
 

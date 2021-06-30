@@ -18,11 +18,10 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
     private final ModelRenderer[] tentacles = new ModelRenderer[8];
     private final ModelRenderer[][] tentacles2 = new ModelRenderer[8][];
 
-    @SuppressWarnings("unchecked")
     public SquidTentaclesModel() {
 
         ImmutableList.Builder<ModelRenderer> builder = ImmutableList.builder();
-        ISquidModelAccessor<T> modelAccessor = (ISquidModelAccessor<T>) this;
+        ISquidModelAccessor modelAccessor = (ISquidModelAccessor) this;
         builder.add(modelAccessor.getBody());
         for (int j = 0; j < this.tentacles.length; ++j) {
 
