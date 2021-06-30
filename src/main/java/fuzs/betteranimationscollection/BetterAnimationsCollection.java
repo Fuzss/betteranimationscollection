@@ -24,6 +24,7 @@ public class BetterAnimationsCollection {
     public static final AbstractElement KNEELING_SHEEP = PuzzlesLib.register(MODID, "kneeling_sheep", KneelingSheepElement::new, Dist.CLIENT);
     public static final AbstractElement SPIDER_KNEES = PuzzlesLib.register(MODID, "spider_knees", SpiderKneesElement::new, Dist.CLIENT);
     public static final AbstractElement ANIMATED_SNOWMAN_STICK = PuzzlesLib.register(MODID, "animated_snowman_stick", AnimatedSnowManStickElement::new, Dist.CLIENT);
+    public static final AbstractElement COW_UDDER = PuzzlesLib.register(MODID, "cow_udder", CowUdderElement::new, Dist.CLIENT);
 
     public BetterAnimationsCollection() {
 

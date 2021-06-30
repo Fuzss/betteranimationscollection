@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog].
 ### Added
 - Re-added spider knees model
 - Re-added animated snow man stick model
+- Re-added cow udder model
 ### Changed
 - Removed access transformer in favor of accessor mixins
 
