@@ -9,8 +9,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class KneelingSheepModel<T extends SheepEntity> extends SheepModel<T> {
     
-    public ModelRenderer leg4;
-    public ModelRenderer leg5;
+    private final ModelRenderer leg4;
+    private final ModelRenderer leg5;
+
     private float rotation;
 
     public KneelingSheepModel() {

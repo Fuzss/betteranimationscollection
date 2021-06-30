@@ -3,6 +3,7 @@ package fuzs.betteranimationscollection.client.renderer.entity.model;
 import com.google.common.collect.ImmutableList;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.GhastTentaclesElement;
+import fuzs.betteranimationscollection.mixin.client.accessor.IGhastModelAccessor;
 import net.minecraft.client.renderer.entity.model.GhastModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -18,11 +19,12 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
     private final ModelRenderer[] tentacles = new ModelRenderer[9];
     private final ModelRenderer[][] tentacles2 = new ModelRenderer[9][];
 
+    @SuppressWarnings("unchecked")
     public GhastTentaclesModel() {
 
         ImmutableList.Builder<ModelRenderer> builder = ImmutableList.builder();
         // get head from vanilla model
-        builder.add(this.parts.get(0));
+        builder.add(this.parts().iterator().next());
 
         Random random = new Random(1660L);
         for (int i = 0; i < this.tentacles.length; i++) {
@@ -54,7 +56,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
             }
         }
 
-        this.parts = builder.build();
+        ((IGhastModelAccessor<T>) this).setParts(builder.build());
     }
 
     @Override

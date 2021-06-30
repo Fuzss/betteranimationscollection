@@ -3,11 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2b3-1.16.5] - 2021-06-30
+### Changed
+- Removed access transformer in favor of accessor mixins
+
 ## [v1.2b2-1.16.5] - 2021-06-30
 ### Added
 - Re-added kneeling sheep animation
 ### Changed
-- Updated [Puzzles Lib] to v1.0.5
+- Updated [Puzzles Lib] to v1.0.6
 - Ambient sounds some mobs may play an animation for can now be customized to enable support for modded variants of vanilla mobs
 - New models can now also be applied to render layers
 

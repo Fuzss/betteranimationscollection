@@ -3,6 +3,7 @@ package fuzs.betteranimationscollection.client.renderer.entity.model;
 import com.google.common.collect.ImmutableList;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.SquidTentaclesElement;
+import fuzs.betteranimationscollection.mixin.client.accessor.ISquidModelAccessor;
 import net.minecraft.client.renderer.entity.model.SquidModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -17,10 +18,12 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
     private final ModelRenderer[] tentacles = new ModelRenderer[8];
     private final ModelRenderer[][] tentacles2 = new ModelRenderer[8][];
 
+    @SuppressWarnings("unchecked")
     public SquidTentaclesModel() {
 
         ImmutableList.Builder<ModelRenderer> builder = ImmutableList.builder();
-        builder.add(this.body);
+        ISquidModelAccessor<T> modelAccessor = (ISquidModelAccessor<T>) this;
+        builder.add(modelAccessor.getBody());
         for (int j = 0; j < this.tentacles.length; ++j) {
 
             this.tentacles[j] = new ModelRenderer(this, 48, 0);
@@ -49,7 +52,7 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
             }
         }
 
-        this.parts = builder.build();
+        modelAccessor.setParts(builder.build());
     }
 
     @Override

@@ -9,7 +9,10 @@
   "client": [
     "client.SaddleLayerMixin",
     "client.SheepWoolLayerMixin",
-    "client.accessor.ILivingRendererAccessor"
+    "client.accessor.IChickenModelAccessor",
+    "client.accessor.IGhastModelAccessor",
+    "client.accessor.ILivingRendererAccessor",
+    "client.accessor.ISquidModelAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

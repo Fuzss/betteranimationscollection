@@ -3,7 +3,10 @@ package fuzs.betteranimationscollection.client.renderer.entity.model;
 import net.minecraft.client.renderer.entity.model.SheepWoolModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.passive.SheepEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class KneelingSheepWoolModel<T extends SheepEntity> extends SheepWoolModel<T> {
     
     private float rotation;
