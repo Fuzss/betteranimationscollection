@@ -7,7 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.util.SoundEvents;
 
-public class BuckaChickenElement extends ModelElement {
+public class BuckaChickenElement extends SoundModelElement {
 
     public boolean moveHead;
     public boolean moveChin;
@@ -15,6 +15,12 @@ public class BuckaChickenElement extends ModelElement {
     public int headSpeed;
     public int chinSpeed;
     public int wingSpeed;
+
+    public BuckaChickenElement() {
+
+        super(ChickenEntity.class);
+        this.addDefaultSound(SoundEvents.CHICKEN_AMBIENT);
+    }
 
     @Override
     public String[] getDescription() {
@@ -24,14 +30,9 @@ public class BuckaChickenElement extends ModelElement {
     }
 
     @Override
-    public void setupClient() {
-
-        SoundDetectionElement.addNoisyEntity(ChickenEntity.class, SoundEvents.CHICKEN_AMBIENT);
-    }
-
-    @Override
     public void setupClientConfig(OptionsBuilder builder) {
 
+        super.setupClientConfig(builder);
         builder.define("Move Head", true).comment("Move head back and forth when the entity is walking.").sync(v -> this.moveHead = v);
         builder.define("Wiggle Chin", true).comment("Wiggle chin when the entity is walking.").sync(v -> this.moveChin = v);
         builder.define("Flap Wings", true).comment("Flap wings when the entity is walking.").sync(v -> this.moveWings = v);

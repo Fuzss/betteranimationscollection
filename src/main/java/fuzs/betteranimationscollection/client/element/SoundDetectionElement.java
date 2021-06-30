@@ -17,6 +17,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.event.entity.living.LivingEvent;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,7 +32,7 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
     /**
      * map of entities whose model should do something when they make a certain sound
      */
-    private static final Map<ResourceLocation, Class<? extends MobEntity>> NOISY_ENTITIES = Maps.newHashMap();
+    private static final Map<ResourceLocation, Class<? extends MobEntity>> AMBIENT_SOUNDS = Maps.newHashMap();
     /**
      * set of entities whose model should do something when they are hurt
      */
@@ -86,7 +87,7 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
         }
 
         MobEntity mobEntity = (MobEntity) entity;
-        Stream.concat(NOISY_ENTITIES.values().stream(), ATTACKABLE_ENTITIES.stream()).forEach(clazz -> {
+        Stream.concat(AMBIENT_SOUNDS.values().stream(), ATTACKABLE_ENTITIES.stream()).forEach(clazz -> {
 
             if (clazz.isAssignableFrom(entity.getClass())) {
 
@@ -117,7 +118,7 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
     @Override
     public void onPlaySound(ISound soundIn, SoundEventAccessor accessor) {
 
-        Class<? extends MobEntity> entityClazz = NOISY_ENTITIES.get(soundIn.getLocation());
+        Class<? extends MobEntity> entityClazz = AMBIENT_SOUNDS.get(soundIn.getLocation());
         if (entityClazz != null) {
 
             // accuracy is 1/8, so we center this and then apply #soundRange
@@ -132,9 +133,20 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
         }
     }
 
-    public static void addNoisyEntity(Class<? extends MobEntity> entityClazz, SoundEvent soundEvent) {
+    public static void addAmbientSounds(Class<? extends MobEntity> entityClazz, Collection<SoundEvent> soundEvents) {
 
-        NOISY_ENTITIES.put(soundEvent.getLocation(), entityClazz);
+        for (SoundEvent soundEvent : soundEvents) {
+
+            AMBIENT_SOUNDS.put(soundEvent.getLocation(), entityClazz);
+        }
+    }
+
+    public static void removeAmbientSounds(Collection<SoundEvent> soundEvents) {
+
+        for (SoundEvent soundEvent : soundEvents) {
+
+            AMBIENT_SOUNDS.remove(soundEvent.getLocation());
+        }
     }
 
     public static void addAttackableEntity(Class<? extends MobEntity> entityClazz) {

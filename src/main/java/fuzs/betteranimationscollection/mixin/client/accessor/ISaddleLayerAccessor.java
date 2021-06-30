@@ -1,6 +1,5 @@
 package fuzs.betteranimationscollection.mixin.client.accessor;
 
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.layers.SaddleLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;

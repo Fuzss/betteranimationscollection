@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2b2-1.16.5] - 2021-06-30
+### Added
+- Re-added kneeling sheep animation
+### Changed
+- Updated [Puzzles Lib] to v1.0.5
+- Ambient sounds some mobs may play an animation for can now be customized to enable support for modded variants of vanilla mobs
+- New models can now also be applied to render layers
+
 ## [v1.2b1-1.16.5] - 2021-06-25
 ### Added
 - Re-added oinky pig animation

@@ -30,7 +30,7 @@ public abstract class RendererElement<T extends Entity> extends AbstractElement 
 
         EntityRenderer<? super T> entityRenderer = this.getEntityRenderer();
         this.mc.getEntityRenderDispatcher().register(entityType, entityRenderer);
-        BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for type {} in EntityRenderDispatcher", this.origEntityRenderer.getClass().getSimpleName(), entityRenderer.getClass().getSimpleName(), entityType.getRegistryName());
+        BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for type {}", this.origEntityRenderer.getClass().getSimpleName(), entityRenderer.getClass().getSimpleName(), entityType.getRegistryName());
     }
 
     @Override
@@ -38,7 +38,7 @@ public abstract class RendererElement<T extends Entity> extends AbstractElement 
 
         EntityType<T> entityType = this.getEntityType();
         this.mc.getEntityRenderDispatcher().register(entityType, this.origEntityRenderer);
-        BetterAnimationsCollection.LOGGER.info("Restored {} for type {} in EntityRenderDispatcher", this.origEntityRenderer.getClass().getSimpleName(), entityType.getRegistryName());
+        BetterAnimationsCollection.LOGGER.info("Restored {} for type {}", this.origEntityRenderer.getClass().getSimpleName(), entityType.getRegistryName());
     }
 
 }

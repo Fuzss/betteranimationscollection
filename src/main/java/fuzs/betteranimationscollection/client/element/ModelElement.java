@@ -3,14 +3,15 @@ package fuzs.betteranimationscollection.client.element;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
+import fuzs.betteranimationscollection.mixin.client.accessor.ILivingRendererAccessor;
 import fuzs.puzzleslib.element.AbstractElement;
 import fuzs.puzzleslib.element.side.IClientElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
     private final Minecraft mc = Minecraft.getInstance();
     private final Map<LivingRenderer<?, ?>, EntityModel<?>> rendererToOrigModel = Maps.newHashMap();
-    private final List<LayerTransformer<?, ?>> layerTransformers = Lists.newArrayList();
+    private final List<Pair<Predicate<LayerRenderer<?, ?>>, Consumer<LayerRenderer<?, ?>>>> layerTransformers = Lists.newArrayList();
 
     @Override
     public void loadClient() {
@@ -39,9 +40,9 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
     protected abstract EntityModel<? extends LivingEntity> getEntityModel();
 
-    protected final <T extends Entity, M extends EntityModel<T>> void addLayerTransformer(Predicate<LayerRenderer<T, M>> filter, Consumer<LayerRenderer<T, M>> setter) {
+    protected final void addLayerTransformer(Predicate<LayerRenderer<?, ?>> filter, Consumer<LayerRenderer<?, ?>> setter) {
 
-        this.layerTransformers.add(new LayerTransformer<>(filter, setter));
+        this.layerTransformers.add(Pair.of(filter, setter));
     }
 
     private <T extends LivingEntity, M extends EntityModel<T>> void switchModels() {
@@ -52,11 +53,11 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
                 LivingRenderer<T, M> livingRenderer = ((LivingRenderer<T, M>) renderer);
                 M model = (M) this.getEntityModel();
-                if (livingRenderer.model.getClass().isInstance(model)) {
+                if (livingRenderer.getModel().getClass().isInstance(model)) {
 
-                    BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for {} in EntityRenderDispatcher", livingRenderer.getModel().getClass().getSimpleName(), model.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
+                    BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for {}", livingRenderer.getModel().getClass().getSimpleName(), model.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
                     this.rendererToOrigModel.putIfAbsent(livingRenderer, livingRenderer.getModel());
-                    livingRenderer.model = model;
+                    ((ILivingRendererAccessor<T, M>) livingRenderer).setModel(model);
                     this.transformLayers(livingRenderer);
                 }
             }
@@ -70,42 +71,27 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
             return;
         }
 
-        for (LayerRenderer<T, M> layer : livingRenderer.layers) {
+        for (LayerRenderer<T, M> layer : ((ILivingRendererAccessor<T, M>) livingRenderer).getLayers()) {
 
-            for (LayerTransformer<?, ?> transformer : this.layerTransformers) {
+            for (Pair<Predicate<LayerRenderer<?, ?>>, Consumer<LayerRenderer<?, ?>>> transformer : this.layerTransformers) {
 
-                LayerTransformer<T, M> castedTransformer = (LayerTransformer<T, M>) transformer;
-                if (castedTransformer.filter.test(layer)) {
+                if (transformer.getLeft().test(layer)) {
 
-                    castedTransformer.setter.accept(layer);
+                    transformer.getRight().accept(layer);
+                    BetterAnimationsCollection.LOGGER.info("Replaced layer model in {} for {}", layer.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
                     break;
                 }
             }
         }
     }
 
-    @SuppressWarnings("RedundantCast")
     private <T extends LivingEntity, S extends EntityModel<T>> void restoreModels() {
 
-        // cast is not redundant
         this.rendererToOrigModel.forEach((key, value) -> {
 
-            ((LivingRenderer<T, S>) key).model = (S) value;
-            BetterAnimationsCollection.LOGGER.info("Restored {} for {} in EntityRenderDispatcher", value.getClass().getSimpleName(), key.getClass().getSimpleName());
+            ((ILivingRendererAccessor<T, S>) key).setModel((S) value);
+            BetterAnimationsCollection.LOGGER.info("Restored {} for {}", value.getClass().getSimpleName(), key.getClass().getSimpleName());
         });
-    }
-
-    private static class LayerTransformer<T extends Entity, M extends EntityModel<T>> {
-
-        public final Predicate<LayerRenderer<T, M>> filter;
-        public final Consumer<LayerRenderer<T, M>> setter;
-
-        public LayerTransformer(Predicate<LayerRenderer<T, M>> filter, Consumer<LayerRenderer<T, M>> setter) {
-
-            this.filter = filter;
-            this.setter = setter;
-        }
-
     }
 
 }

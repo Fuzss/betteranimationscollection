@@ -7,7 +7,9 @@
   "mixins": [
   ],
   "client": [
-    "client.accessor.ISaddleLayerAccessor"
+    "client.accessor.ILivingRendererAccessor",
+    "client.accessor.ISaddleLayerAccessor",
+    "client.accessor.ISheepWoolLayerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
