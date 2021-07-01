@@ -3,7 +3,7 @@ package fuzs.betteranimationscollection.client.element;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
-import fuzs.betteranimationscollection.client.renderer.entity.layers.LayerModelAccessor;
+import fuzs.betteranimationscollection.client.renderer.entity.layers.ILayerModelAccessor;
 import fuzs.betteranimationscollection.mixin.client.accessor.ILivingRendererAccessor;
 import fuzs.puzzleslib.element.AbstractElement;
 import fuzs.puzzleslib.element.side.IClientElement;
@@ -84,7 +84,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
         for (LayerRenderer<?, ?> layer : ((ILivingRendererAccessor<?, ?>) livingRenderer).getLayers()) {
 
-            if (layer instanceof LayerModelAccessor) {
+            if (layer instanceof ILayerModelAccessor) {
 
                 for (LayerTransformer<?> layerTransformer : this.layerTransformers) {
 
@@ -135,7 +135,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
             if (this.filter.test(layerRenderer)) {
 
-                LayerModelAccessor<M> modelAccessor = (LayerModelAccessor<M>) layerRenderer;
+                ILayerModelAccessor<M> modelAccessor = (ILayerModelAccessor<M>) layerRenderer;
                 if (preserveOriginal && this.origModel == null) {
 
                     this.origModel = modelAccessor.getModel();

@@ -1,6 +1,6 @@
 package fuzs.betteranimationscollection.mixin.client;
 
-import fuzs.betteranimationscollection.client.renderer.entity.layers.LayerModelAccessor;
+import fuzs.betteranimationscollection.client.renderer.entity.layers.ILayerModelAccessor;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.layers.SaddleLayer;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @SuppressWarnings("unused")
 @Mixin(SaddleLayer.class)
-public abstract class SaddleLayerMixin<T extends Entity & IEquipable, M extends EntityModel<T>> extends LayerRenderer<T, M> implements LayerModelAccessor<M> {
+public abstract class SaddleLayerMixin<T extends Entity & IEquipable, M extends EntityModel<T>> extends LayerRenderer<T, M> implements ILayerModelAccessor<M> {
 
     @Shadow
     @Final

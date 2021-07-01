@@ -75,7 +75,7 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
     @Override
     public void setupClientConfig(OptionsBuilder builder) {
 
-        builder.define("Sound Detection Range", 0.5).min(0.0).max(8.0).comment("Block range for sound detection system to look for a mob that made a certain sound on the server, so the client may play an animation.").sync(v -> this.soundRange = v);
+        builder.define("Sound Detection Range", 1.5).min(0.5).max(8.0).comment("Block range for sound detection system to look for a mob that made a certain sound on the server, so the client may play an animation.").sync(v -> this.soundRange = v);
     }
 
     private void onLivingUpdate(final LivingEvent.LivingUpdateEvent evt) {

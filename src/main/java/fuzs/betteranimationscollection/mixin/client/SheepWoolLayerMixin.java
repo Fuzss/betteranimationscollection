@@ -1,6 +1,6 @@
 package fuzs.betteranimationscollection.mixin.client;
 
-import fuzs.betteranimationscollection.client.renderer.entity.layers.LayerModelAccessor;
+import fuzs.betteranimationscollection.client.renderer.entity.layers.ILayerModelAccessor;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.layers.SheepWoolLayer;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @SuppressWarnings("unused")
 @Mixin(SheepWoolLayer.class)
-public abstract class SheepWoolLayerMixin extends LayerRenderer<SheepEntity, SheepModel<SheepEntity>> implements LayerModelAccessor<SheepWoolModel<SheepEntity>> {
+public abstract class SheepWoolLayerMixin extends LayerRenderer<SheepEntity, SheepModel<SheepEntity>> implements ILayerModelAccessor<SheepWoolModel<SheepEntity>> {
 
     @Shadow
     @Final
