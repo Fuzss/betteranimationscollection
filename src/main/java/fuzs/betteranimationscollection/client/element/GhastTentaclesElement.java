@@ -20,6 +20,7 @@ public class GhastTentaclesElement extends ModelElement {
     @Override
     public void setupClientConfig(OptionsBuilder builder) {
 
+        super.setupClientConfig(builder);
         builder.define("Max Length", 14).min(2).max(14).comment("Define the max length of the tentacles.").sync(v -> this.length = v).restart();
         builder.define("Animation Swing", 5).min(1).max(20).comment("Animation swing of the tentacles.").sync(v -> this.speed = v);
     }

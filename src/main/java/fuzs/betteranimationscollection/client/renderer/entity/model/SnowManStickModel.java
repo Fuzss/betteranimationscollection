@@ -1,6 +1,6 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
-import fuzs.betteranimationscollection.mixin.client.accessor.ISnowManModelAccessor;
+import fuzs.betteranimationscollection.mixin.client.accessor.SnowManModelAccessor;
 import net.minecraft.client.renderer.entity.model.SnowManModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -9,15 +9,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class AnimatedSnowManStickModel<T extends Entity> extends SnowManModel<T> {
+public class SnowManStickModel<T extends Entity> extends SnowManModel<T> {
     
     private final ModelRenderer arm1;
     private final ModelRenderer arm2;
 
-    public AnimatedSnowManStickModel() {
+    public SnowManStickModel() {
         
-        this.arm1 = ((ISnowManModelAccessor) this).getArm1();
-        this.arm2 = ((ISnowManModelAccessor) this).getArm2();
+        this.arm1 = ((SnowManModelAccessor) this).getArm1();
+        this.arm2 = ((SnowManModelAccessor) this).getArm2();
     }
     
     @Override

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.List;
 
 @Mixin(LivingRenderer.class)
-public interface ILivingRendererAccessor<T extends LivingEntity, M extends EntityModel<T>> {
+public interface LivingRendererAccessor<T extends LivingEntity, M extends EntityModel<T>> {
 
     @Accessor
     void setModel(M model);

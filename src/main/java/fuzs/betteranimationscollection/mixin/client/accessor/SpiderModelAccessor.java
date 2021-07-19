@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(SpiderModel.class)
-public interface ISpiderModelAccessor {
+public interface SpiderModelAccessor {
 
     @Accessor
     void setLeg0(ModelRenderer leg0);

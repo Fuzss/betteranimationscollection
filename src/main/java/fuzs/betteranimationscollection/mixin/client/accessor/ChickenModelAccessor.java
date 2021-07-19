@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ChickenModel.class)
-public interface IChickenModelAccessor {
+public interface ChickenModelAccessor {
 
     @Accessor
     ModelRenderer getHead();

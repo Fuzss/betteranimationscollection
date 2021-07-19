@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class SoundDetectionElement extends AbstractElement implements IClientElement, ISoundEventListener {
+public class SoundDetectionElement extends AbstractElement implements IClientElement {
 
     /**
      * max time an animation takes so we don't confuse our own stuff when resetting {@link MobEntity#ambientSoundTime}
@@ -38,7 +38,7 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
      */
     private static final Set<Class<? extends MobEntity>> ATTACKABLE_ENTITIES = Sets.newHashSet();
 
-    private final Minecraft mc = Minecraft.getInstance();
+    private final SoundDetectionListener soundListener = new SoundDetectionListener();
 
     private double soundRange;
 
@@ -55,7 +55,7 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
     }
 
     @Override
-    public void setupClient() {
+    public void constructClient() {
 
         this.addListener(this::onLivingUpdate);
     }
@@ -63,13 +63,13 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
     @Override
     public void loadClient() {
 
-        this.mc.getSoundManager().addListener(this);
+        this.soundListener.load();
     }
 
     @Override
     public void unloadClient() {
 
-        this.mc.getSoundManager().removeListener(this);
+        this.soundListener.unload();
     }
 
     @Override
@@ -115,24 +115,6 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
         }
     }
 
-    @Override
-    public void onPlaySound(ISound soundIn, SoundEventAccessor accessor) {
-
-        Class<? extends MobEntity> entityClazz = AMBIENT_SOUNDS.get(soundIn.getLocation());
-        if (entityClazz != null) {
-
-            // accuracy is 1/8, so we center this and then apply #soundRange
-            Vector3d center = new Vector3d(soundIn.getX() + 0.0625, soundIn.getY() + 0.0625, soundIn.getZ() + 0.0625);
-            AxisAlignedBB axisAlignedBB = new AxisAlignedBB(center, center).inflate(this.soundRange + 0.0625);
-
-            assert this.mc.level != null;
-            List<MobEntity> entities = this.mc.level.getEntitiesOfClass(entityClazz, axisAlignedBB);
-            entities.stream()
-                    .min((o1, o2) -> (int) Math.signum(o1.position().distanceTo(center) - o2.position().distanceTo(center)))
-                    .ifPresent(entity -> entity.ambientSoundTime = -entity.getAmbientSoundInterval());
-        }
-    }
-
     public static void addAmbientSounds(Class<? extends MobEntity> entityClazz, Collection<SoundEvent> soundEvents) {
 
         for (SoundEvent soundEvent : soundEvents) {
@@ -152,6 +134,43 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
     public static void addAttackableEntity(Class<? extends MobEntity> entityClazz) {
 
         ATTACKABLE_ENTITIES.add(entityClazz);
+    }
+
+    /**
+     * as separate class so there is no crash when loading on server
+     */
+    private class SoundDetectionListener implements ISoundEventListener {
+
+        private final Minecraft mc = Minecraft.getInstance();
+
+        public void load() {
+
+            this.mc.getSoundManager().addListener(this);
+        }
+
+        public void unload() {
+
+            this.mc.getSoundManager().removeListener(this);
+        }
+
+        @Override
+        public void onPlaySound(ISound soundIn, SoundEventAccessor accessor) {
+
+            Class<? extends MobEntity> entityClazz = AMBIENT_SOUNDS.get(soundIn.getLocation());
+            if (entityClazz != null) {
+
+                // accuracy is 1/8, so we center this and then apply #soundRange
+                Vector3d center = new Vector3d(soundIn.getX() + 0.0625, soundIn.getY() + 0.0625, soundIn.getZ() + 0.0625);
+                AxisAlignedBB axisAlignedBB = new AxisAlignedBB(center, center).inflate(SoundDetectionElement.this.soundRange + 0.0625);
+
+                assert this.mc.level != null;
+                List<MobEntity> entities = this.mc.level.getEntitiesOfClass(entityClazz, axisAlignedBB);
+                entities.stream()
+                        .min((o1, o2) -> (int) Math.signum(o1.position().distanceTo(center) - o2.position().distanceTo(center)))
+                        .ifPresent(entity -> entity.ambientSoundTime = -entity.getAmbientSoundInterval());
+            }
+        }
+
     }
 
 }

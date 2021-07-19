@@ -3,12 +3,13 @@ package fuzs.betteranimationscollection;
 import fuzs.betteranimationscollection.client.element.*;
 import fuzs.puzzleslib.PuzzlesLib;
 import fuzs.puzzleslib.element.AbstractElement;
+import fuzs.puzzleslib.element.ElementRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess", "unused", "Convert2MethodRef"})
 @Mod(BetterAnimationsCollection.MODID)
 public class BetterAnimationsCollection {
 
@@ -16,15 +17,17 @@ public class BetterAnimationsCollection {
     public static final String NAME = "Better Animations Collection";
     public static final Logger LOGGER = LogManager.getLogger(NAME);
 
-    public static final AbstractElement SOUND_DETECTION = PuzzlesLib.register(MODID, "sound_detection", SoundDetectionElement::new, Dist.CLIENT);
-    public static final AbstractElement OINKY_PIG = PuzzlesLib.register(MODID, "oinky_pig", OinkyPigElement::new, Dist.CLIENT);
-    public static final AbstractElement BUCKA_CHICKEN = PuzzlesLib.register(MODID, "bucka_chicken", BuckaChickenElement::new, Dist.CLIENT);
-    public static final AbstractElement GHAST_TENTACLES = PuzzlesLib.register(MODID, "ghast_tentacles", GhastTentaclesElement::new, Dist.CLIENT);
-    public static final AbstractElement SQUID_TENTACLES = PuzzlesLib.register(MODID, "squid_tentacles", SquidTentaclesElement::new, Dist.CLIENT);
-    public static final AbstractElement KNEELING_SHEEP = PuzzlesLib.register(MODID, "kneeling_sheep", KneelingSheepElement::new, Dist.CLIENT);
-    public static final AbstractElement SPIDER_KNEES = PuzzlesLib.register(MODID, "spider_knees", SpiderKneesElement::new, Dist.CLIENT);
-    public static final AbstractElement ANIMATED_SNOWMAN_STICK = PuzzlesLib.register(MODID, "animated_snowman_stick", AnimatedSnowManStickElement::new, Dist.CLIENT);
-    public static final AbstractElement COW_UDDER = PuzzlesLib.register(MODID, "cow_udder", CowUdderElement::new, Dist.CLIENT);
+    private static final ElementRegistry REGISTRY = PuzzlesLib.create(MODID);
+
+    public static final AbstractElement SOUND_DETECTION = REGISTRY.register("sound_detection", () -> new SoundDetectionElement(), Dist.CLIENT);
+    public static final AbstractElement OINKY_PIG = REGISTRY.register("oinky_pig", () -> new OinkyPigElement(), Dist.CLIENT);
+    public static final AbstractElement BUCKA_CHICKEN = REGISTRY.register("bucka_chicken", () -> new BuckaChickenElement(), Dist.CLIENT);
+    public static final AbstractElement GHAST_TENTACLES = REGISTRY.register("ghast_tentacles", () -> new GhastTentaclesElement(), Dist.CLIENT);
+    public static final AbstractElement SQUID_TENTACLES = REGISTRY.register("squid_tentacles", () -> new SquidTentaclesElement(), Dist.CLIENT);
+    public static final AbstractElement KNEELING_SHEEP = REGISTRY.register("kneeling_sheep", () -> new KneelingSheepElement(), Dist.CLIENT);
+    public static final AbstractElement SPIDER_KNEES = REGISTRY.register("spider_knees", () -> new SpiderKneesElement(), Dist.CLIENT);
+    public static final AbstractElement SNOWMAN_STICK = REGISTRY.register("snowman_stick", () -> new SnowManStickElement(), Dist.CLIENT);
+    public static final AbstractElement COW_UDDER = REGISTRY.register("cow_udder", () -> new CowUdderElement(), Dist.CLIENT);
 
     public BetterAnimationsCollection() {
 

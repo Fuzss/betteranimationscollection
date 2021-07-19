@@ -3,7 +3,7 @@ package fuzs.betteranimationscollection.client.renderer.entity.model;
 import com.google.common.collect.ImmutableList;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.GhastTentaclesElement;
-import fuzs.betteranimationscollection.mixin.client.accessor.IGhastModelAccessor;
+import fuzs.betteranimationscollection.mixin.client.accessor.GhastModelAccessor;
 import net.minecraft.client.renderer.entity.model.GhastModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -55,7 +55,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
             }
         }
 
-        ((IGhastModelAccessor) this).setParts(builder.build());
+        ((GhastModelAccessor) this).setParts(builder.build());
     }
 
     @Override

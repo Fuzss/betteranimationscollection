@@ -15,7 +15,7 @@ public class KneelingSheepElement extends ModelElement {
     }
 
     @Override
-    public void setupClient() {
+    public void constructClient() {
 
         this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SheepWoolLayer, KneelingSheepWoolModel::new);
     }

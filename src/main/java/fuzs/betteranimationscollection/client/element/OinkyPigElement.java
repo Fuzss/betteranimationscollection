@@ -4,18 +4,12 @@ import fuzs.betteranimationscollection.client.renderer.entity.model.OinkyPigMode
 import net.minecraft.client.renderer.entity.layers.SaddleLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 
 public class OinkyPigElement extends SoundModelElement {
-
-    public OinkyPigElement() {
-
-        super(PigEntity.class);
-        this.addDefaultSound(SoundEvents.PIG_AMBIENT);
-        this.addDefaultSound(new ResourceLocation("snowpig", "entity.snow_pig.ambient"));
-    }
 
     @Override
     public String[] getDescription() {
@@ -25,15 +19,23 @@ public class OinkyPigElement extends SoundModelElement {
     }
 
     @Override
-    public void setupClient() {
+    public void constructClient() {
 
         this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SaddleLayer, () -> new OinkyPigModel<>(0.5F));
+        this.defaultSounds.add(SoundEvents.PIG_AMBIENT.getLocation());
+        this.defaultSounds.add(new ResourceLocation("snowpig", "entity.snow_pig.ambient"));
     }
 
     @Override
     protected EntityModel<? extends LivingEntity> getEntityModel() {
 
         return new OinkyPigModel<>();
+    }
+
+    @Override
+    protected Class<? extends MobEntity> getMobClazz() {
+
+        return PigEntity.class;
     }
 
 }

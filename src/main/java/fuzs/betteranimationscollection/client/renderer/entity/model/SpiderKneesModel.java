@@ -1,6 +1,6 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
-import fuzs.betteranimationscollection.mixin.client.accessor.ISpiderModelAccessor;
+import fuzs.betteranimationscollection.mixin.client.accessor.SpiderModelAccessor;
 import net.minecraft.client.renderer.entity.model.SpiderModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -64,7 +64,7 @@ public class SpiderKneesModel<T extends Entity> extends SpiderModel<T> {
         this.leg6.addChild(leg8);
         this.leg7.addChild(leg9);
 
-        ISpiderModelAccessor modelAccessor = (ISpiderModelAccessor) this;
+        SpiderModelAccessor modelAccessor = (SpiderModelAccessor) this;
         modelAccessor.setLeg0(this.leg0);
         modelAccessor.setLeg1(this.leg1);
         modelAccessor.setLeg2(this.leg2);

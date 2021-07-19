@@ -9,12 +9,12 @@
   "client": [
     "client.SaddleLayerMixin",
     "client.SheepWoolLayerMixin",
-    "client.accessor.IChickenModelAccessor",
-    "client.accessor.IGhastModelAccessor",
-    "client.accessor.ILivingRendererAccessor",
-    "client.accessor.ISnowManModelAccessor",
-    "client.accessor.ISpiderModelAccessor",
-    "client.accessor.ISquidModelAccessor"
+    "client.accessor.ChickenModelAccessor",
+    "client.accessor.GhastModelAccessor",
+    "client.accessor.LivingRendererAccessor",
+    "client.accessor.SnowManModelAccessor",
+    "client.accessor.SpiderModelAccessor",
+    "client.accessor.SquidModelAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

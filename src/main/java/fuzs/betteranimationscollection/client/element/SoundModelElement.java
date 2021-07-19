@@ -11,33 +11,23 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class SoundModelElement extends ModelElement {
 
-    private final Class<? extends MobEntity> entityClazz;
-    private final List<String> defaultSounds = Lists.newArrayList();
+    protected final List<ResourceLocation> defaultSounds = Lists.newArrayList();
 
     private Set<SoundEvent> sounds;
 
-    protected SoundModelElement(Class<? extends MobEntity> entityClazz) {
-
-        this.entityClazz = entityClazz;
-    }
-
-    protected final void addDefaultSound(SoundEvent soundEvent) {
-
-        this.addDefaultSound(soundEvent.getLocation());
-    }
-
-    protected final void addDefaultSound(ResourceLocation soundEvent) {
-
-        this.defaultSounds.add(soundEvent.toString());
-    }
+    protected abstract Class<? extends MobEntity> getMobClazz();
 
     @Override
     public void setupClientConfig(OptionsBuilder builder) {
 
-        builder.define("Mob Sounds", this.defaultSounds).comment("Mob sounds to play a unique animation for.", "Useful for adding support for modded mob variations which have different sounds from their vanilla counterparts.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
+        super.setupClientConfig(builder);
+        builder.define("Mob Sounds", this.defaultSounds.stream()
+                .map(ResourceLocation::toString)
+                .collect(Collectors.toList())).comment("Mob sounds to play a unique animation for.", "Useful for adding support for modded mob variants which have different sounds from their vanilla counterparts.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
 
             if (this.sounds != null) {
 
@@ -45,7 +35,7 @@ public abstract class SoundModelElement extends ModelElement {
             }
 
             this.sounds = ConfigManager.deserializeToSet(v, ForgeRegistries.SOUND_EVENTS);
-            SoundDetectionElement.addAmbientSounds(this.entityClazz, this.sounds);
+            SoundDetectionElement.addAmbientSounds(this.getMobClazz(), this.sounds);
         });
     }
 

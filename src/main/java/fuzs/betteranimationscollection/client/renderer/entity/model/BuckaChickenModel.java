@@ -3,7 +3,7 @@ package fuzs.betteranimationscollection.client.renderer.entity.model;
 import com.google.common.collect.ImmutableList;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.BuckaChickenElement;
-import fuzs.betteranimationscollection.mixin.client.accessor.IChickenModelAccessor;
+import fuzs.betteranimationscollection.mixin.client.accessor.ChickenModelAccessor;
 import net.minecraft.client.renderer.entity.model.ChickenModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -26,7 +26,7 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
 
     public BuckaChickenModel() {
 
-        IChickenModelAccessor modelAccessor = (IChickenModelAccessor) this;
+        ChickenModelAccessor modelAccessor = (ChickenModelAccessor) this;
         this.head = modelAccessor.getHead();
         this.body = modelAccessor.getBody();
         this.leg0 = modelAccessor.getLeg0();

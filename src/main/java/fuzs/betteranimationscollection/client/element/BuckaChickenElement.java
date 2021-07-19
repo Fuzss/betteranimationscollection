@@ -4,6 +4,7 @@ import fuzs.betteranimationscollection.client.renderer.entity.model.BuckaChicken
 import fuzs.puzzleslib.config.option.OptionsBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.util.SoundEvents;
 
@@ -16,17 +17,17 @@ public class BuckaChickenElement extends SoundModelElement {
     public int chinSpeed;
     public int wingSpeed;
 
-    public BuckaChickenElement() {
-
-        super(ChickenEntity.class);
-        this.addDefaultSound(SoundEvents.CHICKEN_AMBIENT);
-    }
-
     @Override
     public String[] getDescription() {
 
         return new String[]{"This one makes chicken beaks open and close when they cluck.", 
                 "When they strut their heads move back and forth, the red thing under their beak swings around and their wings flap a little. Just like the real deal!"};
+    }
+
+    @Override
+    public void constructClient() {
+
+        this.defaultSounds.add(SoundEvents.CHICKEN_AMBIENT.getLocation());
     }
 
     @Override
@@ -45,6 +46,12 @@ public class BuckaChickenElement extends SoundModelElement {
     protected EntityModel<? extends LivingEntity> getEntityModel() {
 
         return new BuckaChickenModel<>();
+    }
+
+    @Override
+    protected Class<? extends MobEntity> getMobClazz() {
+
+        return ChickenEntity.class;
     }
 
 }
