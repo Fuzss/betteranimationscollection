@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog].
 - Re-added flowy ocelot tail model
 - Re-added curly cat tail model
 ### Changed
-- Individual mobs can now be blacklisted from having any model changes applied to them in the config file
+- Individual mobs can now be blacklisted in the config file from having any model changes applied to them
 
 ## [v1.2b3-1.16.5] - 2021-07-03
 ### Added

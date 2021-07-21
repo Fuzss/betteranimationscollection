@@ -24,6 +24,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -32,22 +34,28 @@ import java.util.stream.Collectors;
 public abstract class ModelElement extends AbstractElement implements IClientElement {
 
     private final Minecraft mc = Minecraft.getInstance();
-    private final Map<LivingRenderer<?, ?>, EntityModel<?>> rendererToOrigModel = Maps.newHashMap();
+    private final Map<EntityType<?>, ModelInfo> entityTypeToModelInfo = Maps.newHashMap();
     private final List<LayerTransformer<?>> layerTransformers = Lists.newArrayList();
     protected final List<ResourceLocation> defaultEntityBlacklist = Lists.newArrayList();
 
     private Set<EntityType<?>> blacklistedEntities = Sets.newHashSet();
 
     @Override
+    public void setupClient2() {
+
+        this.collectModels();
+    }
+
+    @Override
     public void loadClient() {
 
-        this.switchModels();
+        this.applyModelAction(ModelInfo::switchModel, entityType -> !this.blacklistedEntities.contains(entityType));
     }
 
     @Override
     public void unloadClient() {
 
-        this.restoreModels();
+        this.applyModelAction(ModelInfo::resetModel, entityType -> true);
     }
 
     @Override
@@ -57,15 +65,11 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
                 .map(ResourceLocation::toString)
                 .collect(Collectors.toList())).comment("Mob variants these model changes shouldn't be applied to.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
 
-            Set<EntityType<?>> newEntityBlacklist = ConfigManager.deserializeToSet(v, ForgeRegistries.ENTITIES);
-            if (!this.blacklistedEntities.equals(newEntityBlacklist)) {
+            this.blacklistedEntities = ConfigManager.deserializeToSet(v, ForgeRegistries.ENTITIES);
+            if (this.isEnabled() && this.isLoaded()) {
 
-                this.blacklistedEntities = newEntityBlacklist;
-                if (this.isEnabled() && this.isLoaded()) {
-
-                    this.restoreModels();
-                    this.switchModels();
-                }
+                this.applyModelAction(ModelInfo::resetModel, entityType -> this.blacklistedEntities.contains(entityType));
+                this.applyModelAction(ModelInfo::switchModel, entityType -> !this.blacklistedEntities.contains(entityType));
             }
         });
     }
@@ -77,65 +81,30 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
         this.layerTransformers.add(new LayerTransformer<>(filter, model));
     }
 
-    private <T extends LivingEntity, M extends EntityModel<T>> void switchModels() {
+    private void collectModels() {
 
         this.mc.getEntityRenderDispatcher().renderers.forEach((entityType, renderer) -> {
 
-            if (!this.blacklistedEntities.contains(entityType) && renderer instanceof LivingRenderer) {
+            if (renderer instanceof LivingRenderer) {
 
-                LivingRenderer<T, M> livingRenderer = ((LivingRenderer<T, M>) renderer);
-                M model = (M) this.getEntityModel();
+                LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>> livingRenderer = (LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>>) renderer;
                 // find all renderers which normally use the super class of our model, so we can exchange them
-                if (livingRenderer.getModel().getClass().isInstance(model)) {
+                EntityModel<? extends LivingEntity> entityModel = this.getEntityModel();
+                if (livingRenderer.getModel().getClass().isInstance(entityModel)) {
 
-                    BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for {}", livingRenderer.getModel().getClass().getSimpleName(), model.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
-                    this.rendererToOrigModel.putIfAbsent(livingRenderer, livingRenderer.getModel());
-                    ((LivingRendererAccessor<T, M>) livingRenderer).setModel(model);
-                    this.transformLayers(livingRenderer, true);
+                    this.entityTypeToModelInfo.put(entityType, new ModelInfo(livingRenderer, livingRenderer.getModel(), entityModel, this.layerTransformers.size()));
                 }
             }
         });
     }
 
-    private <T extends LivingEntity, S extends EntityModel<T>> void restoreModels() {
+    private void applyModelAction(Consumer<ModelInfo> action, Predicate<EntityType<?>> filter) {
 
-        this.rendererToOrigModel.forEach((key, value) -> {
+        for (Map.Entry<EntityType<?>, ModelInfo> entry : this.entityTypeToModelInfo.entrySet()) {
 
-            BetterAnimationsCollection.LOGGER.info("Restored {} for {}", value.getClass().getSimpleName(), key.getClass().getSimpleName());
-            ((LivingRendererAccessor<T, S>) key).setModel((S) value);
-            this.transformLayers(key, false);
-        });
-    }
+            if (filter.test(entry.getKey())) {
 
-    private void transformLayers(LivingRenderer<?, ?> livingRenderer, boolean transform) {
-
-        if (this.layerTransformers.isEmpty()) {
-
-            return;
-        }
-
-        for (LayerRenderer<?, ?> layer : ((LivingRendererAccessor<?, ?>) livingRenderer).getLayers()) {
-
-            if (layer instanceof ILayerModelAccessor) {
-
-                for (LayerTransformer<?> layerTransformer : this.layerTransformers) {
-
-                    if (transform) {
-
-                        if (layerTransformer.applyTransform(layer)) {
-
-                            BetterAnimationsCollection.LOGGER.info("Replaced layer model in {} for {}", layer.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
-                            break;
-                        }
-                    } else {
-
-                        if (layerTransformer.applyRestore(layer)) {
-
-                            BetterAnimationsCollection.LOGGER.info("Restored layer model in {} for {}", layer.getClass().getSimpleName(), livingRenderer.getClass().getSimpleName());
-                            break;
-                        }
-                    }
-                }
+                action.accept(entry.getValue());
             }
         }
     }
@@ -145,40 +114,135 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
         private final Predicate<LayerRenderer<?, ?>> filter;
         private final Supplier<M> model;
 
-        private M origModel;
-
         public LayerTransformer(Predicate<LayerRenderer<?, ?>> filter, Supplier<M> model) {
 
             this.filter = filter;
             this.model = model;
         }
 
-        public boolean applyTransform(LayerRenderer<?, ?> layerRenderer) {
-
-            return this.apply(layerRenderer, this.model, true);
-        }
-
-        public boolean applyRestore(LayerRenderer<?, ?> layerRenderer) {
-
-            return this.apply(layerRenderer, () -> this.origModel, false);
-        }
-
-        private boolean apply(LayerRenderer<?, ?> layerRenderer, Supplier<M> modelSupplier, boolean preserveOriginal) {
+        public EntityModel<? extends Entity> applyTransform(LayerRenderer<?, ?> layerRenderer) {
 
             if (this.filter.test(layerRenderer)) {
 
-                ILayerModelAccessor<M> modelAccessor = (ILayerModelAccessor<M>) layerRenderer;
-                if (preserveOriginal && this.origModel == null) {
+                ILayerModelAccessor<EntityModel<? extends Entity>> modelAccessor = (ILayerModelAccessor<EntityModel<? extends Entity>>) layerRenderer;
+                EntityModel<? extends Entity> origModel = modelAccessor.getModel();
+                modelAccessor.setModel(this.model.get());
+                BetterAnimationsCollection.LOGGER.info("Replaced layer model in {}", layerRenderer.getClass().getSimpleName());
+                return origModel;
+            }
 
-                    this.origModel = modelAccessor.getModel();
-                }
+            return null;
+        }
 
-                modelAccessor.setModel(modelSupplier.get());
+        public boolean applyRestore(LayerRenderer<?, ?> layerRenderer, EntityModel<? extends Entity> origModel) {
+
+            if (this.filter.test(layerRenderer)) {
+
+                ILayerModelAccessor<EntityModel<? extends Entity>> modelAccessor = (ILayerModelAccessor<EntityModel<? extends Entity>>) layerRenderer;
+                modelAccessor.setModel(origModel);
+                BetterAnimationsCollection.LOGGER.info("Restored layer model in {}", layerRenderer.getClass().getSimpleName());
                 return true;
             }
 
             return false;
         }
+
+    }
+
+    private class ModelInfo {
+
+        public final LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>> livingRenderer;
+        public final EntityModel<? extends LivingEntity> origModel;
+        public final EntityModel<? extends LivingEntity> animatedModel;
+        private final List<EntityModel<? extends Entity>> origLayerModels;
+
+        private boolean isModelSwitched;
+
+        public ModelInfo(LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>> livingRenderer, EntityModel<? extends LivingEntity> origModel, EntityModel<? extends LivingEntity> animatedModel, int layerModelCapacity) {
+
+            this.livingRenderer = livingRenderer;
+            this.origModel = origModel;
+            this.animatedModel = animatedModel;
+            this.origLayerModels = Lists.newArrayListWithCapacity(layerModelCapacity);
+        }
+
+        public void switchModel() {
+
+            if (!this.isModelSwitched) {
+
+                this.isModelSwitched = true;
+                this.setRendererModel(this.animatedModel);
+                BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for {}", this.origModel.getClass().getSimpleName(), this.animatedModel.getClass().getSimpleName(), this.livingRenderer.getClass().getSimpleName());
+                this.switchLayers();
+            }
+        }
+
+        public void resetModel() {
+
+            if (this.isModelSwitched) {
+
+                this.isModelSwitched = false;
+                this.setRendererModel(this.origModel);
+                BetterAnimationsCollection.LOGGER.info("Restored {} for {}", this.origModel.getClass().getSimpleName(), this.livingRenderer.getClass().getSimpleName());
+                this.resetLayers();
+            }
+        }
+
+        private void setRendererModel(EntityModel<? extends LivingEntity> model) {
+
+            ((LivingRendererAccessor<? extends LivingEntity, EntityModel<? extends LivingEntity>>) this.livingRenderer).setModel(model);
+        }
+
+        private void switchLayers() {
+
+            this.transformLayers((layerTransformer, layerRenderer, index) -> layerTransformer.applyTransform(layerRenderer), (result, index) -> {
+
+                if (result != null) {
+
+                    this.origLayerModels.set(index, result);
+                    return true;
+                }
+
+                return false;
+            });
+        }
+
+        private void resetLayers() {
+
+            this.transformLayers((layerTransformer, layerRenderer, index) -> layerTransformer.applyRestore(layerRenderer, this.origLayerModels.get(index)), (result, index) -> result);
+        }
+
+        private <T> void transformLayers(LayerTransformation<T> applyTransformer, BiPredicate<T, Integer> convertResult) {
+
+            if (ModelElement.this.layerTransformers.isEmpty()) {
+
+                return;
+            }
+
+            for (LayerRenderer<?, ?> layerRenderer : ((LivingRendererAccessor<?, ?>) this.livingRenderer).getLayers()) {
+
+                if (layerRenderer instanceof ILayerModelAccessor) {
+
+                    List<LayerTransformer<?>> transformers = ModelElement.this.layerTransformers;
+                    for (int i = 0, transformersSize = transformers.size(); i < transformersSize; i++) {
+
+                        LayerTransformer<?> layerTransformer = transformers.get(i);
+                        T result = applyTransformer.apply(layerTransformer, layerRenderer, i);
+                        if (convertResult.test(result, i)) {
+
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    @FunctionalInterface
+    private interface LayerTransformation<T> {
+
+        T apply(LayerTransformer<?> layerTransformer, LayerRenderer<?, ?> layerRenderer, Integer index);
 
     }
 
