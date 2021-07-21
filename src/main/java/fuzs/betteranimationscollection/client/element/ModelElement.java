@@ -212,7 +212,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
             this.transformLayers((layerTransformer, layerRenderer, index) -> layerTransformer.applyRestore(layerRenderer, this.origLayerModels.get(index)), (result, index) -> result);
         }
 
-        private <T> void transformLayers(LayerTransformation<T> applyTransformer, BiPredicate<T, Integer> convertResult) {
+        private <T> void transformLayers(LayerTransformation<T> applyTransformer, BiPredicate<T, Integer> resultConverter) {
 
             if (ModelElement.this.layerTransformers.isEmpty()) {
 
@@ -228,7 +228,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
                         LayerTransformer<?> layerTransformer = transformers.get(i);
                         T result = applyTransformer.apply(layerTransformer, layerRenderer, i);
-                        if (convertResult.test(result, i)) {
+                        if (resultConverter.test(result, i)) {
 
                             break;
                         }

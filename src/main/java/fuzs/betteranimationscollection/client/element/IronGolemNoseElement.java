@@ -1,36 +1,32 @@
 package fuzs.betteranimationscollection.client.element;
 
+import fuzs.betteranimationscollection.client.renderer.entity.model.IronGolemNoseModel;
 import fuzs.betteranimationscollection.client.renderer.entity.model.SnowManStickModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.SnowGolemEntity;
 import net.minecraft.util.SoundEvents;
 
-public class SnowManStickElement extends SoundModelElement {
+public class IronGolemNoseElement extends ModelElement {
 
     @Override
     public String[] getDescription() {
 
-        return new String[]{"This makes a snowman's arm swing when it throws a snowball."};
+        return new String[]{"A subtle change; this makes iron golems wiggle their big noses whenever they're hurt.", "Exactly the same animation as for villagers, except for iron golems!"};
     }
 
     @Override
-    public void constructClient() {
+    public void setupClient2() {
 
-        this.defaultSounds.add(SoundEvents.SNOW_GOLEM_SHOOT.getRegistryName());
+        SoundDetectionElement.addAttackableEntity(IronGolemEntity.class);
     }
 
     @Override
     protected EntityModel<? extends LivingEntity> getEntityModel() {
 
-        return new SnowManStickModel<>();
-    }
-
-    @Override
-    protected Class<? extends MobEntity> getMobClazz() {
-
-        return SnowGolemEntity.class;
+        return new IronGolemNoseModel<>();
     }
 
 }

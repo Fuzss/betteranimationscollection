@@ -27,7 +27,7 @@ public class SnowManStickModel<T extends Entity> extends SnowManModel<T> {
 
         if (entityIn instanceof MobEntity) {
 
-            // this only works because MobEntity#livingSoundTime is manually being synced to the client in {@link fuzs.betteranimationscollection.client.element.SyncSoundElement}
+            // this only works because MobEntity#ambientSoundTime is manually being synced to the client in {@link fuzs.betteranimationscollection.client.element.SyncSoundElement}
             MobEntity entitylivingIn = (MobEntity) entityIn;
             int soundTime = entitylivingIn.ambientSoundTime + entitylivingIn.getAmbientSoundInterval();
 

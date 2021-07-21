@@ -27,7 +27,7 @@ public class BuckaChickenElement extends SoundModelElement {
     @Override
     public void constructClient() {
 
-        this.defaultSounds.add(SoundEvents.CHICKEN_AMBIENT.getLocation());
+        this.defaultSounds.add(SoundEvents.CHICKEN_AMBIENT.getRegistryName());
     }
 
     @Override

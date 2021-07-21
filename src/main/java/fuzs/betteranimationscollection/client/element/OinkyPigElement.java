@@ -22,7 +22,7 @@ public class OinkyPigElement extends SoundModelElement {
     public void constructClient() {
 
         this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SaddleLayer, () -> new OinkyPigModel<>(0.5F));
-        this.defaultSounds.add(SoundEvents.PIG_AMBIENT.getLocation());
+        this.defaultSounds.add(SoundEvents.PIG_AMBIENT.getRegistryName());
         this.defaultSounds.add(new ResourceLocation("snowpig", "entity.snow_pig.ambient"));
     }
 

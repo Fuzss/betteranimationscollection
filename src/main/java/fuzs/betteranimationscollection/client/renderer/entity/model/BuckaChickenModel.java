@@ -106,13 +106,13 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
 
         if (entitylivingbaseIn instanceof MobEntity) {
 
-            // this only works because MobEntity#livingSoundTime is manually being synced to the client in {@link fuzs.betteranimationscollection.client.element.SyncSoundElement}
+            // this only works because MobEntity#ambientSoundTime is manually being synced to the client in {@link fuzs.betteranimationscollection.client.element.SyncSoundElement}
             MobEntity entitylivingIn = (MobEntity) entitylivingbaseIn;
             int soundTime = entitylivingIn.ambientSoundTime + entitylivingIn.getAmbientSoundInterval();
             if (0 < soundTime && soundTime < 8) {
 
-                float rotate = Math.abs(MathHelper.sin((float) soundTime * (float) Math.PI / 5.0F));
-                this.billBottom.xRot = rotate * 0.75F;
+                float rotation = Math.abs(MathHelper.sin((float) soundTime * (float) Math.PI / 5.0F));
+                this.billBottom.xRot = rotation * 0.75F;
             } else {
 
                 this.billBottom.xRot = 0.0F;

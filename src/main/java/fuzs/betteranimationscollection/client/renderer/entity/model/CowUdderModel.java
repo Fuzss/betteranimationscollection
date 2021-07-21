@@ -44,7 +44,7 @@ public class CowUdderModel<T extends Entity> extends CowModel<T> {
     @Override
     public void renderToBuffer(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
 
-        CowUdderElement element = (CowUdderElement) BetterAnimationsCollection.COW_UDDER;
+        CowUdderElement element = (CowUdderElement) BetterAnimationsCollection.WOBBLY_COW_UDDER;
         for (ModelRenderer renderer : this.nipples) {
 
             renderer.visible = !element.hideNipples;
@@ -56,7 +56,7 @@ public class CowUdderModel<T extends Entity> extends CowModel<T> {
     @Override
     public void prepareMobModel(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
 
-        CowUdderElement element = (CowUdderElement) BetterAnimationsCollection.COW_UDDER;
+        CowUdderElement element = (CowUdderElement) BetterAnimationsCollection.WOBBLY_COW_UDDER;
         this.utter.xRot = MathHelper.sin(limbSwing * 0.5F) * limbSwingAmount * element.swingAmount * 0.05F;
         this.utter.yRot = MathHelper.cos(limbSwing) * limbSwingAmount * element.swingAmount * 0.125F;
     }

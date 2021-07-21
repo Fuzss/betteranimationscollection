@@ -39,13 +39,13 @@ public class OinkyPigModel<T extends Entity> extends PigModel<T> {
 
         if (entitylivingbaseIn instanceof MobEntity) {
 
-            // this only works because MobEntity#livingSoundTime is manually being synced to the client in {@link fuzs.betteranimationscollection.client.element.SyncSoundElement}
+            // this only works because MobEntity#ambientSoundTime is manually being synced to the client in {@link fuzs.betteranimationscollection.client.element.SyncSoundElement}
             MobEntity entitylivingIn = (MobEntity) entitylivingbaseIn;
             int soundTime = entitylivingIn.ambientSoundTime + entitylivingIn.getAmbientSoundInterval();
             if (0 < soundTime && soundTime < 8) {
 
-                float rotate = MathHelper.sin((float) soundTime * (float) (Math.PI / 8.0F));
-                this.snout.y = 3.0F - rotate;
+                float rotation = MathHelper.sin((float) soundTime * (float) (Math.PI / 8.0F));
+                this.snout.y = 3.0F - rotation;
             } else {
 
                 this.snout.y = 3.0F;

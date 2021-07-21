@@ -136,11 +136,6 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
         ATTACKABLE_ENTITIES.add(entityClazz);
     }
 
-    public static void removeAttackableEntity(Class<? extends MobEntity> entityClazz) {
-
-        ATTACKABLE_ENTITIES.remove(entityClazz);
-    }
-
     /**
      * as separate class so there is no crash when loading on server
      */

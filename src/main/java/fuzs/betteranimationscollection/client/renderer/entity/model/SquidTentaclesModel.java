@@ -34,7 +34,7 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
             this.tentacles[j].yRot = (float) (j * Math.PI * -2.0D / (double) this.tentacles.length + (Math.PI / 2D));
             builder.add(this.tentacles[j]);
 
-            SquidTentaclesElement element = (SquidTentaclesElement) BetterAnimationsCollection.SQUID_TENTACLES;
+            SquidTentaclesElement element = (SquidTentaclesElement) BetterAnimationsCollection.SQUIGGLY_SQUID_TENTACLES;
             this.tentacles2[j] = new ModelRenderer[element.length];
             for (int k = 0; k < this.tentacles2[0].length; ++k) {
 

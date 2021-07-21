@@ -3,13 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [v1.2b4-1.16.5] - 2021-07-19
+## [v1.2b4-1.16.5] - 2021-07-21
 ### Added
 - Re-added wiggly iron golem nose model
-- Re-added flowy ocelot tail model
-- Re-added curly cat tail model
 ### Changed
 - Individual mobs can now be blacklisted in the config file from having any model changes applied to them
+- Renamed a few model elements
 
 ## [v1.2b3-1.16.5] - 2021-07-03
 ### Added
