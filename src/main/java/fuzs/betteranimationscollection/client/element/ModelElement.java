@@ -91,7 +91,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
                 LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>> livingRenderer = (LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>>) renderer;
                 // find all renderers which normally use the super class of our model, so we can exchange them
                 EntityModel<? extends LivingEntity> entityModel = this.getEntityModel();
-                if (livingRenderer.getModel().getClass().isInstance(entityModel)) {
+                if (livingRenderer.getModel().getClass().equals(entityModel.getClass().getSuperclass())) {
 
                     this.entityTypeToModelInfo.put(entityType, new ModelInfo(livingRenderer, livingRenderer.getModel(), entityModel, this.layerTransformers.size()));
                 }
