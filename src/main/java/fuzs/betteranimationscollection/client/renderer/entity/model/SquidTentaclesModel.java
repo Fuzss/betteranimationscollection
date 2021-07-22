@@ -3,7 +3,7 @@ package fuzs.betteranimationscollection.client.renderer.entity.model;
 import com.google.common.collect.ImmutableList;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.SquidTentaclesElement;
-import fuzs.betteranimationscollection.mixin.client.accessor.SquidModelAccessor;
+import fuzs.betteranimationscollection.client.util.ModelUtil;
 import net.minecraft.client.renderer.entity.model.SquidModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -17,13 +17,14 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
 
     private final ModelRenderer[] tentacles = new ModelRenderer[8];
     private final ModelRenderer[][] tentacles2 = new ModelRenderer[8][];
+    private final ImmutableList<ModelRenderer> parts;
 
     public SquidTentaclesModel() {
 
         ImmutableList.Builder<ModelRenderer> builder = ImmutableList.builder();
-        SquidModelAccessor modelAccessor = (SquidModelAccessor) this;
-        builder.add(modelAccessor.getBody());
-        for (int j = 0; j < this.tentacles.length; ++j) {
+        // get head from vanilla model
+        builder.add(ModelUtil.getAtIndex(super.parts().iterator(), 0));
+        for (int j = 0; j < this.tentacles.length; j++) {
 
             this.tentacles[j] = new ModelRenderer(this, 48, 0);
             this.tentacles[j].addBox(-1.0F, 0.0F, -1.0F, 2, 2, 2);
@@ -51,7 +52,7 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
             }
         }
 
-        modelAccessor.setParts(builder.build());
+        this.parts = builder.build();
     }
 
     @Override
@@ -82,6 +83,12 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
                 }
             }
         }
+    }
+
+    @Override
+    public Iterable<ModelRenderer> parts() {
+
+        return this.parts;
     }
 
 }

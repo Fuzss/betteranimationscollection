@@ -3,7 +3,7 @@ package fuzs.betteranimationscollection.client.renderer.entity.model;
 import com.google.common.collect.ImmutableList;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.GhastTentaclesElement;
-import fuzs.betteranimationscollection.mixin.client.accessor.GhastModelAccessor;
+import fuzs.betteranimationscollection.client.util.ModelUtil;
 import net.minecraft.client.renderer.entity.model.GhastModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -18,12 +18,13 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
     
     private final ModelRenderer[] tentacles = new ModelRenderer[9];
     private final ModelRenderer[][] tentacles2 = new ModelRenderer[9][];
+    private final ImmutableList<ModelRenderer> parts;
 
     public GhastTentaclesModel() {
 
         ImmutableList.Builder<ModelRenderer> builder = ImmutableList.builder();
         // get head from vanilla model
-        builder.add(this.parts().iterator().next());
+        builder.add(ModelUtil.getAtIndex(super.parts().iterator(), 0));
 
         Random random = new Random(1660L);
         for (int i = 0; i < this.tentacles.length; i++) {
@@ -55,7 +56,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
             }
         }
 
-        ((GhastModelAccessor) this).setParts(builder.build());
+        this.parts = builder.build();
     }
 
     @Override
@@ -71,6 +72,12 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
                 this.tentacles2[i][j].xRot = speed * MathHelper.sin(ageInTicks * speed + (float) i - (float) j / 2.0F);
             }
         }
+    }
+
+    @Override
+    public Iterable<ModelRenderer> parts() {
+
+        return this.parts;
     }
 
 }

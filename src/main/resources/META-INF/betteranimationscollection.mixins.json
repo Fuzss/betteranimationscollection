@@ -10,13 +10,9 @@
     "client.CatCollarLayerMixin",
     "client.SaddleLayerMixin",
     "client.SheepWoolLayerMixin",
-    "client.accessor.ChickenModelAccessor",
-    "client.accessor.GhastModelAccessor",
     "client.accessor.IronGolemModelAccessor",
     "client.accessor.LivingRendererAccessor",
-    "client.accessor.SnowManModelAccessor",
-    "client.accessor.SpiderModelAccessor",
-    "client.accessor.SquidModelAccessor"
+    "client.accessor.SpiderModelAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,6 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
-import fuzs.betteranimationscollection.mixin.client.accessor.SnowManModelAccessor;
+import fuzs.betteranimationscollection.client.util.ModelUtil;
 import net.minecraft.client.renderer.entity.model.SnowManModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -16,8 +16,8 @@ public class SnowManStickModel<T extends Entity> extends SnowManModel<T> {
 
     public SnowManStickModel() {
         
-        this.arm1 = ((SnowManModelAccessor) this).getArm1();
-        this.arm2 = ((SnowManModelAccessor) this).getArm2();
+        this.arm1 = ModelUtil.getAtIndex(super.parts().iterator(), 3);
+        this.arm2 = ModelUtil.getAtIndex(super.parts().iterator(), 4);
     }
     
     @Override

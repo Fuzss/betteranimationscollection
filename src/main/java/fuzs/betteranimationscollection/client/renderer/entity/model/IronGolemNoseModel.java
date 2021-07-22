@@ -15,8 +15,6 @@ public class IronGolemNoseModel<T extends IronGolemEntity> extends IronGolemMode
 
     public IronGolemNoseModel() {
 
-        super();
-
         ModelRenderer head = new ModelRenderer(this).setTexSize(128, 128);
         head.setPos(0.0F, -7.0F, -2.0F);
         head.texOffs(0, 0).addBox(-4.0F, -12.0F, -5.5F, 8, 10, 8);
