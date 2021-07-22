@@ -3,10 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [v1.2b4-1.16.5] - 2021-07-21
+## [v1.2b4-1.16.5] - 2021-07-22
 ### Added
 - Re-added wiggly iron golem nose model
 ### Changed
+- Updated [Puzzles Lib] to v1.0.10
 - Individual mobs can now be blacklisted in the config file from having any model changes applied to them
 - Renamed a few model elements
 

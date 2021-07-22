@@ -9,16 +9,15 @@ import net.minecraft.util.SoundEvents;
 
 public class SnowManStickElement extends SoundModelElement {
 
+    public SnowManStickElement() {
+
+        this.defaultSounds.add(SoundEvents.SNOW_GOLEM_SHOOT.getRegistryName());
+    }
+
     @Override
     public String[] getDescription() {
 
         return new String[]{"This makes a snowman's arm swing when it throws a snowball."};
-    }
-
-    @Override
-    public void constructClient() {
-
-        this.defaultSounds.add(SoundEvents.SNOW_GOLEM_SHOOT.getRegistryName());
     }
 
     @Override

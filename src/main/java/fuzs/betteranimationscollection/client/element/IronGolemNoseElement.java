@@ -18,7 +18,7 @@ public class IronGolemNoseElement extends ModelElement {
     }
 
     @Override
-    public void setupClient2() {
+    public void constructClient() {
 
         SoundDetectionElement.addAttackableEntity(IronGolemEntity.class);
     }

@@ -19,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
@@ -41,19 +42,19 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
     private Set<EntityType<?>> blacklistedEntities = Sets.newHashSet();
 
     @Override
-    public void setupClient2() {
+    public final void setupClient2() {
 
         this.collectModels();
     }
 
     @Override
-    public void loadClient() {
+    public final void loadClient() {
 
         this.applyModelAction(ModelInfo::switchModel, entityType -> !this.blacklistedEntities.contains(entityType));
     }
 
     @Override
-    public void unloadClient() {
+    public final void unloadClient() {
 
         this.applyModelAction(ModelInfo::resetModel, entityType -> true);
     }
@@ -66,7 +67,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
                 .collect(Collectors.toList())).comment("Mob variants these model changes shouldn't be applied to.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
 
             this.blacklistedEntities = ConfigManager.deserializeToSet(v, ForgeRegistries.ENTITIES);
-            if (this.isEnabled() && this.isLoaded()) {
+            if (this.isEnabled() && this.isTypeLoaded(ModConfig.Type.CLIENT)) {
 
                 this.applyModelAction(ModelInfo::resetModel, entityType -> this.blacklistedEntities.contains(entityType));
                 this.applyModelAction(ModelInfo::switchModel, entityType -> !this.blacklistedEntities.contains(entityType));
@@ -136,7 +137,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
         public boolean applyRestore(LayerRenderer<?, ?> layerRenderer, EntityModel<? extends Entity> origModel) {
 
-            if (this.filter.test(layerRenderer)) {
+            if (this.filter.test(layerRenderer) && origModel != null) {
 
                 ILayerModelAccessor<EntityModel<? extends Entity>> modelAccessor = (ILayerModelAccessor<EntityModel<? extends Entity>>) layerRenderer;
                 modelAccessor.setModel(origModel);
@@ -154,7 +155,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
         public final LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>> livingRenderer;
         public final EntityModel<? extends LivingEntity> origModel;
         public final EntityModel<? extends LivingEntity> animatedModel;
-        private final List<EntityModel<? extends Entity>> origLayerModels;
+        private final Object[] origLayerModels;
 
         private boolean isModelSwitched;
 
@@ -163,7 +164,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
             this.livingRenderer = livingRenderer;
             this.origModel = origModel;
             this.animatedModel = animatedModel;
-            this.origLayerModels = Lists.newArrayListWithCapacity(layerModelCapacity);
+            this.origLayerModels = new Object[layerModelCapacity];
         }
 
         public void switchModel() {
@@ -199,7 +200,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
                 if (result != null) {
 
-                    this.origLayerModels.set(index, result);
+                    this.origLayerModels[index] = result;
                     return true;
                 }
 
@@ -209,7 +210,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
         private void resetLayers() {
 
-            this.transformLayers((layerTransformer, layerRenderer, index) -> layerTransformer.applyRestore(layerRenderer, this.origLayerModels.get(index)), (result, index) -> result);
+            this.transformLayers((layerTransformer, layerRenderer, index) -> layerTransformer.applyRestore(layerRenderer, (EntityModel<? extends Entity>) this.origLayerModels[index]), (result, index) -> result);
         }
 
         private <T> void transformLayers(LayerTransformation<T> applyTransformer, BiPredicate<T, Integer> resultConverter) {

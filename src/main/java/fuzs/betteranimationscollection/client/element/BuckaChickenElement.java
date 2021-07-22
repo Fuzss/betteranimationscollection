@@ -17,17 +17,16 @@ public class BuckaChickenElement extends SoundModelElement {
     public int chinSpeed;
     public int wingSpeed;
 
+    public BuckaChickenElement() {
+
+        this.defaultSounds.add(SoundEvents.CHICKEN_AMBIENT.getRegistryName());
+    }
+
     @Override
     public String[] getDescription() {
 
         return new String[]{"This one makes chicken beaks open and close when they cluck.", 
                 "When they strut their heads move back and forth, the red thing under their beak swings around and their wings flap a little. Just like the real deal!"};
-    }
-
-    @Override
-    public void constructClient() {
-
-        this.defaultSounds.add(SoundEvents.CHICKEN_AMBIENT.getRegistryName());
     }
 
     @Override

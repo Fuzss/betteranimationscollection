@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 
 @SuppressWarnings("unchecked")
+@Deprecated
 public abstract class RendererElement<T extends Entity> extends AbstractElement implements IClientElement {
 
     private final Minecraft mc = Minecraft.getInstance();

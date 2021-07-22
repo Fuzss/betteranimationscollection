@@ -39,8 +39,8 @@ public class IronGolemNoseModel<T extends IronGolemEntity> extends IronGolemMode
         int soundTime = entitylivingbaseIn.ambientSoundTime + entitylivingbaseIn.getAmbientSoundInterval();
         if (0 < soundTime && soundTime < 20) {
 
-            float rotation = MathHelper.sin((float)soundTime * (float)((3.0F * Math.PI) / 20.0F));
-            this.nose.zRot = rotation * 0.75F * ((float)(20 - soundTime) / 20.0F);
+            float rotation = MathHelper.sin((float) soundTime * (float) ((3.0F * Math.PI) / 20.0F));
+            this.nose.zRot = rotation * 0.75F * ((float) (20 - soundTime) / 20.0F);
         } else {
 
             this.nose.zRot = 0.0F;

@@ -143,14 +143,24 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
 
         private final Minecraft mc = Minecraft.getInstance();
 
+        private boolean isLoaded;
+
         public void load() {
 
-            this.mc.getSoundManager().addListener(this);
+            if (!this.isLoaded) {
+
+                this.isLoaded = true;
+                this.mc.getSoundManager().addListener(this);
+            }
         }
 
         public void unload() {
 
-            this.mc.getSoundManager().removeListener(this);
+            if (this.isLoaded) {
+
+                this.isLoaded = false;
+                this.mc.getSoundManager().removeListener(this);
+            }
         }
 
         @Override
