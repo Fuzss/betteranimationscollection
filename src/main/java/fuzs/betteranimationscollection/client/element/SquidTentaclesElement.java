@@ -17,9 +17,8 @@ public class SquidTentaclesElement extends ModelElement {
     }
 
     @Override
-    public void setupClientConfig(OptionsBuilder builder) {
+    public void setupModelConfig(OptionsBuilder builder) {
 
-        super.setupClientConfig(builder);
         builder.define("Max Length", 8).min(1).max(8).comment("Define the max length of the tentacles.").sync(v -> this.length = v).restart();
     }
 

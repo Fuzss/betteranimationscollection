@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog].
 
 ## [v1.2b6-1.16.5] - 2021-07-22
 ### Added
+- Re-added jiggly liquidy slime model
+- Re-added magma cube burger model
 - Re-added wiggly villager nose model
+### Changed
+- Removed unnecessary accessor mixins
 
 ## [v1.2b5-1.16.5] - 2021-07-22
 ### Added

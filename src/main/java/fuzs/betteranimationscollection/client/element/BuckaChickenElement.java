@@ -30,9 +30,9 @@ public class BuckaChickenElement extends SoundModelElement {
     }
 
     @Override
-    public void setupClientConfig(OptionsBuilder builder) {
+    public void setupModelConfig(OptionsBuilder builder) {
 
-        super.setupClientConfig(builder);
+        super.setupModelConfig(builder);
         builder.define("Move Head", true).comment("Move head back and forth when the entity is walking.").sync(v -> this.moveHead = v);
         builder.define("Wiggle Chin", true).comment("Wiggle chin when the entity is walking.").sync(v -> this.moveChin = v);
         builder.define("Flap Wings", true).comment("Flap wings when the entity is walking.").sync(v -> this.moveWings = v);

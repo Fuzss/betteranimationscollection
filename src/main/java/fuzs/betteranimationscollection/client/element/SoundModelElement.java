@@ -22,9 +22,8 @@ public abstract class SoundModelElement extends ModelElement {
     protected abstract Class<? extends MobEntity> getMobClazz();
 
     @Override
-    public void setupClientConfig(OptionsBuilder builder) {
+    public void setupModelConfig(OptionsBuilder builder) {
 
-        super.setupClientConfig(builder);
         builder.define("Mob Sounds", this.defaultSounds.stream()
                 .map(ResourceLocation::toString)
                 .collect(Collectors.toList())).comment("Mob sounds to play a unique animation for.", "Useful for adding support for modded mob variants which have different sounds from their vanilla counterparts.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {

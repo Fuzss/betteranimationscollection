@@ -25,9 +25,8 @@ public class CatTailElement extends ModelElement {
     }
 
     @Override
-    public void setupClientConfig(OptionsBuilder builder) {
+    public void setupModelConfig(OptionsBuilder builder) {
 
-        super.setupClientConfig(builder);
         builder.define("Max Length", 15).min(1).max(15).comment("Define the max length of the tail.").sync(v -> this.length = v).restart();
         builder.define("Tail Swing", 7).min(1).max(20).comment("Swing amount of the tail.").sync(v -> this.swing = v);
     }

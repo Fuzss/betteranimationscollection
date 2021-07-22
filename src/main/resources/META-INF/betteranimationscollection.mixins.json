@@ -10,6 +10,7 @@
     "client.CatCollarLayerMixin",
     "client.SaddleLayerMixin",
     "client.SheepWoolLayerMixin",
+    "client.SlimeGelLayerMixin",
     "client.accessor.IronGolemModelAccessor",
     "client.accessor.LivingRendererAccessor",
     "client.accessor.SpiderModelAccessor"

@@ -60,7 +60,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
     }
 
     @Override
-    public void setupClientConfig(OptionsBuilder builder) {
+    public final void setupClientConfig(OptionsBuilder builder) {
 
         builder.define("Mob Blacklist", this.defaultEntityBlacklist.stream()
                 .map(ResourceLocation::toString)
@@ -73,6 +73,12 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
                 this.applyModelAction(ModelInfo::switchModel, entityType -> !this.blacklistedEntities.contains(entityType));
             }
         });
+
+        this.setupModelConfig(builder);
+    }
+
+    public void setupModelConfig(OptionsBuilder builder) {
+
     }
 
     protected abstract EntityModel<? extends LivingEntity> getEntityModel();

@@ -18,9 +18,8 @@ public class CowUdderElement extends ModelElement {
     }
 
     @Override
-    public void setupClientConfig(OptionsBuilder builder) {
+    public void setupModelConfig(OptionsBuilder builder) {
 
-        super.setupClientConfig(builder);
         builder.define("Swing Amount", 5).min(1).max(20).comment("Swing amount of the utter when the cow is walking.").sync(v -> this.swingAmount = v).restart();
         builder.define("Hide Nipples", false).comment("Don't render four nipples on every cow's utter.").sync(v -> this.hideNipples = v);
     }
