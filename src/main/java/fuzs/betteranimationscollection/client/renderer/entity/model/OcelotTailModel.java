@@ -22,6 +22,10 @@ public class OcelotTailModel<T extends Entity> extends OcelotModel<T> {
         OcelotTailElement element = (OcelotTailElement) BetterAnimationsCollection.FLOWY_OCELOT_TAIL;
         this.tailParts = getTailParts(this, element.length, 0.0F);
         this.tail.addChild(this.tailParts[0]);
+
+        // makes front legs stick out of body a little like they used to
+        this.frontLegL.setPos(1.2F, 13.7F, -5.0F);
+        this.frontLegR.setPos(-1.2F, 13.7F, -5.0F);
     }
 
     public static ModelRenderer getTail(Model model, float scale) {

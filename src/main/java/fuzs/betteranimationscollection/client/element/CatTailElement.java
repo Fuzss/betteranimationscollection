@@ -14,7 +14,8 @@ public class CatTailElement extends ModelElement {
     @Override
     public String[] getDescription() {
 
-        return new String[]{"Takes away the stick tails of the current cats and gives them something nicer instead.", "Fully animated flowing tails that move while they stand or run, and even curl around their bodies when they sit."};
+        return new String[]{"Takes away the stick tails of the current cats and gives them something nicer instead.",
+                "Fully animated flowing tails that move while they stand or run, and even curl around their bodies when they sit."};
     }
 
     @Override

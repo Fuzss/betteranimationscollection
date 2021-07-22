@@ -14,7 +14,8 @@ public class IronGolemNoseElement extends ModelElement {
     @Override
     public String[] getDescription() {
 
-        return new String[]{"A subtle change; this makes iron golems wiggle their big noses whenever they're hurt.", "Exactly the same animation as for villagers, except for iron golems!"};
+        return new String[]{"A subtle change; this makes iron golems wiggle their big noses whenever they're hurt.",
+                "Exactly the same animation as for villagers, except for iron golems!"};
     }
 
     @Override

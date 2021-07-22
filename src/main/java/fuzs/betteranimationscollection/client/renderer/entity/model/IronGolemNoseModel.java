@@ -37,15 +37,15 @@ public class IronGolemNoseModel<T extends IronGolemEntity> extends IronGolemMode
 
         // this only works because MobEntity#ambientSoundTime is manually being synced to the client in {@link fuzs.betteranimationscollection.client.element.SyncSoundElement}
         int soundTime = entitylivingbaseIn.ambientSoundTime + entitylivingbaseIn.getAmbientSoundInterval();
-        if (0 < soundTime && soundTime < 20) {
+        final int maxSoundTime = 20;
+        if (0 < soundTime && soundTime < maxSoundTime) {
 
             float rotation = MathHelper.sin((float) soundTime * (float) ((3.0F * Math.PI) / 20.0F));
-            this.nose.zRot = rotation * 0.75F * ((float) (20 - soundTime) / 20.0F);
+            this.nose.zRot = rotation * 0.75F * ((float) (maxSoundTime - soundTime) / 20.0F);
         } else {
 
             this.nose.zRot = 0.0F;
         }
-
     }
     
 }

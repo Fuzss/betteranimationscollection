@@ -13,7 +13,8 @@ public class CowUdderElement extends ModelElement {
     @Override
     public String[] getDescription() {
 
-        return new String[]{"This makes the udders on cows wobble around when they walk.", "Also makes their udders have nipples."};
+        return new String[]{"This makes the udders on cows wobble around when they walk.",
+                "Also makes their udders have nipples."};
     }
 
     @Override

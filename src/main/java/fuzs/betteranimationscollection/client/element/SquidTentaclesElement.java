@@ -12,7 +12,8 @@ public class SquidTentaclesElement extends ModelElement {
     @Override
     public String[] getDescription() {
 
-        return new String[]{"Gives a jellyfish-like effect to the swimming animation of squids.", "Also makes their tentacles flow more while moving."};
+        return new String[]{"Gives a jellyfish-like effect to the swimming animation of squids.",
+                "Also makes their tentacles flow more while moving."};
     }
 
     @Override

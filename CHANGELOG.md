@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2b6-1.16.5] - 2021-07-22
+### Added
+- Re-added wiggly villager nose model
+
 ## [v1.2b5-1.16.5] - 2021-07-22
 ### Added
 - Re-added flowy ocelot tail model

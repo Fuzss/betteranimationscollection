@@ -13,7 +13,8 @@ public class OcelotTailElement extends ModelElement {
     @Override
     public String[] getDescription() {
 
-        return new String[]{"Takes away the stick tails of the current ocelots and gives them something nicer instead.", "Fully animated flowing tails that move while they stand or run."};
+        return new String[]{"Takes away the stick tails of the current ocelots and gives them something nicer instead.",
+                "Fully animated flowing tails that move while they stand or run."};
     }
 
     @Override
