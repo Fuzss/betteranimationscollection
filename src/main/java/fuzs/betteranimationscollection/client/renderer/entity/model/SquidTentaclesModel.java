@@ -36,7 +36,7 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
             builder.add(this.tentacles[j]);
 
             SquidTentaclesElement element = (SquidTentaclesElement) BetterAnimationsCollection.SQUIGGLY_SQUID_TENTACLES;
-            this.tentacles2[j] = new ModelRenderer[element.length];
+            this.tentacles2[j] = new ModelRenderer[element.tentaclesLength];
             for (int k = 0; k < this.tentacles2[0].length; ++k) {
 
                 this.tentacles2[j][k] = new ModelRenderer(this, 48, 2 + 2 * k);

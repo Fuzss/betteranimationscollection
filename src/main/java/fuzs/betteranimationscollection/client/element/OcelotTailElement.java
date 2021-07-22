@@ -7,8 +7,8 @@ import net.minecraft.entity.LivingEntity;
 
 public class OcelotTailElement extends ModelElement {
 
-    public int length;
-    public int swing;
+    public int tailLength;
+    public int animationSpeed;
 
     @Override
     public String[] getDescription() {
@@ -20,8 +20,8 @@ public class OcelotTailElement extends ModelElement {
     @Override
     public void setupModelConfig(OptionsBuilder builder) {
 
-        builder.define("Max Length", 15).min(1).max(15).comment("Define the max length of the tail.").sync(v -> this.length = v).restart();
-        builder.define("Tail Swing", 7).min(1).max(20).comment("Swing amount of the tail.").sync(v -> this.swing = v);
+        builder.define("Tail Length", 15).min(1).max(15).comment("Define tail length.").sync(v -> this.tailLength = v).restart();
+        builder.define("Animation Speed", 7).min(1).max(20).comment("Animation swing speed for tail.").sync(v -> this.animationSpeed = v);
     }
 
     @Override

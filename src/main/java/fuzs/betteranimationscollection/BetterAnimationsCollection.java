@@ -21,7 +21,7 @@ public class BetterAnimationsCollection {
 
     public static final AbstractElement SOUND_DETECTION = REGISTRY.register("sound_detection", () -> new SoundDetectionElement(), Dist.CLIENT);
     public static final AbstractElement OINKY_PIG = REGISTRY.register("oinky_pig", () -> new OinkyPigElement(), Dist.CLIENT);
-    public static final AbstractElement BUCKA_CHICKEN = REGISTRY.register("bucka_chicken", () -> new BuckaChickenElement(), Dist.CLIENT);
+    public static final AbstractElement BUCKA_BUCKA_CHICKEN = REGISTRY.register("bucka_bucka_chicken", () -> new BuckaChickenElement(), Dist.CLIENT);
     public static final AbstractElement WIGGLY_GHAST_TENTACLES = REGISTRY.register("wiggly_ghast_tentacles", () -> new GhastTentaclesElement(), Dist.CLIENT);
     public static final AbstractElement SQUIGGLY_SQUID_TENTACLES = REGISTRY.register("squiggly_squid_tentacles", () -> new SquidTentaclesElement(), Dist.CLIENT);
     public static final AbstractElement KNEELING_SHEEP = REGISTRY.register("kneeling_sheep", () -> new KneelingSheepElement(), Dist.CLIENT);
@@ -34,6 +34,7 @@ public class BetterAnimationsCollection {
     public static final AbstractElement WIGGLY_VILLAGER_NOSE = REGISTRY.register("wiggly_villager_nose", () -> new VillagerNoseElement(), Dist.CLIENT);
     public static final AbstractElement MAGMA_CUBE_BURGER = REGISTRY.register("magma_cube_burger", () -> new MagmaCubeBurgerElement(), Dist.CLIENT);
     public static final AbstractElement JIGGLY_LIQUIDY_SLIME = REGISTRY.register("jiggly_liquidy_slime", () -> new JigglySlimeElement(), Dist.CLIENT);
+    public static final AbstractElement ARM_FLAILING_ENDERMAN = REGISTRY.register("arm_flailing_enderman", () -> new FlailingEndermanElement(), Dist.CLIENT);
 
     public BetterAnimationsCollection() {
 

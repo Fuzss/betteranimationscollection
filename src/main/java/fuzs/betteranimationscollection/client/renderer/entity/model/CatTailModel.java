@@ -18,7 +18,7 @@ public class CatTailModel<T extends CatEntity> extends CatModel<T> {
 
         this.tail = OcelotTailModel.getTail(this, scale);
         CatTailElement element = (CatTailElement) BetterAnimationsCollection.CURLY_CAT_TAIL;
-        this.tailParts = OcelotTailModel.getTailParts(this, element.length, scale);
+        this.tailParts = OcelotTailModel.getTailParts(this, element.tailLength, scale);
         this.tail.addChild(this.tailParts[0]);
     }
 
@@ -48,7 +48,7 @@ public class CatTailModel<T extends CatEntity> extends CatModel<T> {
         } else {
 
             CatTailElement element = (CatTailElement) BetterAnimationsCollection.CURLY_CAT_TAIL;
-            OcelotTailModel.setTailAnim(this.tail, this.tailParts, limbSwing, limbSwingAmount, ageInTicks, element.swing);
+            OcelotTailModel.setTailAnim(this.tail, this.tailParts, limbSwing, limbSwingAmount, ageInTicks, element.animationSpeed);
         }
 
         super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);

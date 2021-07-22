@@ -1,17 +1,14 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.renderer.entity.model.JigglySlimeModel;
-import fuzs.betteranimationscollection.client.renderer.entity.model.OinkyPigModel;
-import fuzs.betteranimationscollection.client.renderer.entity.model.SquidTentaclesModel;
 import fuzs.puzzleslib.config.option.OptionsBuilder;
-import net.minecraft.client.renderer.entity.layers.SaddleLayer;
 import net.minecraft.client.renderer.entity.layers.SlimeGelLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 
 public class JigglySlimeElement extends ModelElement {
 
-    public int squishiness;
+    public int animationSpeed;
 
     @Override
     public String[] getDescription() {
@@ -29,7 +26,7 @@ public class JigglySlimeElement extends ModelElement {
     @Override
     public void setupModelConfig(OptionsBuilder builder) {
 
-        builder.define("Squishiness", 5).min(1).max(20).comment("Animation swing of inner slime parts.").sync(v -> this.squishiness = v).restart();
+        builder.define("Animation Speed", 5).min(1).max(20).comment("Animation swing speed of inner slime parts.").sync(v -> this.animationSpeed = v);
     }
 
     @Override

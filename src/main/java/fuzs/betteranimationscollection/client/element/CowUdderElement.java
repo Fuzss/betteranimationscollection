@@ -7,8 +7,8 @@ import net.minecraft.entity.LivingEntity;
 
 public class CowUdderElement extends ModelElement {
 
-    public int swingAmount;
-    public boolean hideNipples;
+    public int animationSpeed;
+    public boolean showNipples;
 
     @Override
     public String[] getDescription() {
@@ -20,8 +20,8 @@ public class CowUdderElement extends ModelElement {
     @Override
     public void setupModelConfig(OptionsBuilder builder) {
 
-        builder.define("Swing Amount", 5).min(1).max(20).comment("Swing amount of the utter when the cow is walking.").sync(v -> this.swingAmount = v).restart();
-        builder.define("Hide Nipples", false).comment("Don't render four nipples on every cow's utter.").sync(v -> this.hideNipples = v);
+        builder.define("Animation Speed", 5).min(1).max(20).comment("Animation swing speed of utter when the cow is walking.").sync(v -> this.animationSpeed = v).restart();
+        builder.define("Show Nipples", true).comment("Don't render four nipples on every cow's utter.").sync(v -> this.showNipples = v);
     }
 
     @Override

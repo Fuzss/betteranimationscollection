@@ -67,11 +67,11 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
         this.leg0.xRot = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leg1.xRot = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 
-        BuckaChickenElement element = (BuckaChickenElement) BetterAnimationsCollection.BUCKA_CHICKEN;
+        BuckaChickenElement element = (BuckaChickenElement) BetterAnimationsCollection.BUCKA_BUCKA_CHICKEN;
         // ageInTicks is flapSpeed here
         if (ageInTicks == 0 && element.moveWings) {
             
-            float wingSwingAmount = limbSwingAmount * element.wingSpeed * 0.1F;
+            float wingSwingAmount = limbSwingAmount * element.wingAnimationSpeed * 0.1F;
             float wingFlapRot = MathHelper.sin(limbSwing) * wingSwingAmount + wingSwingAmount;
             this.wing0.zRot = -wingFlapRot;
             this.wing1.zRot = wingFlapRot;
@@ -83,12 +83,12 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
         
         if (element.moveHead) {
             
-            this.head.z = -4.0F + MathHelper.cos(limbSwing) * element.headSpeed * 0.5F * limbSwingAmount;
+            this.head.z = -4.0F + MathHelper.cos(limbSwing) * element.headAnimationSpeed * 0.5F * limbSwingAmount;
         }
         
         if (element.moveChin) {
             
-            this.redThing.xRot = MathHelper.sin(limbSwing) * (float) element.chinSpeed * 0.1F * limbSwingAmount;
+            this.redThing.xRot = MathHelper.sin(limbSwing) * (float) element.chinAnimationSpeed * 0.1F * limbSwingAmount;
             this.redThing.xRot -= this.billBottom.xRot;
         }
     }

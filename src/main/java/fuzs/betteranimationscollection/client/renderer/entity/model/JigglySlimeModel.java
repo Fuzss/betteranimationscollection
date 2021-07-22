@@ -34,9 +34,9 @@ public class JigglySlimeModel<T extends Entity> extends SlimeModel<T> {
         if (entityIn instanceof SlimeEntity) {
 
             JigglySlimeElement element = (JigglySlimeElement) BetterAnimationsCollection.JIGGLY_LIQUIDY_SLIME;
-            float progress = limbSwing + ageInTicks * element.squishiness / 15.0F;
+            float progress = limbSwing + ageInTicks * element.animationSpeed / 15.0F;
             float squishAmount = ((SlimeEntity) entityIn).targetSquish;
-            float magnitude = element.squishiness / 20.0F;
+            float magnitude = element.animationSpeed / 20.0F;
             if (squishAmount < 0.0F) {
                 
                 magnitude += -squishAmount * 0.5F;

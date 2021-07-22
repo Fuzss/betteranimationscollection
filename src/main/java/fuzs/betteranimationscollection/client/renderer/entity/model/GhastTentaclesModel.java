@@ -37,7 +37,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
             builder.add(this.tentacles[i]);
 
             GhastTentaclesElement element = (GhastTentaclesElement) BetterAnimationsCollection.WIGGLY_GHAST_TENTACLES;
-            int randomLength = random.nextInt(element.length / 2) + element.length / 2 + 1;
+            int randomLength = random.nextInt(element.maxTentaclesLength / 2) + element.maxTentaclesLength / 2 + 1;
             this.tentacles2[i] = new ModelRenderer[randomLength - 1];
 
             for (int j = 0; j < this.tentacles2[i].length; j++) {
@@ -63,7 +63,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
         GhastTentaclesElement element = (GhastTentaclesElement) BetterAnimationsCollection.WIGGLY_GHAST_TENTACLES;
-        float speed = 1.0F / (float) element.speed;
+        float speed = 1.0F / (float) element.animationSpeed;
         for (int i = 0; i < this.tentacles.length; i++) {
             
             this.tentacles[i].xRot = speed * MathHelper.sin(ageInTicks * speed + (float) i) + 0.4F;

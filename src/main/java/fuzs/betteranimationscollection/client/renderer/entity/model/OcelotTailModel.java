@@ -20,7 +20,7 @@ public class OcelotTailModel<T extends Entity> extends OcelotModel<T> {
 
         this.tail = getTail(this, 0.0F);
         OcelotTailElement element = (OcelotTailElement) BetterAnimationsCollection.FLOWY_OCELOT_TAIL;
-        this.tailParts = getTailParts(this, element.length, 0.0F);
+        this.tailParts = getTailParts(this, element.tailLength, 0.0F);
         this.tail.addChild(this.tailParts[0]);
 
         // makes front legs stick out of body a little like they used to
@@ -80,7 +80,7 @@ public class OcelotTailModel<T extends Entity> extends OcelotModel<T> {
         this.tail.xRot = this.tail1.xRot;
 
         OcelotTailElement element = (OcelotTailElement) BetterAnimationsCollection.FLOWY_OCELOT_TAIL;
-        OcelotTailModel.setTailAnim(this.tail, this.tailParts, limbSwing, limbSwingAmount, ageInTicks, element.swing);
+        OcelotTailModel.setTailAnim(this.tail, this.tailParts, limbSwing, limbSwingAmount, ageInTicks, element.animationSpeed);
 
         super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }

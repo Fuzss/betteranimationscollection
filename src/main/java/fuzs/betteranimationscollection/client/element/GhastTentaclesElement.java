@@ -7,8 +7,8 @@ import net.minecraft.entity.LivingEntity;
 
 public class GhastTentaclesElement extends ModelElement {
 
-    public int length;
-    public int speed;
+    public int maxTentaclesLength;
+    public int animationSpeed;
 
     @Override
     public String[] getDescription() {
@@ -20,8 +20,8 @@ public class GhastTentaclesElement extends ModelElement {
     @Override
     public void setupModelConfig(OptionsBuilder builder) {
 
-        builder.define("Max Length", 14).min(2).max(14).comment("Define the max length of the tentacles.").sync(v -> this.length = v).restart();
-        builder.define("Animation Swing", 5).min(1).max(20).comment("Animation swing of the tentacles.").sync(v -> this.speed = v);
+        builder.define("Max Tentacles Length", 14).min(2).max(14).comment("Define the max length of tentacles.").sync(v -> this.maxTentaclesLength = v).restart();
+        builder.define("Animation Speed", 5).min(1).max(20).comment("Animation swing speed of tentacles.").sync(v -> this.animationSpeed = v);
     }
 
     @Override

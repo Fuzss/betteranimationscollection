@@ -7,7 +7,7 @@ import net.minecraft.entity.LivingEntity;
 
 public class SquidTentaclesElement extends ModelElement {
 
-    public int length;
+    public int tentaclesLength;
 
     @Override
     public String[] getDescription() {
@@ -19,7 +19,7 @@ public class SquidTentaclesElement extends ModelElement {
     @Override
     public void setupModelConfig(OptionsBuilder builder) {
 
-        builder.define("Max Length", 8).min(1).max(8).comment("Define the max length of the tentacles.").sync(v -> this.length = v).restart();
+        builder.define("Tentacles Length", 8).min(1).max(8).comment("Define length for tentacles.").sync(v -> this.tentaclesLength = v).restart();
     }
 
     @Override
