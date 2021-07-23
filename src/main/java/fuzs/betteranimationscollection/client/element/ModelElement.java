@@ -42,8 +42,9 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
     private Set<EntityType<?>> blacklistedEntities = Sets.newHashSet();
 
     @Override
-    public final void setupClient2() {
+    public void setupClient2() {
 
+        // TODO make final again
         this.collectModels();
     }
 
