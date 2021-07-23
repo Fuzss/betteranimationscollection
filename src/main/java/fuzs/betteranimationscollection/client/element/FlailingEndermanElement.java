@@ -33,20 +33,20 @@ public class FlailingEndermanElement extends ModelElement {
 //        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SlimeGelLayer, () -> new JigglySlimeModel<>(0));
     }
 
-    @Override
-    public void setupClient2() {
-
-        super.setupClient2();
-        Minecraft.getInstance().getEntityRenderDispatcher().renderers.forEach((entityType, renderer) -> {
-
-            if (entityType.equals(EntityType.ENDERMAN)) {
-
-                List<? extends LayerRenderer<?, ?>> layers = ((LivingRendererAccessor<?, ?>) renderer).getLayers();
-                layers.removeIf(r -> r instanceof HeldBlockLayer);
-                ((EndermanRenderer) renderer).addLayer(new FlailingHeldBlockLayer((EndermanRenderer) renderer));
-            }
-        });
-    }
+//    @Override
+//    public void setupClient2() {
+//
+//        super.setupClient2();
+//        Minecraft.getInstance().getEntityRenderDispatcher().renderers.forEach((entityType, renderer) -> {
+//
+//            if (entityType.equals(EntityType.ENDERMAN)) {
+//
+//                List<? extends LayerRenderer<?, ?>> layers = ((LivingRendererAccessor<?, ?>) renderer).getLayers();
+//                layers.removeIf(r -> r instanceof HeldBlockLayer);
+//                ((EndermanRenderer) renderer).addLayer(new FlailingHeldBlockLayer((EndermanRenderer) renderer));
+//            }
+//        });
+//    }
 
     @Override
     public void setupModelConfig(OptionsBuilder builder) {

@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2-1.16.5] - 2021-07-23
+### Added
+- Re-added arm flailing enderman model
+- Re-added wobbly creeper model
+- Re-added playful doggy model
+### Changed
+- Renderer layers can now be replaced as a whole instead of only having a transformation applied to
+
 ## [v1.2b6-1.16.5] - 2021-07-22
 ### Added
 - Re-added jiggly liquidy slime model

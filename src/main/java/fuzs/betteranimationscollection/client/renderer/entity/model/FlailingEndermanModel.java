@@ -73,29 +73,12 @@ public class FlailingEndermanModel<T extends LivingEntity> extends EndermanModel
                 }
             } else {
 
-                double x1 = 0.0;
-                double x2 = 2.0;
-                double xSum = 0.0;
-                double totalAngle = 0.0;
-                double totalX = 0.0;
                 for (int i = 0; i < armParts; i++) {
 
                     int j = i > armParts / 2 ? armParts - i : i;
                     float armPartZRot = MathHelper.sin(ageInTicks * animationSpeed * 5 + (float) j * 0.45F) * ((float) (j + 8) / 8.0F) * animationSpeed;
-                    armPartZRot = i != j ? -armPartZRot : armPartZRot;
-                    this.rightArmParts[i].zRot = this.leftArmParts[i].zRot = armPartZRot;
-
-                    totalAngle += armPartZRot;
-                    totalX += Math.tan(totalAngle) * 2;
-
-                    double prevX1 = x1;
-                    double prevX2 = x2;
-                    x1 = Math.cos(armPartZRot) * prevX1 - Math.sin(armPartZRot) * prevX2;
-                    x2 = Math.sin(armPartZRot) * prevX1 + Math.cos(armPartZRot) * prevX2;
-                    xSum += x1;
+                    this.rightArmParts[i].zRot = this.leftArmParts[i].zRot = i != j ? -armPartZRot : armPartZRot;
                 }
-
-                System.out.println(xSum + " == " + totalX);
             }
         } else {
 

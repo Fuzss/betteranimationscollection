@@ -25,10 +25,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
@@ -42,9 +39,8 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
     private Set<EntityType<?>> blacklistedEntities = Sets.newHashSet();
 
     @Override
-    public void setupClient2() {
+    public final void setupClient2() {
 
-        // TODO make final again
         this.collectModels();
     }
 
@@ -117,7 +113,19 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
         }
     }
 
-    private static class LayerTransformer<M extends EntityModel<? extends Entity>> {
+    private interface LayerAction extends Function<LayerRenderer<?, ?>, LayerRenderer<?, ?>> {
+
+    }
+
+    private static class LayerExchanger implements LayerAction {
+
+        @Override
+        public LayerRenderer<?, ?> apply(LayerRenderer<?, ?> layerRenderer) {
+            return null;
+        }
+    }
+
+    private static class LayerTransformer<M extends EntityModel<? extends Entity>> implements LayerAction {
 
         private final Predicate<LayerRenderer<?, ?>> filter;
         private final Supplier<M> model;
@@ -155,6 +163,10 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
             return false;
         }
 
+        @Override
+        public LayerRenderer<?, ?> apply(LayerRenderer<?, ?> layerRenderer) {
+            return null;
+        }
     }
 
     private class ModelInfo {
@@ -227,6 +239,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
                 return;
             }
 
+            Map<LayerRenderer<?, ?>, LayerRenderer<?, ?>> layerRendererReplacements = Maps.newHashMap();
             for (LayerRenderer<?, ?> layerRenderer : ((LivingRendererAccessor<?, ?>) this.livingRenderer).getLayers()) {
 
                 if (layerRenderer instanceof ILayerModelAccessor) {
