@@ -1,6 +1,7 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
-import fuzs.betteranimationscollection.mixin.client.accessor.IronGolemModelAccessor;
+import com.google.common.collect.ImmutableList;
+import fuzs.betteranimationscollection.client.util.ModelUtil;
 import net.minecraft.client.renderer.entity.model.IronGolemModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -11,21 +12,41 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class IronGolemNoseModel<T extends IronGolemEntity> extends IronGolemModel<T> {
 
+    private final ModelRenderer head;
     private final ModelRenderer nose;
+    private final ModelRenderer body = ModelUtil.getAtIndex(super.parts().iterator(), 1);
+    private final ModelRenderer arm0 = ModelUtil.getAtIndex(super.parts().iterator(), 4);
+    private final ModelRenderer arm1 = ModelUtil.getAtIndex(super.parts().iterator(), 5);
+    private final ModelRenderer leg0 = ModelUtil.getAtIndex(super.parts().iterator(), 2);
+    private final ModelRenderer leg1 = ModelUtil.getAtIndex(super.parts().iterator(), 3);
 
     public IronGolemNoseModel() {
 
-        ModelRenderer head = new ModelRenderer(this).setTexSize(128, 128);
-        head.setPos(0.0F, -7.0F, -2.0F);
-        head.texOffs(0, 0).addBox(-4.0F, -12.0F, -5.5F, 8, 10, 8);
+        this.head = new ModelRenderer(this).setTexSize(128, 128);
+        this.head.setPos(0.0F, -7.0F, -2.0F);
+        this.head.texOffs(0, 0).addBox(-4.0F, -12.0F, -5.5F, 8, 10, 8);
 
         // separate nose from head model
         this.nose = new ModelRenderer(this).setTexSize(128, 128);
         this.nose.setPos(0.0F, -4.0F, 0.0F);
         this.nose.texOffs(24, 0).addBox(-1.0F, -1.0F, -7.5F, 2, 4, 2);
-        head.addChild(this.nose);
+        this.head.addChild(this.nose);
+    }
 
-        ((IronGolemModelAccessor) this).setHead(head);
+    @Override
+    public Iterable<ModelRenderer> parts() {
+
+        // we need to replace the head, so we also need access to everything else
+        return ImmutableList.of(this.head, this.body, this.leg0, this.leg1, this.arm0, this.arm1);
+    }
+
+    @Override
+    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+
+        super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+
+        this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
+        this.head.xRot = headPitch * ((float)Math.PI / 180F);
     }
 
     @Override

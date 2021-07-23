@@ -46,23 +46,23 @@ public class SpiderKneesModel<T extends Entity> extends SpiderModel<T> {
         this.leg7.addBox(-1.0F, -1.0F, -1.0F, 8, 2, 2);
         this.leg7.setPos(4.0F, 15.0F, -1.0F);
         
-        ModelRenderer leg8 = new ModelRenderer(this, 24, 0);
-        leg8.addBox(-9.0F, -1.0F, -1.0F, 10, 2, 2, -0.01F);
-        leg8.setPos(-7.0F, 0.5F, 0.0F);
-        leg8.zRot = -1.05F;
-        ModelRenderer leg9 = new ModelRenderer(this, 24, 0);
-        leg9.addBox(-1.0F, -1.0F, -1.0F, 10, 2, 2, -0.01F);
-        leg9.setPos(7.0F, 0.5F, 0.0F);
-        leg9.zRot = 1.05F;
+        ModelRenderer legExtension0 = new ModelRenderer(this, 24, 0);
+        legExtension0.addBox(-9.0F, -1.0F, -1.0F, 10, 2, 2, -0.01F);
+        legExtension0.setPos(-7.0F, 0.5F, 0.0F);
+        legExtension0.zRot = -1.05F;
+        ModelRenderer legExtension1 = new ModelRenderer(this, 24, 0);
+        legExtension1.addBox(-1.0F, -1.0F, -1.0F, 10, 2, 2, -0.01F);
+        legExtension1.setPos(7.0F, 0.5F, 0.0F);
+        legExtension1.zRot = 1.05F;
         
-        this.leg0.addChild(leg8);
-        this.leg1.addChild(leg9);
-        this.leg2.addChild(leg8);
-        this.leg3.addChild(leg9);
-        this.leg4.addChild(leg8);
-        this.leg5.addChild(leg9);
-        this.leg6.addChild(leg8);
-        this.leg7.addChild(leg9);
+        this.leg0.addChild(legExtension0);
+        this.leg1.addChild(legExtension1);
+        this.leg2.addChild(legExtension0);
+        this.leg3.addChild(legExtension1);
+        this.leg4.addChild(legExtension0);
+        this.leg5.addChild(legExtension1);
+        this.leg6.addChild(legExtension0);
+        this.leg7.addChild(legExtension1);
 
         SpiderModelAccessor modelAccessor = (SpiderModelAccessor) this;
         modelAccessor.setLeg0(this.leg0);

@@ -11,22 +11,17 @@ import net.minecraft.util.math.MathHelper;
 
 public class JigglySlimeModel<T extends Entity> extends SlimeModel<T> {
 
-    private final ModelRenderer cube;
-    private final ModelRenderer eye0;
-    private final ModelRenderer eye1;
-    private final ModelRenderer mouth;
+    private final ModelRenderer cube = ModelUtil.getAtIndex(super.parts().iterator(), 0);
+    private final ModelRenderer eye0 = ModelUtil.getAtIndex(super.parts().iterator(), 1);
+    private final ModelRenderer eye1 = ModelUtil.getAtIndex(super.parts().iterator(), 2);
+    private final ModelRenderer mouth = ModelUtil.getAtIndex(super.parts().iterator(), 3);
 
     private final boolean isSlimeGelLayer;
     
     public JigglySlimeModel(int slimeBodyTexOffY) {
         
         super(slimeBodyTexOffY);
-
         this.isSlimeGelLayer = slimeBodyTexOffY == 0;
-        this.cube = ModelUtil.getAtIndex(super.parts().iterator(), 0);
-        this.eye0 = ModelUtil.getAtIndex(super.parts().iterator(), 1);
-        this.eye1 = ModelUtil.getAtIndex(super.parts().iterator(), 2);
-        this.mouth = ModelUtil.getAtIndex(super.parts().iterator(), 3);
     }
 
     @Override

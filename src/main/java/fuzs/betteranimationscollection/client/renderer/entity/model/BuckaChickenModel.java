@@ -15,23 +15,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
 
-    private final ModelRenderer head;
-    private final ModelRenderer body;
-    private final ModelRenderer leg0;
-    private final ModelRenderer leg1;
-    private final ModelRenderer wing0;
-    private final ModelRenderer wing1;
+    private final ModelRenderer head = ModelUtil.getAtIndex(super.headParts().iterator(), 0);
+    private final ModelRenderer body = ModelUtil.getAtIndex(super.bodyParts().iterator(), 0);
+    private final ModelRenderer leg0 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 1);
+    private final ModelRenderer leg1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 2);
+    private final ModelRenderer wing0 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 3);
+    private final ModelRenderer wing1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 4);
     private final ModelRenderer redThing;
     private final ModelRenderer billBottom;
 
     public BuckaChickenModel() {
-
-        this.head = ModelUtil.getAtIndex(super.headParts().iterator(), 0);
-        this.body = ModelUtil.getAtIndex(super.bodyParts().iterator(), 0);
-        this.leg0 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 1);
-        this.leg1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 2);
-        this.wing0 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 3);
-        this.wing1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 4);
 
         ModelRenderer billTop = new ModelRenderer(this, 14, 0);
         billTop.addBox(-2.0F, -4.0F, -4.0F, 4, 1, 2, 0.0F);

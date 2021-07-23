@@ -11,14 +11,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class SnowManStickModel<T extends Entity> extends SnowManModel<T> {
     
-    private final ModelRenderer arm1;
-    private final ModelRenderer arm2;
-
-    public SnowManStickModel() {
-        
-        this.arm1 = ModelUtil.getAtIndex(super.parts().iterator(), 3);
-        this.arm2 = ModelUtil.getAtIndex(super.parts().iterator(), 4);
-    }
+    private final ModelRenderer arm1 = ModelUtil.getAtIndex(super.parts().iterator(), 3);
+    private final ModelRenderer arm2 = ModelUtil.getAtIndex(super.parts().iterator(), 4);
     
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
