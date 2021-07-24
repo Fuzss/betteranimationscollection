@@ -9,10 +9,8 @@ The format is based on [Keep a Changelog].
 - Re-added wobbly creeper model
 - Re-added playful doggy model
 - Re-added zombie knees model
-### Changed
-- Renderer layers can now be replaced as a whole instead of only having a transformation applied to
 
-## [v1.2b6-1.16.5] - 2021-07-22
+## [v1.2b6-1.16.5] - 2021-07-24
 ### Added
 - Re-added jiggly liquidy slime model
 - Re-added magma cube burger model

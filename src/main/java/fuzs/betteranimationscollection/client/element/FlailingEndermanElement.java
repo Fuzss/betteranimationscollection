@@ -53,7 +53,8 @@ public class FlailingEndermanElement extends ModelElement {
     public void setupModelConfig(OptionsBuilder builder) {
 
         builder.define("Animation Speed", 5).min(1).max(20).comment("Animation swing speed for arms.").sync(v -> this.animationSpeed = v);
-        builder.define("Flail While Carrying", true).comment("Flail arms while carrying a block.").sync(v -> this.whileCarrying = v);
+        // TODO re-enable when block layer is implemented
+//        builder.define("Flail While Carrying", true).comment("Flail arms while carrying a block.").sync(v -> this.whileCarrying = v);
     }
 
     @Override
