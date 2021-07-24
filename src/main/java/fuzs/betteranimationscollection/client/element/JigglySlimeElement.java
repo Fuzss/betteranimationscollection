@@ -20,7 +20,7 @@ public class JigglySlimeElement extends ModelElement {
     @Override
     public void constructClient() {
 
-        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SlimeGelLayer, () -> new JigglySlimeModel<>(0));
+        this.addLayerTransformer(JigglySlimeModel.class, layerRenderer -> layerRenderer instanceof SlimeGelLayer, () -> new JigglySlimeModel<>(0));
     }
 
     @Override

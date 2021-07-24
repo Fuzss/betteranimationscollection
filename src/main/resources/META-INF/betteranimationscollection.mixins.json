@@ -9,6 +9,7 @@
   "client": [
     "client.CatCollarLayerMixin",
     "client.CreeperChargeLayerMixin",
+    "client.DrownedOuterLayerMixin",
     "client.SaddleLayerMixin",
     "client.SheepWoolLayerMixin",
     "client.SlimeGelLayerMixin",

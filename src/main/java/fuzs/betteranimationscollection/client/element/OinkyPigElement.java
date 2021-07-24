@@ -27,7 +27,7 @@ public class OinkyPigElement extends SoundModelElement {
     @Override
     public void constructClient() {
 
-        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SaddleLayer, () -> new OinkyPigModel<>(0.5F));
+        this.addLayerTransformer(OinkyPigModel.class, layerRenderer -> layerRenderer instanceof SaddleLayer, () -> new OinkyPigModel<>(0.5F));
     }
 
     @Override

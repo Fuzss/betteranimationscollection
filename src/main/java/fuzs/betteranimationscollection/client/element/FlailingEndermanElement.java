@@ -30,6 +30,7 @@ public class FlailingEndermanElement extends ModelElement {
     @Override
     public void constructClient() {
 
+        // TODO block layer
 //        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SlimeGelLayer, () -> new JigglySlimeModel<>(0));
     }
 

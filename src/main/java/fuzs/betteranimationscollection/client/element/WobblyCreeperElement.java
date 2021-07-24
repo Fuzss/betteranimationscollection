@@ -20,7 +20,7 @@ public class WobblyCreeperElement extends ModelElement {
     @Override
     public void constructClient() {
 
-        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof CreeperChargeLayer, () -> new WobblyCreeperModel<>(2.0F));
+        this.addLayerTransformer(WobblyCreeperModel.class, layerRenderer -> layerRenderer instanceof CreeperChargeLayer, () -> new WobblyCreeperModel<>(2.0F));
     }
 
     @Override

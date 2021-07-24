@@ -19,7 +19,7 @@ public class KneelingSheepElement extends ModelElement {
     @Override
     public void constructClient() {
 
-        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof SheepWoolLayer, KneelingSheepWoolModel::new);
+        this.addLayerTransformer(KneelingSheepModel.class, layerRenderer -> layerRenderer instanceof SheepWoolLayer, KneelingSheepWoolModel::new);
     }
 
     @Override

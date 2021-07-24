@@ -1,5 +1,6 @@
 package fuzs.betteranimationscollection.client.element;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -33,7 +34,11 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
     private final Minecraft mc = Minecraft.getInstance();
     private final Map<EntityType<?>, ModelInfo> entityTypeToModelInfo = Maps.newHashMap();
-    private final List<LayerTransformer<?>> layerTransformers = Lists.newArrayList();
+    /**
+     * element can provide multiple models for multiple mobs, therefore store by model class
+     * also don't use multi map as wen want to retrieve a list with index access
+     */
+    private final Map<Class<?>, List<LayerTransformer<?>>> layerTransformers = Maps.newHashMap();
     protected final List<ResourceLocation> defaultEntityBlacklist = Lists.newArrayList();
 
     private Set<EntityType<?>> blacklistedEntities = Sets.newHashSet();
@@ -80,23 +85,33 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
     protected abstract EntityModel<? extends LivingEntity> getEntityModel();
 
-    protected final void addLayerTransformer(Predicate<LayerRenderer<?, ?>> filter, Supplier<? extends EntityModel<? extends Entity>> model) {
+    protected List<Supplier<EntityModel<? extends LivingEntity>>> getEntityModels() {
 
-        this.layerTransformers.add(new LayerTransformer<>(filter, model));
+        return ImmutableList.of(this::getEntityModel);
     }
 
-    private void collectModels() {
+    protected final void addLayerTransformer(Class<?> entityModelClazz, Predicate<LayerRenderer<?, ?>> filter, Supplier<? extends EntityModel<? extends Entity>> model) {
+
+        this.layerTransformers.computeIfAbsent(entityModelClazz, clazz -> Lists.newArrayList()).add(new LayerTransformer<>(filter, model));
+    }
+
+    protected void collectModels() {
 
         this.mc.getEntityRenderDispatcher().renderers.forEach((entityType, renderer) -> {
 
             if (renderer instanceof LivingRenderer) {
 
                 LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>> livingRenderer = (LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>>) renderer;
-                // find all renderers which normally use the super class of our model, so we can exchange them
-                EntityModel<? extends LivingEntity> entityModel = this.getEntityModel();
-                if (livingRenderer.getModel().getClass().equals(entityModel.getClass().getSuperclass())) {
+                // find all renderers which normally use the super class of our models, so we can exchange them
+                for (Supplier<EntityModel<? extends LivingEntity>> entityModel : this.getEntityModels()) {
 
-                    this.entityTypeToModelInfo.put(entityType, new ModelInfo(livingRenderer, livingRenderer.getModel(), entityModel, this.layerTransformers.size()));
+                    EntityModel<? extends LivingEntity> model = entityModel.get();
+                    if (livingRenderer.getModel().getClass().equals(model.getClass().getSuperclass())) {
+
+                        List<LayerTransformer<?>> modelLayerTransformers = this.layerTransformers.get(model.getClass());
+                        this.entityTypeToModelInfo.put(entityType, new ModelInfo(livingRenderer, livingRenderer.getModel(), model, modelLayerTransformers != null ? modelLayerTransformers.size() : 0));
+                        break;
+                    }
                 }
             }
         });
@@ -234,7 +249,8 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
         private <T> void transformLayers(LayerTransformation<T> applyTransformer, BiPredicate<T, Integer> resultConverter) {
 
-            if (ModelElement.this.layerTransformers.isEmpty()) {
+            List<LayerTransformer<?>> modelLayerTransformers = ModelElement.this.layerTransformers.get(this.animatedModel.getClass());
+            if (modelLayerTransformers == null || modelLayerTransformers.isEmpty()) {
 
                 return;
             }
@@ -244,10 +260,9 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
                 if (layerRenderer instanceof ILayerModelAccessor) {
 
-                    List<LayerTransformer<?>> transformers = ModelElement.this.layerTransformers;
-                    for (int i = 0, transformersSize = transformers.size(); i < transformersSize; i++) {
+                    for (int i = 0, transformersSize = modelLayerTransformers.size(); i < transformersSize; i++) {
 
-                        LayerTransformer<?> layerTransformer = transformers.get(i);
+                        LayerTransformer<?> layerTransformer = modelLayerTransformers.get(i);
                         T result = applyTransformer.apply(layerTransformer, layerRenderer, i);
                         if (resultConverter.test(result, i)) {
 

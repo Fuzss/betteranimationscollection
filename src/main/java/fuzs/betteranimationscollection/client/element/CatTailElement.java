@@ -21,7 +21,7 @@ public class CatTailElement extends ModelElement {
     @Override
     public void constructClient() {
 
-        this.addLayerTransformer(layerRenderer -> layerRenderer instanceof CatCollarLayer, () -> new CatTailModel<>(0.01F));
+        this.addLayerTransformer(CatTailModel.class, layerRenderer -> layerRenderer instanceof CatCollarLayer, () -> new CatTailModel<>(0.01F));
     }
 
     @Override
