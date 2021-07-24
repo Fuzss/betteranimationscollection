@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2.1-1.16.5] - 2021-07-25
+### Changed
+- Renamed zombie knees element to humanoid knees, now also includes piglin-like mobs
+
 ## [v1.2-1.16.5] - 2021-07-24
 ### Added
 - Re-added arm flailing enderman model

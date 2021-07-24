@@ -130,14 +130,18 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
     private interface LayerAction extends Function<LayerRenderer<?, ?>, LayerRenderer<?, ?>> {
 
+        // TODO make this work
     }
 
     private static class LayerExchanger implements LayerAction {
 
         @Override
         public LayerRenderer<?, ?> apply(LayerRenderer<?, ?> layerRenderer) {
+
+            // TODO make this work
             return null;
         }
+
     }
 
     private static class LayerTransformer<M extends EntityModel<? extends Entity>> implements LayerAction {
@@ -180,8 +184,11 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
         @Override
         public LayerRenderer<?, ?> apply(LayerRenderer<?, ?> layerRenderer) {
+
+            // TODO make this work
             return null;
         }
+
     }
 
     private class ModelInfo {
@@ -207,7 +214,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
                 this.isModelSwitched = true;
                 this.setRendererModel(this.animatedModel);
-                BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for {}", this.origModel.getClass().getSimpleName(), this.animatedModel.getClass().getSimpleName(), this.livingRenderer.getClass().getSimpleName());
+                BetterAnimationsCollection.LOGGER.info("Replaced {} with {} for {}", this.origModel.getClass().getSimpleName(), this.animatedModel.getClass().getSimpleName(), this.toSimpleString(this.livingRenderer));
                 this.switchLayers();
             }
         }
@@ -218,7 +225,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
 
                 this.isModelSwitched = false;
                 this.setRendererModel(this.origModel);
-                BetterAnimationsCollection.LOGGER.info("Restored {} for {}", this.origModel.getClass().getSimpleName(), this.livingRenderer.getClass().getSimpleName());
+                BetterAnimationsCollection.LOGGER.info("Restored {} for {}", this.origModel.getClass().getSimpleName(), this.toSimpleString(this.livingRenderer));
                 this.resetLayers();
             }
         }
@@ -226,6 +233,11 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
         private void setRendererModel(EntityModel<? extends LivingEntity> model) {
 
             ((LivingRendererAccessor<? extends LivingEntity, EntityModel<? extends LivingEntity>>) this.livingRenderer).setModel(model);
+        }
+
+        private String toSimpleString(Object o) {
+
+            return o.getClass().getSimpleName() + "@" + Integer.toHexString(o.hashCode());
         }
 
         private void switchLayers() {
