@@ -4,10 +4,6 @@ import fuzs.betteranimationscollection.client.renderer.entity.model.SpiderKneesM
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 
-/**
- * no need to transform spider model in eye layer as it directly uses the model from the renderer
- * this is applied to all spiders, including cave spiders
- */
 public class SpiderKneesElement extends ModelElement {
 
     @Override

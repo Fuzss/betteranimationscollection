@@ -25,7 +25,7 @@ public class PlayfulDoggyElement extends ModelElement {
         builder.define("Tail Length", 7).min(1).max(7).comment("Define tail length.").sync(v -> this.tailLength = v).restart();
         builder.define("Fluffy Tail", true).comment("Make wolf tail fluffy.").sync(v -> this.fluffyTail = v).restart();
         builder.define("Animation Speed", 5).min(1).max(20).comment("Animation swing speed for tail.").sync(v -> this.animationSpeed = v);
-        builder.define("Sitting Behaviour", SittingBehaviour.LIE_DOWN_AND_BEG_FOR_MEAT).comment("Pose and behaviour when sitting.", "By default makes wolves lie down instead, and roll over when the player is holding some meat.").sync(v -> this.sittingBehaviour = v);
+        builder.define("Sitting Behaviour", SittingBehaviour.LIE_DOWN_AND_BEG_FOR_MEAT).comment("Pose and behaviour when sitting.", "By default makes wolves lie down instead, and roll over when a nearby player is holding a piece meat.").sync(v -> this.sittingBehaviour = v);
     }
 
     @Override
@@ -34,9 +34,40 @@ public class PlayfulDoggyElement extends ModelElement {
         return new PlayfulDoggyModel<>();
     }
 
+    @SuppressWarnings("unused")
     public enum SittingBehaviour {
 
-        NONE, LIE_DOWN, ROLL_OVER, LIE_DOWN_AND_BEG_FOR_MEAT
+        DEFAULT(false, false, false),
+        LIE_DOWN(true, false, false),
+        ROLL_OVER(true, true, false),
+        LIE_DOWN_AND_BEG_FOR_MEAT(true, true, true);
+
+        private final boolean lieDown;
+        private final boolean rollOver;
+        private final boolean begForMeat;
+
+        SittingBehaviour(boolean lieDown, boolean rollOver, boolean begForMeat) {
+
+            this.lieDown = lieDown;
+            this.rollOver = rollOver;
+            this.begForMeat = begForMeat;
+        }
+
+        public boolean lieDown() {
+
+            return this.lieDown;
+        }
+
+        public boolean rollOver() {
+
+            return this.rollOver;
+        }
+
+        public boolean begForMeat() {
+
+            return this.begForMeat;
+        }
+
     }
 
 }

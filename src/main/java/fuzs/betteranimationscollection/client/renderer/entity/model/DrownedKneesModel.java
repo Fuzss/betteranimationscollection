@@ -10,9 +10,9 @@ public class DrownedKneesModel<T extends ZombieEntity> extends DrownedModel<T> {
     private final ModelRenderer rightLowerLeg;
     private final ModelRenderer leftLowerLeg;
 
-    public DrownedKneesModel(float modelSizeIn, float yOffsetIn, int textureWidthIn, int textureHeightIn) {
+    public DrownedKneesModel(float modelSizeIn) {
 
-        super(modelSizeIn, yOffsetIn, textureWidthIn, textureHeightIn);
+        super(modelSizeIn, 0.0F, 64, 64);
 
         this.rightLeg = getRightDrownedLeg(this, modelSizeIn, 0.0F);
         this.leftLeg = ZombieKneesModel.getLeftLeg(this, modelSizeIn, 0.0F);

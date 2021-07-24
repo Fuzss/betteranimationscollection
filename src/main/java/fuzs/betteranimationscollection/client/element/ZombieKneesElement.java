@@ -23,13 +23,13 @@ public class ZombieKneesElement extends MultiModelElement {
     public void constructClient() {
 
         // TODO armor layer
-        this.addLayerTransformer(DrownedKneesModel.class, layerRenderer -> layerRenderer instanceof DrownedOuterLayer, () -> new DrownedKneesModel<>(0.25F, 0.0F, 64, 64));
+        this.addLayerTransformer(DrownedKneesModel.class, layerRenderer -> layerRenderer instanceof DrownedOuterLayer, () -> new DrownedKneesModel<>(0.25F));
     }
 
     @Override
     protected List<Supplier<EntityModel<? extends LivingEntity>>> getEntityModels() {
 
-        return ImmutableList.of(() -> new ZombieKneesModel<>(0.0F, false), () -> new DrownedKneesModel<>(0.0F, 0.0F, 64, 64));
+        return ImmutableList.of(() -> new ZombieKneesModel<>(0.0F, false), () -> new DrownedKneesModel<>(0.0F));
     }
 
 }
