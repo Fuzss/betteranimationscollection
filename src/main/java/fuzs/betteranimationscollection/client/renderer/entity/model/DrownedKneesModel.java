@@ -13,10 +13,10 @@ public class DrownedKneesModel<T extends ZombieEntity> extends DrownedModel<T> {
 
         super(modelSizeIn, 0.0F, 64, 64);
 
-        this.rightLeg = BipedKneesModel.getHalfLeg(this, modelSizeIn, -1.9F, 0.0F, 16, 48, false);
-        this.leftLeg = BipedKneesModel.getHalfLeg(this, modelSizeIn, 1.9F, 0.0F, 0, 16, true);
-        this.rightLowerLeg = BipedKneesModel.getHalfLeg(this, modelSizeIn, 0.0F, -6.0F, 16, 54, false);
-        this.leftLowerLeg = BipedKneesModel.getHalfLeg(this, modelSizeIn, 0.0F, -6.0F, 0, 22, true);
+        this.rightLeg = BipedKneesModel.makeHalfLeg(this, modelSizeIn, -1.9F, 0.0F, 0.0F, 16, 48, false);
+        this.leftLeg = BipedKneesModel.makeHalfLeg(this, modelSizeIn, 1.9F, 0.0F, 0.0F, 0, 16, true);
+        this.rightLowerLeg = BipedKneesModel.makeHalfLeg(this, modelSizeIn, 0.0F, -6.0F, -2.0F, 16, 54, false);
+        this.leftLowerLeg = BipedKneesModel.makeHalfLeg(this, modelSizeIn, 0.0F, -6.0F, -2.0F, 0, 22, true);
         this.rightLeg.addChild(this.rightLowerLeg);
         this.leftLeg.addChild(this.leftLowerLeg);
     }
@@ -25,10 +25,10 @@ public class DrownedKneesModel<T extends ZombieEntity> extends DrownedModel<T> {
 
         super(modelSizeIn, shortTexture);
 
-        this.rightLeg = BipedKneesModel.getHalfLeg(this, modelSizeIn, -1.9F, 0.0F, 0, 16, false);
-        this.leftLeg = BipedKneesModel.getHalfLeg(this, modelSizeIn, 1.9F, 0.0F, 0, 16, true);
-        this.rightLowerLeg = BipedKneesModel.getHalfLeg(this, modelSizeIn, 0.0F, -6.0F, 0, 22, false);
-        this.leftLowerLeg = BipedKneesModel.getHalfLeg(this, modelSizeIn, 0.0F, -6.0F, 0, 22, true);
+        this.rightLeg = BipedKneesModel.makeHalfLeg(this, modelSizeIn, -1.9F, 0.0F, 0.0F, 0, 16, false);
+        this.leftLeg = BipedKneesModel.makeHalfLeg(this, modelSizeIn, 1.9F, 0.0F, 0.0F, 0, 16, true);
+        this.rightLowerLeg = BipedKneesModel.makeHalfLeg(this, modelSizeIn, 0.0F, -6.0F, -2.0F, 0, 22, false);
+        this.leftLowerLeg = BipedKneesModel.makeHalfLeg(this, modelSizeIn, 0.0F, -6.0F, -2.0F, 0, 22, true);
         this.rightLeg.addChild(this.rightLowerLeg);
         this.leftLeg.addChild(this.leftLowerLeg);
     }

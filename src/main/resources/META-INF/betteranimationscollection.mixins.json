@@ -10,6 +10,7 @@
     "client.CatCollarLayerMixin",
     "client.CreeperChargeLayerMixin",
     "client.DrownedOuterLayerMixin",
+    "client.PlayerModelMixin",
     "client.SaddleLayerMixin",
     "client.SheepWoolLayerMixin",
     "client.SlimeGelLayerMixin",

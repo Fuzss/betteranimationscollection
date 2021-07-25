@@ -15,19 +15,19 @@ public class BipedKneesModel<T extends LivingEntity> extends BipedModel<T> {
 
         super(modelSizeIn);
 
-        this.rightLeg = getHalfLeg(this, modelSizeIn, -1.9F, 0.0F, 0, 16, false);
-        this.leftLeg = getHalfLeg(this, modelSizeIn, 1.9F, 0.0F, 0, 16, true);
-        this.rightLowerLeg = getHalfLeg(this, modelSizeIn, 0.0F, -6.0F, 0, 22, false);
-        this.leftLowerLeg = getHalfLeg(this, modelSizeIn, 0.0F, -6.0F, 0, 22, true);
+        this.rightLeg = makeHalfLeg(this, modelSizeIn, -1.9F, 0.0F, 0.0F, 0, 16, false);
+        this.leftLeg = makeHalfLeg(this, modelSizeIn, 1.9F, 0.0F, 0.0F, 0, 16, true);
+        this.rightLowerLeg = makeHalfLeg(this, modelSizeIn, 0.0F, -6.0F, -2.0F, 0, 22, false);
+        this.leftLowerLeg = makeHalfLeg(this, modelSizeIn, 0.0F, -6.0F, -2.0F, 0, 22, true);
         this.rightLeg.addChild(this.rightLowerLeg);
         this.leftLeg.addChild(this.leftLowerLeg);
     }
 
-    public static ModelRenderer getHalfLeg(Model model, float modelSizeIn, float xOffsetIn, float yOffsetIn, int textureX, int textureY, boolean mirror) {
+    public static ModelRenderer makeHalfLeg(Model model, float modelSizeIn, float xOffsetIn, float yOffsetIn, float zOffsetIn, int textureX, int textureY, boolean mirror) {
 
         final ModelRenderer halfLeg = new ModelRenderer(model, textureX, textureY);
-        halfLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, modelSizeIn);
-        halfLeg.setPos(xOffsetIn, 12.0F + yOffsetIn, 0.0F);
+        halfLeg.addBox(-2.0F, 0.0F, -2.0F - zOffsetIn, 4, 6, 4, modelSizeIn);
+        halfLeg.setPos(xOffsetIn, 12.0F + yOffsetIn, zOffsetIn);
         halfLeg.mirror = mirror;
         return halfLeg;
     }
@@ -46,31 +46,18 @@ public class BipedKneesModel<T extends LivingEntity> extends BipedModel<T> {
 
             flightAmplifier = (float) entityIn.getDeltaMovement().lengthSqr();
             flightAmplifier = flightAmplifier / 0.2F;
-            flightAmplifier = Math.min(1.0F, flightAmplifier * flightAmplifier * flightAmplifier);
+            flightAmplifier = Math.max(1.0F, flightAmplifier * flightAmplifier * flightAmplifier);
         }
 
-        model.rightLeg.xRot = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * 0.75F * limbSwingAmount / flightAmplifier;
-        model.leftLeg.xRot = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * 0.75F * limbSwingAmount / flightAmplifier;
-        rightLowerLeg.xRot = 0.0F;
-        leftLowerLeg.xRot = 0.0F;
         if (model.riding) {
 
-            model.rightLeg.xRot -= 0.6F;
-            model.leftLeg.xRot -= 0.6F;
-            rightLowerLeg.xRot = 0.9F;
-            leftLowerLeg.xRot = 0.9F;
+            rightLowerLeg.xRot = 0.6F;
+            leftLowerLeg.xRot = 0.6F;
+        } else {
+
+            rightLowerLeg.xRot = Math.max(0.0F, MathHelper.sin(limbSwing * 0.6662F)) * 1.5F * limbSwingAmount / flightAmplifier;
+            leftLowerLeg.xRot = Math.max(0.0F, MathHelper.sin(limbSwing * 0.6662F + (float) Math.PI)) * 1.5F * limbSwingAmount / flightAmplifier;
         }
-
-        if (model.crouching) {
-
-            model.rightLeg.xRot -= 0.275F;
-            model.leftLeg.xRot -= 0.275F;
-            rightLowerLeg.xRot = 0.275F;
-            leftLowerLeg.xRot = 0.275F;
-        }
-
-        rightLowerLeg.xRot += Math.max(0.0F, MathHelper.sin(limbSwing * 0.6662F)) * 1.5F * limbSwingAmount / flightAmplifier;
-        leftLowerLeg.xRot += Math.max(0.0F, MathHelper.sin(limbSwing * 0.6662F + (float) Math.PI)) * 1.5F * limbSwingAmount / flightAmplifier;
     }
 
 }

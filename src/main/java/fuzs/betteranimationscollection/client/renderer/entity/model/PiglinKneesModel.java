@@ -18,16 +18,16 @@ public class PiglinKneesModel<T extends MobEntity> extends PiglinModel<T> {
         
         super(0.0F, 64, 64);
 
-        this.rightLeg = BipedKneesModel.getHalfLeg(this, 0.0F, -1.9F, 0.0F, 0, 16, false);
-        this.leftLeg = BipedKneesModel.getHalfLeg(this, 0.0F, 1.9F, 0.0F, 16, 48, true);
-        this.rightLowerLeg = BipedKneesModel.getHalfLeg(this, 0.0F, 0.0F, -6.0F, 0, 22, false);
-        this.leftLowerLeg = BipedKneesModel.getHalfLeg(this, 0.0F, 0.0F, -6.0F, 16, 54, true);
+        this.rightLeg = BipedKneesModel.makeHalfLeg(this, 0.0F, -1.9F, 0.0F, 0.0F, 0, 16, false);
+        this.leftLeg = BipedKneesModel.makeHalfLeg(this, 0.0F, 1.9F, 0.0F, 0.0F, 16, 48, true);
+        this.rightLowerLeg = BipedKneesModel.makeHalfLeg(this, 0.0F, 0.0F, -6.0F, -2.0F, 0, 22, false);
+        this.leftLowerLeg = BipedKneesModel.makeHalfLeg(this, 0.0F, 0.0F, -6.0F, -2.0F, 16, 54, true);
         this.rightLeg.addChild(this.rightLowerLeg);
         this.leftLeg.addChild(this.leftLowerLeg);
-        this.rightPants = BipedKneesModel.getHalfLeg(this, 0.25F, -1.9F, 0.0F, 0, 32, false);
-        this.leftPants = BipedKneesModel.getHalfLeg(this, 0.25F, 1.9F, 0.0F, 0, 48, true);
-        this.rightLowerPants = BipedKneesModel.getHalfLeg(this, 0.25F, 0.0F, -6.0F, 0, 38, false);
-        this.leftLowerPants = BipedKneesModel.getHalfLeg(this, 0.25F, 0.0F, -6.0F, 0, 54, true);
+        this.rightPants = BipedKneesModel.makeHalfLeg(this, 0.25F, -1.9F, 0.0F, 0.0F, 0, 32, false);
+        this.leftPants = BipedKneesModel.makeHalfLeg(this, 0.25F, 1.9F, 0.0F, 0.0F, 0, 48, true);
+        this.rightLowerPants = BipedKneesModel.makeHalfLeg(this, 0.25F, 0.0F, -6.0F, -2.0F, 0, 38, false);
+        this.leftLowerPants = BipedKneesModel.makeHalfLeg(this, 0.25F, 0.0F, -6.0F, -2.0F, 0, 54, true);
         this.rightPants.addChild(this.rightLowerPants);
         this.leftPants.addChild(this.leftLowerPants);
     }
