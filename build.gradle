@@ -47,7 +47,11 @@ minecraft {
         client {
 
             workingDirectory project.file('run')
-            jvmArgs '-ea'
+            if (project.findProperty('enableHotswap').toBoolean()) {
+                jvmArgs '-ea', '-Xms1G', '-Xmx4G', '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5010', '-XXaltjvm=dcevm', '-XX:+UnlockExperimentalVMOptions', "-javaagent:${hotswapAgent}"
+            } else {
+                jvmArgs '-ea', '-Xms1G', '-Xmx4G'
+            }
             arg "-mixin.config=META-INF/${project.id}.mixins.json".toString()
             properties 'mixin.env.remapRefMap': 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"

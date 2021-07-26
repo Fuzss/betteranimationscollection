@@ -39,6 +39,7 @@ public class BetterAnimationsCollection {
     public static final AbstractElement PLAYFUL_DOGGY = REGISTRY.register("playful_doggy", () -> new PlayfulDoggyElement(), Dist.CLIENT);
     public static final AbstractElement HUMANOID_KNEES = REGISTRY.register("humanoid_knees", () -> new HumanoidKneesElement(), Dist.CLIENT);
     public static final AbstractElement ANIMATED_PLAYER = REGISTRY.register("animated_player", () -> new AnimatedPlayerElement(), Dist.CLIENT);
+    public static final AbstractElement FAMILIAR_HORSE = REGISTRY.register("familiar_horse", () -> new FamiliarHorseElement(), Dist.CLIENT);
 
     public BetterAnimationsCollection() {
 

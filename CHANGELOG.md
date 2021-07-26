@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2.2-1.16.5] - 2021-07-24
+### Added
+- Added familiar horse model based on [Familiar Horses] mod
+
 ## [v1.2.1-1.16.5] - 2021-07-25
 ### Added
 - Player animations, mostly taken from [Console Experience] mod
@@ -72,3 +76,4 @@ The format is based on [Keep a Changelog].
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Puzzles Lib]: https://www.curseforge.com/minecraft/mc-mods/puzzles-lib
 [Console Experience]: https://www.curseforge.com/minecraft/mc-mods/console-hud
+[Familiar Horses]: https://www.curseforge.com/minecraft/mc-mods/familiar-horses
