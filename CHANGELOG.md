@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog].
 - Added spitful llama model
 ### Changed
 - Familiar horse element now works for donkeys and mules
+### Fixed
+- Fixed foal model floating above the ground
 
 ## [v1.2.2-1.16.5] - 2021-07-24
 ### Added

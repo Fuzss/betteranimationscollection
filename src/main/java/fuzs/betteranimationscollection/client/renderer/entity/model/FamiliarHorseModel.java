@@ -86,32 +86,32 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
         this.frontRightShin.setPos(4.0F, 9.0F, -12.0F);
 
         this.babyBackLeftLeg = new ModelRenderer(this, 48, 21);
-        this.babyBackLeftLeg.addBox(-1.0F, -1.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn);
+        this.babyBackLeftLeg.addBox(-1.0F, 0.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyBackLeftLeg.setPos(-4.0F, 14.0F, 7.0F);
         this.babyBackLeftShin = new ModelRenderer(this, 48, 26);
-        this.babyBackLeftShin.addBox(-1.0F, 0.99F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn);
+        this.babyBackLeftShin.addBox(-1.0F, 4.01F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyBackLeftShin.setPos(-4.0F, 17.0F, 7.0F);
         this.babyBackRightLeg = new ModelRenderer(this, 48, 21);
         this.babyBackRightLeg.mirror = true;
-        this.babyBackRightLeg.addBox(-3.0F, -1.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn);
+        this.babyBackRightLeg.addBox(-3.0F, 0.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyBackRightLeg.setPos(4.0F, 14.0F, 7.0F);
         this.babyBackRightShin = new ModelRenderer(this, 48, 26);
         this.babyBackRightShin.mirror = true;
-        this.babyBackRightShin.addBox(-3.0F, 0.99F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn);
+        this.babyBackRightShin.addBox(-3.0F, 4.01F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyBackRightShin.setPos(4.0F, 17.0F, 7.0F);
         this.babyFrontLeftLeg = new ModelRenderer(this, 48, 21);
-        this.babyFrontLeftLeg.addBox(-1.0F, -1.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn);
+        this.babyFrontLeftLeg.addBox(-1.0F, 0.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyFrontLeftLeg.setPos(-4.0F, 6.0F, -12.0F);
         this.babyFrontLeftShin = new ModelRenderer(this, 48, 26);
-        this.babyFrontLeftShin.addBox(-1.0F, 0.99F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn);
+        this.babyFrontLeftShin.addBox(-1.0F, 4.01F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyFrontLeftShin.setPos(-4.0F, 9.0F, -12.0F);
         this.babyFrontRightLeg = new ModelRenderer(this, 48, 21);
         this.babyFrontRightLeg.mirror = true;
-        this.babyFrontRightLeg.addBox(-3.0F, -1.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn);
+        this.babyFrontRightLeg.addBox(-3.0F, 0.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyFrontRightLeg.setPos(4.0F, 6.0F, -12.0F);
         this.babyFrontRightShin = new ModelRenderer(this, 48, 26);
         this.babyFrontRightShin.mirror = true;
-        this.babyFrontRightShin.addBox(-3.0F, 0.99F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn);
+        this.babyFrontRightShin.addBox(-3.0F, 4.01F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyFrontRightShin.setPos(4.0F, 9.0F, -12.0F);
 
         this.leftFaceMetal = new ModelRenderer(this, 29, 5);
@@ -185,7 +185,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
         float f4 = f2 * ((float) Math.PI / 180F);
         f3 = MathHelper.clamp(f3, -20.0F, 20.0F);
         if (limbSwingAmount > 0.2F) {
-            
+
             f4 += MathHelper.cos(limbSwing * 0.4F) * 0.15F * limbSwingAmount;
         }
 
@@ -206,7 +206,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
         this.neck.yRot = f6 * f3 * 0.017453292F + (1.0F - Math.max(f6, f5)) * this.neck.yRot;
         this.neck.y = f6 * -4.0F + f5 * 11.0F + (1.0F - Math.max(f6, f5)) * this.neck.y;
         this.neck.z = f6 * -4.0F + f5 * -12.0F + (1.0F - Math.max(f6, f5)) * this.neck.z;
-        
+
         this.upperMouth.y = this.upperMouthRopes.y = this.leftFaceMetal.y = this.rightFaceMetal.y = 0.02F;
         this.lowerMouth.y = this.lowerMouthRopes.y = 0.0F;
         this.upperMouth.z = this.upperMouthRopes.z = this.leftFaceMetal.z = this.rightFaceMetal.z = 0.02F - f8;
@@ -215,7 +215,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
         this.lowerMouth.xRot = this.lowerMouthRopes.xRot = 0.15707964F * f8;
         this.upperMouth.yRot = this.upperMouthRopes.yRot = this.leftFaceMetal.yRot = this.rightFaceMetal.yRot = 0.0F;
         this.lowerMouth.yRot = this.lowerMouthRopes.yRot = 0.0F;
-        
+
         float f14 = 0.2617994F * f6;
         float f15 = MathHelper.cos(f9 * 0.6F + (float) Math.PI);
         this.frontLeftLeg.y = 2.0F * f6 + 14.0F * f7;
