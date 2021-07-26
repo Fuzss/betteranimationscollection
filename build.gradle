@@ -47,6 +47,7 @@ minecraft {
         client {
 
             workingDirectory project.file('run')
+            // https://forums.minecraftforge.net/topic/82228-1152-3110-intellij-and-gradlew-forge-hotswap-and-dcevm-tutorial/
             if (project.findProperty('enableHotswap').toBoolean()) {
                 jvmArgs '-ea', '-Xms1G', '-Xmx4G', '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5010', '-XXaltjvm=dcevm', '-XX:+UnlockExperimentalVMOptions', "-javaagent:${hotswapAgent}"
             } else {

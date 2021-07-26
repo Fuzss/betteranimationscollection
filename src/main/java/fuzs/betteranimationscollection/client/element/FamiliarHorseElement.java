@@ -10,7 +10,8 @@ public class FamiliarHorseElement extends ModelElement {
     @Override
     public String[] getDescription() {
 
-        return new String[]{"Makes horses more lively again, just like they used to be in older versions. Does  this by adding back their mouth and knees. Stays true to the vanilla model style."};
+        return new String[]{"Makes horses more lively again, just like they used to be in older versions.",
+                "Does this by adding back their mouth and knees while staying true to the vanilla model style."};
     }
 
     @Override
