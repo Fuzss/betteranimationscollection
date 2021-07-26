@@ -18,7 +18,7 @@ public class SpitfulLlamaElement extends SoundModelElement {
     @Override
     public String[] getDescription() {
 
-        return new String[]{"This makes llamas open their mouth when spitting. What have they been doing it before?!"};
+        return new String[]{"This one makes llamas open their mouth when spitting. How have they been doing that before?!"};
     }
 
     @Override
