@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2.3-1.16.5] - 2021-07-26
+### Added
+- Added spitful llama model
+### Changed
+- Familiar horse element now works for donkeys and mules
+
 ## [v1.2.2-1.16.5] - 2021-07-24
 ### Added
 - Added familiar horse model based on [Familiar Horses] mod

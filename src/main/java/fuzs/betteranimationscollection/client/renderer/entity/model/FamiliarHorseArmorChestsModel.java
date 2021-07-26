@@ -1,12 +1,15 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.renderer.entity.model.HorseModel;
+import net.minecraft.client.renderer.entity.model.HorseArmorChestsModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.passive.horse.AbstractChestedHorseEntity;
 import net.minecraft.util.math.MathHelper;
 
-public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseModel<T> {
+/**
+ * everything copied from {@link fuzs.betteranimationscollection.client.renderer.entity.model.FamiliarHorseModel}
+ */
+public class FamiliarHorseArmorChestsModel<T extends AbstractChestedHorseEntity> extends HorseArmorChestsModel<T> {
 
     private final ModelRenderer neck;
     private final ModelRenderer upperMouth;
@@ -35,7 +38,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
     private final ModelRenderer[] saddleParts;
     private final ModelRenderer[] ridingParts;
 
-    public FamiliarHorseModel(float scaleIn) {
+    public FamiliarHorseArmorChestsModel(float scaleIn) {
 
         super(scaleIn);
 
@@ -185,7 +188,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
         float f4 = f2 * ((float) Math.PI / 180F);
         f3 = MathHelper.clamp(f3, -20.0F, 20.0F);
         if (limbSwingAmount > 0.2F) {
-            
+
             f4 += MathHelper.cos(limbSwing * 0.4F) * 0.15F * limbSwingAmount;
         }
 
@@ -206,7 +209,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
         this.neck.yRot = f6 * f3 * 0.017453292F + (1.0F - Math.max(f6, f5)) * this.neck.yRot;
         this.neck.y = f6 * -4.0F + f5 * 11.0F + (1.0F - Math.max(f6, f5)) * this.neck.y;
         this.neck.z = f6 * -4.0F + f5 * -12.0F + (1.0F - Math.max(f6, f5)) * this.neck.z;
-        
+
         this.upperMouth.y = this.upperMouthRopes.y = this.leftFaceMetal.y = this.rightFaceMetal.y = 0.02F;
         this.lowerMouth.y = this.lowerMouthRopes.y = 0.0F;
         this.upperMouth.z = this.upperMouthRopes.z = this.leftFaceMetal.z = this.rightFaceMetal.z = 0.02F - f8;
@@ -215,7 +218,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
         this.lowerMouth.xRot = this.lowerMouthRopes.xRot = 0.15707964F * f8;
         this.upperMouth.yRot = this.upperMouthRopes.yRot = this.leftFaceMetal.yRot = this.rightFaceMetal.yRot = 0.0F;
         this.lowerMouth.yRot = this.lowerMouthRopes.yRot = 0.0F;
-        
+
         float f14 = 0.2617994F * f6;
         float f15 = MathHelper.cos(f9 * 0.6F + (float) Math.PI);
         this.frontLeftLeg.y = 2.0F * f6 + 14.0F * f7;
@@ -274,7 +277,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
     }
 
     private void setBabyModelVisibility() {
-        
+
         this.backLeftLeg.visible = !this.young;
         this.backRightLeg.visible = !this.young;
         this.frontLeftLeg.visible = !this.young;
