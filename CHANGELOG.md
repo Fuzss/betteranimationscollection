@@ -5,9 +5,12 @@ The format is based on [Keep a Changelog].
 
 ## [v1.2.3-1.16.5] - 2021-07-26
 ### Added
+- Added mod logo for mod list
+- Added support for Catalogue and Configured mods by MrCrayfish
 - Added spitful llama model
 ### Changed
 - Familiar horse element now works for donkeys and mules
+- Build number is now part of jar file name
 ### Fixed
 - Fixed foal model floating above the ground
 
@@ -17,7 +20,7 @@ The format is based on [Keep a Changelog].
 
 ## [v1.2.1-1.16.5] - 2021-07-25
 ### Added
-- Player animations, mostly taken from [Console Experience] mod
+- Added player animations, mostly taken from [Console Experience] mod
 - Eating animation for both eating and drinking
 - Rowing animation when in a boat
 - Riding animation when on a horses
