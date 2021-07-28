@@ -12,6 +12,7 @@ import fuzs.puzzleslib.config.option.OptionsBuilder;
 import fuzs.puzzleslib.config.serialization.EntryCollectionBuilder;
 import fuzs.puzzleslib.element.AbstractElement;
 import fuzs.puzzleslib.element.side.IClientElement;
+import fuzs.puzzleslib.util.LoadedLocationList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -19,7 +20,6 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
 public abstract class ModelElement extends AbstractElement implements IClientElement {
@@ -39,7 +38,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
      * also don't use multi map as wen want to retrieve a list with index access
      */
     private final Map<Class<?>, List<LayerTransformer<?>>> layerTransformers = Maps.newHashMap();
-    protected final List<ResourceLocation> defaultEntityBlacklist = Lists.newArrayList();
+    protected final LoadedLocationList defaultEntityBlacklist = new LoadedLocationList();
 
     private Set<EntityType<?>> blacklistedEntities = Sets.newHashSet();
 
@@ -64,9 +63,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
     @Override
     public final void setupClientConfig(OptionsBuilder builder) {
 
-        builder.define("Mob Blacklist", this.defaultEntityBlacklist.stream()
-                .map(ResourceLocation::toString)
-                .collect(Collectors.toList())).comment("Mob variants these model changes shouldn't be applied to.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
+        builder.define("Mob Blacklist", this.defaultEntityBlacklist).comment("Mob variants these model changes shouldn't be applied to.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
 
             this.blacklistedEntities = ConfigManager.deserializeToSet(v, ForgeRegistries.ENTITIES);
             if (this.isEnabled() && this.isTypeLoaded(ModConfig.Type.CLIENT)) {
