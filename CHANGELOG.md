@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2.4-1.16.5] - 2021-07-28
+### Added
+- Added floaty pig ears
+
 ## [v1.2.3-1.16.5] - 2021-07-28
 ### Added
 - Added spitful llama model
