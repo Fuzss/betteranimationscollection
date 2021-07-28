@@ -9,6 +9,7 @@ import net.minecraft.util.math.MathHelper;
 /**
  * everything copied from {@link fuzs.betteranimationscollection.client.renderer.entity.model.FamiliarHorseModel}
  */
+@SuppressWarnings("DuplicatedCode")
 public class FamiliarHorseArmorChestsModel<T extends AbstractChestedHorseEntity> extends HorseArmorChestsModel<T> {
 
     private final ModelRenderer neck;
@@ -89,32 +90,32 @@ public class FamiliarHorseArmorChestsModel<T extends AbstractChestedHorseEntity>
         this.frontRightShin.setPos(4.0F, 9.0F, -12.0F);
 
         this.babyBackLeftLeg = new ModelRenderer(this, 48, 21);
-        this.babyBackLeftLeg.addBox(-1.0F, -1.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn);
+        this.babyBackLeftLeg.addBox(-1.0F, 0.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyBackLeftLeg.setPos(-4.0F, 14.0F, 7.0F);
         this.babyBackLeftShin = new ModelRenderer(this, 48, 26);
-        this.babyBackLeftShin.addBox(-1.0F, 0.99F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn);
+        this.babyBackLeftShin.addBox(-1.0F, 4.01F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyBackLeftShin.setPos(-4.0F, 17.0F, 7.0F);
         this.babyBackRightLeg = new ModelRenderer(this, 48, 21);
         this.babyBackRightLeg.mirror = true;
-        this.babyBackRightLeg.addBox(-3.0F, -1.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn);
+        this.babyBackRightLeg.addBox(-3.0F, 0.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyBackRightLeg.setPos(4.0F, 14.0F, 7.0F);
         this.babyBackRightShin = new ModelRenderer(this, 48, 26);
         this.babyBackRightShin.mirror = true;
-        this.babyBackRightShin.addBox(-3.0F, 0.99F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn);
+        this.babyBackRightShin.addBox(-3.0F, 4.01F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyBackRightShin.setPos(4.0F, 17.0F, 7.0F);
         this.babyFrontLeftLeg = new ModelRenderer(this, 48, 21);
-        this.babyFrontLeftLeg.addBox(-1.0F, -1.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn);
+        this.babyFrontLeftLeg.addBox(-1.0F, 0.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyFrontLeftLeg.setPos(-4.0F, 6.0F, -12.0F);
         this.babyFrontLeftShin = new ModelRenderer(this, 48, 26);
-        this.babyFrontLeftShin.addBox(-1.0F, 0.99F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn);
+        this.babyFrontLeftShin.addBox(-1.0F, 4.01F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyFrontLeftShin.setPos(-4.0F, 9.0F, -12.0F);
         this.babyFrontRightLeg = new ModelRenderer(this, 48, 21);
         this.babyFrontRightLeg.mirror = true;
-        this.babyFrontRightLeg.addBox(-3.0F, -1.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn);
+        this.babyFrontRightLeg.addBox(-3.0F, 0.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyFrontRightLeg.setPos(4.0F, 6.0F, -12.0F);
         this.babyFrontRightShin = new ModelRenderer(this, 48, 26);
         this.babyFrontRightShin.mirror = true;
-        this.babyFrontRightShin.addBox(-3.0F, 0.99F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn);
+        this.babyFrontRightShin.addBox(-3.0F, 4.01F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
         this.babyFrontRightShin.setPos(4.0F, 9.0F, -12.0F);
 
         this.leftFaceMetal = new ModelRenderer(this, 29, 5);

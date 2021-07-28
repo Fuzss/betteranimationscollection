@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.util.math.MathHelper;
 
+@SuppressWarnings("DuplicatedCode")
 public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseModel<T> {
 
     private final ModelRenderer neck;

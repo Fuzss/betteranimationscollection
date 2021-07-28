@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[${loaderVersion},)"
 license="Mozilla Public License 2.0"
-issueTrackerURL="${modIssue}"
+issueTrackerURL="${modIssueUrl}"
 
 [[mods]]
     modId="${modId}"
@@ -11,7 +11,7 @@ issueTrackerURL="${modIssue}"
     authors="${modAuthor}"
     logoFile="logo.png"
     logoBlur=false
-    displayURL="${modUrl}"
+    displayURL="${modPageUrl}"
     updateJSONURL="${modUpdateUrl}"
 
 [[dependencies.${modId}]]

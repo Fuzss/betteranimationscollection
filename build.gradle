@@ -32,9 +32,12 @@ apply plugin: 'org.spongepowered.mixin'
 
 version = "v${modVersion}.${nextBuildNumber}-${forgeVersion.replaceAll("-.*", "")}"
 group = "${modGroup}"
-ext.id = "${modId}"
+ext.modid = "${modId}"
 ext.modversion = "${modVersion}"
-ext.author = "${modAuthor}"
+ext.modauthor = "${modAuthor}"
+ext.modpageurl = "https://www.curseforge.com/minecraft/mc-mods/${modSlug}"
+ext.modissueurl = "https://github.com/${githubUser}/${project.modid}/issues"
+ext.modupdateurl = "https://raw.githubusercontent.com/${githubUser}/${project.modid}/${githubBranch}/update.json"
 ext.loader = "${loaderVersion}"
 ext.puzzlesversion = "${puzzlesVersion.substring(1, puzzlesVersion.indexOf("-"))}"
 
@@ -48,24 +51,33 @@ minecraft {
 
         client {
 
-            workingDirectory project.file('run')
+            // default values
+//            workingDirectory project.file('run')
+//            ideaModule "${project.name}.main"
+
             // https://forums.minecraftforge.net/topic/82228-1152-3110-intellij-and-gradlew-forge-hotswap-and-dcevm-tutorial/
             if (project.findProperty('enableHotswap').toBoolean()) {
+
                 jvmArgs '-ea', '-Xms1G', '-Xmx4G', '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5010', '-XXaltjvm=dcevm', '-XX:+UnlockExperimentalVMOptions', "-javaagent:${hotswapAgent}"
             } else {
+
                 jvmArgs '-ea', '-Xms1G', '-Xmx4G'
             }
-            arg "-mixin.config=META-INF/${project.id}.mixins.json".toString()
-            properties 'mixin.env.remapRefMap': 'true'
+
+            args '--mixin.config', "META-INF/${project.modid}.mixins.json".toString()
+            property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
         }
 
         server {
 
-            workingDirectory project.file('run')
-            jvmArgs '-ea'
-            arg "-mixin.config=META-INF/${project.id}.mixins.json".toString()
-            properties 'mixin.env.remapRefMap': 'true'
+            // default values
+//            workingDirectory project.file('run')
+//            ideaModule "${project.name}.main"
+
+            jvmArgs '-ea', '-Xms1G', '-Xmx4G'
+            args 'nogui', '--mixin.config', "META-INF/${project.modid}.mixins.json".toString()
+            property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
         }
     }
@@ -91,21 +103,21 @@ dependencies {
 
 mixin {
 
-    add sourceSets.main, "${project.id}.refmap.json"
+    add sourceSets.main, "${project.modid}.refmap.json"
 }
 
 processResources {
 
     // this will ensure that this task is redone when the versions change.
-    inputs.property "modId", project.id
+    inputs.property "modId", project.modid
     inputs.property "modName", "${modName}"
     inputs.property "modVersion", project.modversion
     inputs.property "modGroup", project.group
-    inputs.property "modUrl", "${modUrl}"
-    inputs.property "modUpdateUrl", "${modUpdateUrl}"
-    inputs.property "modIssue", "${modIssue}"
+    inputs.property "modPageUrl", project.modpageurl
+    inputs.property "modUpdateUrl", project.modupdateurl
+    inputs.property "modIssueUrl", project.modissueurl
     inputs.property "modDescription", "${modDescription}"
-    inputs.property "modAuthor", project.author
+    inputs.property "modAuthor", project.modauthor
     inputs.property "loaderVersion", project.loader
     inputs.property "forgeVersion", project.loader
     inputs.property "mcVersion", "${mcVersion}"
@@ -120,15 +132,15 @@ processResources {
 
         expand (
 
-                'modId': project.id,
+                'modId': project.modid,
                 'modName': "${modName}",
                 'modVersion': project.modversion,
                 'modGroup': project.group,
-                'modUrl': "${modUrl}",
-                'modUpdateUrl': "${modUpdateUrl}",
-                'modIssue': "${modIssue}",
+                'modPageUrl': project.modpageurl,
+                'modUpdateUrl': project.modupdateurl,
+                'modIssueUrl': project.modissueurl,
                 'modDescription': "${modDescription}",
-                'modAuthor': project.author,
+                'modAuthor': project.modauthor,
                 'loaderVersion': project.loader,
                 'forgeVersion': project.loader,
                 'mcVersion': "${mcVersion}",
@@ -147,16 +159,16 @@ processResources {
 
 ext.jarAttributes = [
 
-        "Specification-Title"       : project.id,
+        "Specification-Title"       : project.modid,
         "Specification-Version"     : project.modversion,
-        "Specification-Vendor"      : project.author.toLowerCase(),
-        "Implementation-Title"      : project.id,
+        "Specification-Vendor"      : project.modauthor.toLowerCase(),
+        "Implementation-Title"      : project.modid,
         "Implementation-Version"    : project.modversion,
-        "Implementation-Vendor"     : project.author.toLowerCase(),
+        "Implementation-Vendor"     : project.modauthor.toLowerCase(),
         "Implementation-Vendor-Id"  : project.group,
-        "Implementation-URL"        : "${modUrl}",
+        "Implementation-URL"        : project.modpageurl,
         "Implementation-Timestamp"  : new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-        "MixinConfigs"              : "META-INF/${project.id}.mixins.json"
+        "MixinConfigs"              : "META-INF/${project.modid}.mixins.json"
 ]
 
 def createJarTask(def name, def type, def sources) {
@@ -312,6 +324,5 @@ signing { sign publishing.publications.mavenJava }
 
 // general signing task runs before sources jar is signed otherwise
 signMavenJavaPublication.dependsOn project.signSourceJar
-// jar is otherwise signed before reobfuscating
-build.finalizedBy project.signJar
-jar.finalizedBy project.incrementBuildNumber, project.copyJarToDir
+// jar is otherwise signed before reobfJar task, and copyJarToDir needs to happen after signing
+build.finalizedBy project.signJar, project.copyJarToDir, project.incrementBuildNumber
