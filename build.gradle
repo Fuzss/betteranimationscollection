@@ -30,8 +30,6 @@ apply plugin: 'signing'
 apply plugin: 'eclipse'
 apply plugin: 'org.spongepowered.mixin'
 
-version = "v${modVersion}.${nextBuildNumber}-${forgeVersion.replaceAll("-.*", "")}"
-group = "${modGroup}"
 ext.modid = "${modId}"
 ext.modversion = "${modVersion}"
 ext.modauthor = "${modAuthor}"
@@ -40,6 +38,8 @@ ext.modissueurl = "https://github.com/${githubUser}/${project.modid}/issues"
 ext.modupdateurl = "https://raw.githubusercontent.com/${githubUser}/${project.modid}/${githubBranch}/update.json"
 ext.loader = "${loaderVersion}"
 ext.puzzlesversion = "${puzzlesVersion.substring(1, puzzlesVersion.indexOf("-"))}"
+version = "v${project.modversion}-${forgeVersion.replaceAll("-.*", "")}"
+group = "${modGroup}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -207,7 +207,6 @@ jar {
 
     from sourceSets.main.output.classesDirs
     from sourceSets.main.output.resourcesDir
-
     manifest { attributes(project.jarAttributes) }
     group 'jar'
 }
@@ -259,25 +258,13 @@ curseforge {
     project {
 
         id = project.findProperty('curseProjectId')
+        changelogType = 'markdown'
+        changelog = changelogFile
         releaseType = project.findProperty('curseReleaseType')
-        project.findProperty('curseProjectVersion').replaceAll(" ", "").split(",").each {version -> addGameVersion version}
-        def fileName = project.name.concat("-v${modVersion}-${forgeVersion.replaceAll("-.*", "")}")
-        mainArtifact(jar) {
-
-            displayName = fileName.concat(".jar")
-            changelogType = 'markdown'
-            changelog = changelogFile
-        }
-
-        addArtifact(sourceJar) {
-
-            displayName = fileName.concat("-sources.jar")
-        }
-
-        relations {
-
-            requiredDependency 'puzzles-lib'
-        }
+        project.findProperty('curseProjectVersion').replaceAll(" ", "").split(",").each { version -> addGameVersion version }
+        mainArtifact jar
+        addArtifact sourceJar
+        relations { requiredDependency 'puzzles-lib' }
     }
 
     options {
@@ -296,6 +283,8 @@ task copyJarToDir(type: Copy) {
         // shortcut for jar.outputs.files
         from jar
         into project.findProperty('copyJarOutputDir')
+        // add build number to be able to distinguish jars when testing thorugh official launcher
+        rename { fileName -> fileName.replace("v${project.modversion}", "v${project.modversion}.${nextBuildNumber}") }
     }
 }
 
@@ -324,5 +313,7 @@ signing { sign publishing.publications.mavenJava }
 
 // general signing task runs before sources jar is signed otherwise
 signMavenJavaPublication.dependsOn project.signSourceJar
-// jar is otherwise signed before reobfJar task, and copyJarToDir needs to happen after signing
-build.finalizedBy project.signJar, project.copyJarToDir, project.incrementBuildNumber
+// jar is otherwise signed before reobfJar task runs
+assemble.finalizedBy project.signJar
+// only copy when building manually
+build.finalizedBy project.copyJarToDir, project.incrementBuildNumber
