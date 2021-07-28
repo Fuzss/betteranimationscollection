@@ -1,6 +1,8 @@
-import java.util.regex.Pattern
-import groovy.json.JsonSlurper
 import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
+import net.minecraftforge.gradle.common.task.SignJar
+
+import java.util.regex.Pattern
 
 buildscript {
 
@@ -32,16 +34,18 @@ apply plugin: 'signing'
 apply plugin: 'eclipse'
 apply plugin: 'org.spongepowered.mixin'
 
+ext.mcversion = "${forgeVersion.replaceAll("-.*", "")}"
 ext.modid = "${modId}"
 ext.modversion = "${modVersion}"
 ext.modauthor = "${modAuthor}"
 ext.modpageurl = "https://www.curseforge.com/minecraft/mc-mods/${modSlug}"
-ext.modissueurl = "https://github.com/${githubUser}/${project.modid}/issues"
-ext.modupdateurl = "https://raw.githubusercontent.com/${githubUser}/${project.modid}/${githubBranch}/update.json"
-ext.loader = "${loaderVersion}"
+ext.modissueurl = "https://github.com/${githubAuthor}/${project.modid}/issues"
 ext.puzzlesversion = "${puzzlesVersion.substring(1, puzzlesVersion.indexOf("-"))}"
-version = "v${project.modversion}-${forgeVersion.replaceAll("-.*", "")}"
+version = "v${project.modversion}-${project.mcversion}"
 group = "${modGroup}"
+def mcVersionMatcher = Pattern.compile("(\\d+.\\d+)").matcher(project.mcversion)
+mcVersionMatcher.find()
+ext.modupdateurl = "https://raw.githubusercontent.com/${githubAuthor}/${project.modid}/".concat(mcVersionMatcher.group(1)).concat("/update.json")
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -120,15 +124,14 @@ processResources {
     inputs.property "modIssueUrl", project.modissueurl
     inputs.property "modDescription", "${modDescription}"
     inputs.property "modAuthor", project.modauthor
-    inputs.property "loaderVersion", project.loader
-    inputs.property "forgeVersion", project.loader
-    inputs.property "mcVersion", "${mcVersion}"
+    inputs.property "minForgeVersion", "${minForgeVersion}"
+    inputs.property "minMcVersion", "${minMcVersion}"
     inputs.property "nextMcVersion", "${nextMcVersion}"
     inputs.property "puzzlesVersion", project.puzzlesversion
     inputs.property "packFormat", "${packFormat}"
 
     // replace stuff in mods.toml and pack.mcmeta
-    from(sourceSets.main.resources.srcDirs) {
+    from (sourceSets.main.resources.srcDirs) {
 
         include 'META-INF/mods.toml', 'pack.mcmeta'
 
@@ -143,9 +146,8 @@ processResources {
                 'modIssueUrl': project.modissueurl,
                 'modDescription': "${modDescription}",
                 'modAuthor': project.modauthor,
-                'loaderVersion': project.loader,
-                'forgeVersion': project.loader,
-                'mcVersion': "${mcVersion}",
+                'minForgeVersion': "${minForgeVersion}",
+                'minMcVersion': "${minMcVersion}",
                 "nextMcVersion": "${nextMcVersion}",
                 "puzzlesVersion": project.puzzlesversion,
                 "packFormat": "${packFormat}"
@@ -153,7 +155,7 @@ processResources {
     }
 
     // copy everything else except mods.toml and pack.mcmeta
-    from(sourceSets.main.resources.srcDirs) {
+    from (sourceSets.main.resources.srcDirs) {
 
         exclude 'META-INF/mods.toml', 'pack.mcmeta'
     }
@@ -188,7 +190,7 @@ def createJarTask(def name, def type, def sources) {
 
 def createSignJarTask(def name, def jarTask) {
 
-    return tasks.create(name, net.minecraftforge.gradle.common.task.SignJar) {
+    return tasks.create(name, SignJar) {
 
         onlyIf {
 
@@ -281,13 +283,14 @@ curseforge {
 
 task copyJarToDir(type: Copy) {
 
-    if (project.findProperty('copyJar').toBoolean()) {
+    if (project.findProperty('copyBuildJar').toBoolean()) {
 
         // shortcut for jar.outputs.files
         from jar
-        into project.findProperty('copyJarOutputDir')
-        // add build number to be able to distinguish jars when testing thorugh official launcher
-        rename { fileName -> fileName.replace("v${project.modversion}", "v${project.modversion}.${nextBuildNumber}") }
+        into project.findProperty('buildJarOutputDir')
+        // add build number to be able to distinguish jars when testing thorough official launcher
+        // build number is stored in global gradle.properties
+        rename { fileName -> fileName.replace("v${project.modversion}", "v${project.modversion}-build${uniqueBuildNumber}") }
     }
 }
 
@@ -296,18 +299,17 @@ task incrementBuildNumber {
     doLast {
 
         def propertiesName = 'gradle.properties'
-        def propertiesFile = file(propertiesName)
+        // build number is stored in global gradle.properties
+        def propertiesFile = new File(project.gradle.gradleUserHomeDir, propertiesName)
         if (!propertiesFile.canRead()) {
 
             throw new FileNotFoundException("Could not read file ".concat(propertiesName))
         }
 
-        def pattern = Pattern.compile("nextBuildNumber=(\\d+)")
-        def propertiesText = propertiesFile.getText()
-        def matcher = pattern.matcher(propertiesText)
-        matcher.find()
-        def versionCode = Integer.parseInt(matcher.group(1))
-        def propertiesContent = matcher.replaceAll("nextBuildNumber=" + ++versionCode)
+        def buildNumberMatcher = Pattern.compile("uniqueBuildNumber=(\\d+)").matcher(propertiesFile.getText())
+        buildNumberMatcher.find()
+        def versionCode = Integer.parseInt(buildNumberMatcher.group(1))
+        def propertiesContent = buildNumberMatcher.replaceAll("uniqueBuildNumber=" + ++versionCode)
         propertiesFile.write(propertiesContent)
     }
 }
@@ -322,12 +324,14 @@ task refreshUpdateJson {
     }
 
     def updateJson = new JsonSlurper().parseText(updateFile.text)
-    def promos = updateJson.getAt('promos')
-    project.findProperty('curseProjectVersion').replaceAll(" ", "").split(",").each { version -> promos.putAt("${version}-latest", project.modversion) }
+    project.findProperty('curseProjectVersion').replaceAll(" ", "").split(",").each { version -> (updateJson['promos']["${version}-latest"] = project.modversion) }
     updateFile.write(new JsonBuilder(updateJson).toPrettyString())
 }
 
-signing { sign publishing.publications.mavenJava }
+signing {
+
+    sign publishing.publications.mavenJava
+}
 
 // general signing task runs before sources jar is signed otherwise
 signMavenJavaPublication.dependsOn project.signSourceJar

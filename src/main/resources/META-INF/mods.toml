@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[${loaderVersion},)"
+loaderVersion="[${minForgeVersion},)"
 license="Mozilla Public License 2.0"
 issueTrackerURL="${modIssueUrl}"
 
@@ -17,14 +17,14 @@ issueTrackerURL="${modIssueUrl}"
 [[dependencies.${modId}]]
     modId="forge"
     mandatory=true
-    versionRange="[${forgeVersion},)"
+    versionRange="[${minForgeVersion},)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.${modId}]]
     modId="minecraft"
     mandatory=true
-    versionRange="[${mcVersion},${nextMcVersion})"
+    versionRange="[${minMcVersion},${nextMcVersion})"
     ordering="NONE"
     side="BOTH"
 
