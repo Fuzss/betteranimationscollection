@@ -1,4 +1,6 @@
 import java.util.regex.Pattern
+import groovy.json.JsonSlurper
+import groovy.json.JsonBuilder
 
 buildscript {
 
@@ -261,6 +263,7 @@ curseforge {
         changelogType = 'markdown'
         changelog = changelogFile
         releaseType = project.findProperty('curseReleaseType')
+        addGameVersion project.findProperty('curseModloader')
         project.findProperty('curseProjectVersion').replaceAll(" ", "").split(",").each { version -> addGameVersion version }
         mainArtifact jar
         addArtifact sourceJar
@@ -270,7 +273,7 @@ curseforge {
     options {
 
         // doesn't upload, only prints json to console
-        debug = true
+        debug = false
         javaVersionAutoDetect = false
         forgeGradleIntegration = false
     }
@@ -309,6 +312,21 @@ task incrementBuildNumber {
     }
 }
 
+task refreshUpdateJson {
+
+    def updateName = 'update.json'
+    def updateFile = file(updateName)
+    if (!updateFile.canRead()) {
+
+        throw new FileNotFoundException("Could not read file ".concat(updateName))
+    }
+
+    def updateJson = new JsonSlurper().parseText(updateFile.text)
+    def promos = updateJson.getAt('promos')
+    project.findProperty('curseProjectVersion').replaceAll(" ", "").split(",").each { version -> promos.putAt("${version}-latest", project.modversion) }
+    updateFile.write(new JsonBuilder(updateJson).toPrettyString())
+}
+
 signing { sign publishing.publications.mavenJava }
 
 // general signing task runs before sources jar is signed otherwise
@@ -317,3 +335,4 @@ signMavenJavaPublication.dependsOn project.signSourceJar
 assemble.finalizedBy project.signJar
 // only copy when building manually
 build.finalizedBy project.copyJarToDir, project.incrementBuildNumber
+tasks.getByPath('curseforge').finalizedBy project.refreshUpdateJson
