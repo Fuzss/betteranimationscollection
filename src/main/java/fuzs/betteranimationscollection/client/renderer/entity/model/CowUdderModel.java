@@ -1,9 +1,8 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.CowUdderElement;
+import fuzs.betteranimationscollection.mixin.client.accessor.AgeableModelAccessor;
 import net.minecraft.client.renderer.entity.model.CowModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -39,18 +38,23 @@ public class CowUdderModel<T extends Entity> extends CowModel<T> {
         this.nipples[1].addBox(1.0F, -1.5F, -3.0F, 1, 1, 1);
         this.nipples[2].addBox(1.0F, 1.5F, -3.0F, 1, 1, 1);
         this.nipples[3].addBox(-2.0F, 1.5F, -3.0F, 1, 1, 1);
+
+        // fix calf head being positioned wrongly since vanilla 1.15, don't need a config option for that
+        ((AgeableModelAccessor) this).setYHeadOffset(8.0F);
+        ((AgeableModelAccessor) this).setZHeadOffset(6.0F);
     }
 
     @Override
-    public void renderToBuffer(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+
+        super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
         CowUdderElement element = (CowUdderElement) BetterAnimationsCollection.WOBBLY_COW_UDDER;
+        this.utter.visible = !this.young || element.calfUtter;
         for (ModelRenderer renderer : this.nipples) {
 
             renderer.visible = element.showNipples;
         }
-
-        super.renderToBuffer(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
     }
 
     @Override

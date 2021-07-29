@@ -10,11 +10,12 @@ import net.minecraft.util.SoundEvents;
 
 public class BuckaChickenElement extends SoundModelElement {
 
+    public boolean slimBill;
     public boolean moveHead;
-    public boolean moveChin;
+    public boolean moveWattles;
     public boolean moveWings;
     public int headAnimationSpeed;
-    public int chinAnimationSpeed;
+    public int wattlesAnimationSpeed;
     public int wingAnimationSpeed;
 
     public BuckaChickenElement() {
@@ -33,12 +34,13 @@ public class BuckaChickenElement extends SoundModelElement {
     public void setupModelConfig(OptionsBuilder builder) {
 
         super.setupModelConfig(builder);
-        builder.define("Move Head", true).comment("Move head back and forth when the entity is walking.").sync(v -> this.moveHead = v);
-        builder.define("Wiggle Chin", true).comment("Wiggle chin when the entity is walking.").sync(v -> this.moveChin = v);
-        builder.define("Flap Wings", true).comment("Flap wings when the entity is walking.").sync(v -> this.moveWings = v);
-        builder.define("Head Animation Speed", 4).min(1).max(20).comment("Animation swing speed for the head movement.").sync(v -> this.headAnimationSpeed = v);
-        builder.define("Chin Animation Speed", 5).min(1).max(20).comment("Animation swing speed for the chin movement.").sync(v -> this.chinAnimationSpeed = v);
-        builder.define("Wing Animation Speed", 3).min(1).max(20).comment("Animation swing speed of the wing flapping.").sync(v -> this.wingAnimationSpeed = v);
+        builder.define("Slim Bill", true).comment("Make bill a lot slimmer so chickens look less like ducks.").sync(v -> this.slimBill = v).restart();
+        builder.define("Move Head", true).comment("Move head back and forth when chicken is walking.").sync(v -> this.moveHead = v);
+        builder.define("Wiggle Wattles", true).comment("Wiggle chin when chicken is walking.").sync(v -> this.moveWattles = v);
+        builder.define("Flap Wings", true).comment("Flap wings when chicken is walking.").sync(v -> this.moveWings = v);
+        builder.define("Head Animation Speed", 4).min(1).max(20).comment("Animation swing speed for head movement.").sync(v -> this.headAnimationSpeed = v);
+        builder.define("Wattles Animation Speed", 5).min(1).max(20).comment("Animation swing speed for wattles movement.").sync(v -> this.wattlesAnimationSpeed = v);
+        builder.define("Wing Animation Speed", 3).min(1).max(20).comment("Animation swing speed of wing flapping.").sync(v -> this.wingAnimationSpeed = v);
     }
 
     @Override

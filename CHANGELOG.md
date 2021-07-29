@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog].
 ## [v1.2.4-1.16.5] - 2021-07-28
 ### Added
 - Added floaty pig ears
+### Changed
+- Chicken bills are a lot slimmer by default
+- Cow udder no longer renders on calves
+- Calf model now renders as it used to before Minecraft 1.15
+- Adjusted some bucka bucka chicken config strings
+### Fixed
+- Fixed chicken wattles not properly rotating when clucking
 
 ## [v1.2.3-1.16.5] - 2021-07-28
 ### Added

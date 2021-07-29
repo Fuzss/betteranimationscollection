@@ -23,20 +23,30 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
     private final ModelRenderer wing1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 4);
     private final ModelRenderer redThing;
     private final ModelRenderer billBottom;
+    private final ModelRenderer tail;
 
     public BuckaChickenModel() {
 
-        ModelRenderer billTop = new ModelRenderer(this, 14, 0);
-        billTop.addBox(-2.0F, -4.0F, -4.0F, 4, 1, 2, 0.0F);
+        BuckaChickenElement element = (BuckaChickenElement) BetterAnimationsCollection.BUCKA_BUCKA_CHICKEN;
+        boolean slimBill = element.slimBill;
+        ModelRenderer billTop = new ModelRenderer(this, slimBill ? 15 : 14, 0);
+        billTop.addBox(slimBill ? -1.0F : -2.0F, -4.0F, -4.0F, slimBill ? 2 : 4, 1, 2, 0.0F);
         this.head.addChild(billTop);
-        this.billBottom = new ModelRenderer(this, 14, 1);
-        this.billBottom.addBox(-2.0F, 0.0F, -2.0F, 4, 1, 2, 0.0F);
+        this.billBottom = new ModelRenderer(this, slimBill ? 15 : 14, 1);
+        this.billBottom.addBox(slimBill ? -1.0F : -2.0F, 0.0F, -2.0F, slimBill ? 2 : 4, 1, 2, 0.0F);
         this.billBottom.setPos(0.0F, -3.0F, -2.0F);
         billTop.addChild(this.billBottom);
         this.redThing = new ModelRenderer(this, 14, 4);
         this.redThing.addBox(-1.0F, 0.0F, -1.0F, 2, 2, 2, 0.0F);
         this.redThing.setPos(0.0F, 1.0F, 0.0F);
         this.billBottom.addChild(this.redThing);
+
+        this.tail = new ModelRenderer(this, 6, 9);
+        this.tail.addBox(-1.0F, 0.0F, 0.0F, 1, 3, 4, 0.0F);
+        this.tail.setPos(2.0F, 13.0F, 3.0F);
+        this.tail.xRot = (float) Math.PI / 2.0F;
+        this.tail.yRot = (float) Math.PI / 15.0F;
+        this.tail.zRot = (float) Math.PI / -2.0F;
 
         // fix rotation point to be at body and not in air
         this.wing0.setPos(3.0F, 13.0F, 0.0F);
@@ -48,6 +58,12 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
 
         // other head parts are added as children to this one in constructor
         return ImmutableList.of(this.head);
+    }
+
+    @Override
+    protected Iterable<ModelRenderer> bodyParts() {
+
+        return ImmutableList.of(this.body, this.leg0, this.leg1, this.wing0, this.wing1, this.tail);
     }
 
     @Override
@@ -79,10 +95,9 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
             this.head.z = -4.0F + MathHelper.cos(limbSwing) * element.headAnimationSpeed * 0.5F * limbSwingAmount;
         }
         
-        if (element.moveChin) {
-            
-            this.redThing.xRot = MathHelper.sin(limbSwing) * (float) element.chinAnimationSpeed * 0.1F * limbSwingAmount;
-            this.redThing.xRot -= this.billBottom.xRot;
+        if (element.moveWattles) {
+
+            this.redThing.xRot = MathHelper.sin(limbSwing) * (float) element.wattlesAnimationSpeed * 0.1F * limbSwingAmount;
         }
     }
 

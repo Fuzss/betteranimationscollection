@@ -16,6 +16,7 @@
     "client.SaddleLayerMixin",
     "client.SheepWoolLayerMixin",
     "client.SlimeGelLayerMixin",
+    "client.accessor.AgeableModelAccessor",
     "client.accessor.LivingRendererAccessor",
     "client.accessor.LlamaModelAccessor",
     "client.accessor.SpiderModelAccessor",
