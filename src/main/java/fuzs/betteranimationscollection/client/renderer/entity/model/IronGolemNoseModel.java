@@ -1,7 +1,7 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
 import com.google.common.collect.ImmutableList;
-import fuzs.betteranimationscollection.client.util.ModelUtil;
+import com.google.common.collect.Iterables;
 import net.minecraft.client.renderer.entity.model.IronGolemModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -14,11 +14,11 @@ public class IronGolemNoseModel<T extends IronGolemEntity> extends IronGolemMode
 
     private final ModelRenderer head;
     private final ModelRenderer nose;
-    private final ModelRenderer body = ModelUtil.getAtIndex(super.parts().iterator(), 1);
-    private final ModelRenderer arm0 = ModelUtil.getAtIndex(super.parts().iterator(), 4);
-    private final ModelRenderer arm1 = ModelUtil.getAtIndex(super.parts().iterator(), 5);
-    private final ModelRenderer leg0 = ModelUtil.getAtIndex(super.parts().iterator(), 2);
-    private final ModelRenderer leg1 = ModelUtil.getAtIndex(super.parts().iterator(), 3);
+    private final ModelRenderer body = Iterables.get(super.parts(), 1);
+    private final ModelRenderer arm0 = Iterables.get(super.parts(), 4);
+    private final ModelRenderer arm1 = Iterables.get(super.parts(), 5);
+    private final ModelRenderer leg0 = Iterables.get(super.parts(), 2);
+    private final ModelRenderer leg1 = Iterables.get(super.parts(), 3);
 
     public IronGolemNoseModel() {
 

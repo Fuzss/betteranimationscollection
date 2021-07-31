@@ -1,8 +1,8 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
+import com.google.common.collect.Iterables;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.JigglySlimeElement;
-import fuzs.betteranimationscollection.client.util.ModelUtil;
 import net.minecraft.client.renderer.entity.model.SlimeModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -11,10 +11,10 @@ import net.minecraft.util.math.MathHelper;
 
 public class JigglySlimeModel<T extends Entity> extends SlimeModel<T> {
 
-    private final ModelRenderer cube = ModelUtil.getAtIndex(super.parts().iterator(), 0);
-    private final ModelRenderer eye0 = ModelUtil.getAtIndex(super.parts().iterator(), 1);
-    private final ModelRenderer eye1 = ModelUtil.getAtIndex(super.parts().iterator(), 2);
-    private final ModelRenderer mouth = ModelUtil.getAtIndex(super.parts().iterator(), 3);
+    private final ModelRenderer cube = Iterables.get(super.parts(), 0);
+    private final ModelRenderer eye0 = Iterables.get(super.parts(), 1);
+    private final ModelRenderer eye1 = Iterables.get(super.parts(), 2);
+    private final ModelRenderer mouth = Iterables.get(super.parts(), 3);
 
     private final boolean isSlimeGelLayer;
     

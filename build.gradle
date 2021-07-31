@@ -1,6 +1,5 @@
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
-import net.minecraftforge.gradle.common.task.SignJar
 
 import java.util.regex.Pattern
 
@@ -190,7 +189,7 @@ def createJarTask(def name, def type, def sources) {
 
 def createSignJarTask(def name, def jarTask) {
 
-    return tasks.create(name, SignJar) {
+    return tasks.create(name, net.minecraftforge.gradle.common.task.SignJar) {
 
         onlyIf {
 

@@ -36,5 +36,5 @@ issueTrackerURL="${modIssueUrl}"
     side="BOTH"
 
 [modproperties.${modId}]
-    catalogueItemIcon="avatar.png"
+    catalogueImageIcon="avatar.png"
     configuredBackground="minecraft:textures/block/honeycomb_block.png"

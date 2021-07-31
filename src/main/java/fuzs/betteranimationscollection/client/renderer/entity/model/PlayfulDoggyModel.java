@@ -1,10 +1,10 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
+import com.google.common.collect.Iterables;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.PlayfulDoggyElement;
-import fuzs.betteranimationscollection.client.util.ModelUtil;
 import fuzs.betteranimationscollection.mixin.client.accessor.WolfModelAccessor;
 import net.minecraft.client.renderer.entity.model.WolfModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -14,17 +14,17 @@ import net.minecraft.util.math.vector.Vector3f;
 
 public class PlayfulDoggyModel<T extends WolfEntity> extends WolfModel<T> {
 
-    private final ModelRenderer head = ModelUtil.getAtIndex(super.headParts().iterator(), 0);
+    private final ModelRenderer head = Iterables.get(super.headParts(), 0);
     private final ModelRenderer realHead;
-    private final ModelRenderer body = ModelUtil.getAtIndex(super.bodyParts().iterator(), 0);
-    private final ModelRenderer leg0 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 1);
-    private final ModelRenderer leg1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 2);
-    private final ModelRenderer leg2 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 3);
-    private final ModelRenderer leg3 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 4);
+    private final ModelRenderer body = Iterables.get(super.bodyParts(), 0);
+    private final ModelRenderer leg0 = Iterables.get(super.bodyParts(), 1);
+    private final ModelRenderer leg1 = Iterables.get(super.bodyParts(), 2);
+    private final ModelRenderer leg2 = Iterables.get(super.bodyParts(), 3);
+    private final ModelRenderer leg3 = Iterables.get(super.bodyParts(), 4);
     private final ModelRenderer tail;
     private final ModelRenderer realTail;
     private final ModelRenderer[] realTailParts;
-    private final ModelRenderer upperBody = ModelUtil.getAtIndex(super.bodyParts().iterator(), 6);
+    private final ModelRenderer upperBody = Iterables.get(super.bodyParts(), 6);
 
     private boolean isInSittingPose;
     private float rollOverAmount;

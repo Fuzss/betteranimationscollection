@@ -1,9 +1,9 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.BuckaChickenElement;
-import fuzs.betteranimationscollection.client.util.ModelUtil;
 import net.minecraft.client.renderer.entity.model.ChickenModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -15,12 +15,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
 
-    private final ModelRenderer head = ModelUtil.getAtIndex(super.headParts().iterator(), 0);
-    private final ModelRenderer body = ModelUtil.getAtIndex(super.bodyParts().iterator(), 0);
-    private final ModelRenderer leg0 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 1);
-    private final ModelRenderer leg1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 2);
-    private final ModelRenderer wing0 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 3);
-    private final ModelRenderer wing1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 4);
+    private final ModelRenderer head = Iterables.get(super.headParts(), 0);
+    private final ModelRenderer body = Iterables.get(super.bodyParts(), 0);
+    private final ModelRenderer leg0 = Iterables.get(super.bodyParts(), 1);
+    private final ModelRenderer leg1 = Iterables.get(super.bodyParts(), 2);
+    private final ModelRenderer wing0 = Iterables.get(super.bodyParts(), 3);
+    private final ModelRenderer wing1 = Iterables.get(super.bodyParts(), 4);
     private final ModelRenderer redThing;
     private final ModelRenderer billBottom;
 
