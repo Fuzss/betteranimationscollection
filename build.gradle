@@ -1,5 +1,4 @@
-import groovy.json.JsonBuilder
-import groovy.json.JsonSlurper
+import groovy.json.*
 
 import java.util.regex.Pattern
 
@@ -37,14 +36,9 @@ ext.mcversion = "${forgeVersion.replaceAll("-.*", "")}"
 ext.modid = "${modId}"
 ext.modversion = "${modVersion}"
 ext.modauthor = "${modAuthor}"
-ext.modpageurl = "https://www.curseforge.com/minecraft/mc-mods/${modSlug}"
-ext.modissueurl = "https://github.com/${githubAuthor}/${project.modid}/issues"
 ext.puzzlesversion = "${puzzlesVersion.substring(1, puzzlesVersion.indexOf("-"))}"
 version = "v${project.modversion}-${project.mcversion}"
 group = "${modGroup}"
-def mcVersionMatcher = Pattern.compile("(\\d+.\\d+)").matcher(project.mcversion)
-mcVersionMatcher.find()
-ext.modupdateurl = "https://raw.githubusercontent.com/${githubAuthor}/${project.modid}/".concat(mcVersionMatcher.group(1)).concat("/update.json")
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -61,7 +55,7 @@ minecraft {
 //            ideaModule "${project.name}.main"
 
             // https://forums.minecraftforge.net/topic/82228-1152-3110-intellij-and-gradlew-forge-hotswap-and-dcevm-tutorial/
-            if (project.findProperty('enableHotswap').toBoolean()) {
+            if (project.hasProperty('hotswapAgent') && project.findProperty('enableHotswap').toBoolean()) {
 
                 jvmArgs '-ea', '-Xms1G', '-Xmx4G', '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5010', '-XXaltjvm=dcevm', '-XX:+UnlockExperimentalVMOptions', "-javaagent:${hotswapAgent}"
             } else {
@@ -118,9 +112,9 @@ processResources {
     inputs.property "modName", "${modName}"
     inputs.property "modVersion", project.modversion
     inputs.property "modGroup", project.group
-    inputs.property "modPageUrl", project.modpageurl
-    inputs.property "modUpdateUrl", project.modupdateurl
-    inputs.property "modIssueUrl", project.modissueurl
+    inputs.property "modPageUrl", "${modPageUrl}"
+    inputs.property "modUpdateUrl", "${modUpdateUrl}"
+    inputs.property "modIssueUrl", "${modIssueUrl}"
     inputs.property "modDescription", "${modDescription}"
     inputs.property "modAuthor", project.modauthor
     inputs.property "minForgeVersion", "${minForgeVersion}"
@@ -140,9 +134,9 @@ processResources {
                 'modName': "${modName}",
                 'modVersion': project.modversion,
                 'modGroup': project.group,
-                'modPageUrl': project.modpageurl,
-                'modUpdateUrl': project.modupdateurl,
-                'modIssueUrl': project.modissueurl,
+                'modPageUrl': "${modPageUrl}",
+                'modUpdateUrl': "${modUpdateUrl}",
+                'modIssueUrl': "${modIssueUrl}",
                 'modDescription': "${modDescription}",
                 'modAuthor': project.modauthor,
                 'minForgeVersion': "${minForgeVersion}",
@@ -169,7 +163,7 @@ ext.jarAttributes = [
         "Implementation-Version"    : project.modversion,
         "Implementation-Vendor"     : project.modauthor.toLowerCase(),
         "Implementation-Vendor-Id"  : project.group,
-        "Implementation-URL"        : project.modpageurl,
+        "Implementation-URL"        : "${modPageUrl}",
         "Implementation-Timestamp"  : new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
         "MixinConfigs"              : "META-INF/${project.modid}.mixins.json"
 ]
@@ -257,7 +251,7 @@ curseforge {
         throw new FileNotFoundException("Could not read file ".concat(changelogName))
     }
 
-    apiKey = project.findProperty('curseApiKey')
+    apiKey = project.findProperty('curseApiToken')
     project {
 
         id = project.findProperty('curseProjectId')
@@ -282,6 +276,11 @@ curseforge {
 
 task copyJarToDir(type: Copy) {
 
+    onlyIf {
+
+        project.hasProperty('buildJarOutputDir') && project.hasProperty('uniqueBuildNumber')
+    }
+
     if (project.findProperty('copyBuildJar').toBoolean()) {
 
         // shortcut for jar.outputs.files
@@ -294,6 +293,11 @@ task copyJarToDir(type: Copy) {
 }
 
 task incrementBuildNumber {
+
+    onlyIf {
+
+        project.hasProperty('uniqueBuildNumber')
+    }
 
     doLast {
 
@@ -315,18 +319,30 @@ task incrementBuildNumber {
 
 task refreshUpdateJson {
 
+    onlyIf {
+
+        project.hasProperty('modResources')
+    }
+
     doLast {
 
-        def updateName = 'update.json'
-        def updateFile = file(updateName)
-        if (!updateFile.canRead()) {
+        def updateFile = file(project.findProperty('modResources').concat(File.separator).concat('update').concat(File.separator).concat(project.modid).concat('.json'))
+        def updateJson
+        if (updateFile.exists() && updateFile.canRead()) {
 
-            throw new FileNotFoundException("Could not read file ".concat(updateName))
+            updateJson = new JsonSlurper().parseText(updateFile.text)
+            project.findProperty('curseProjectVersion').replaceAll(" ", "").split(",").each { version -> updateJson['promos']["${version}-latest"] = project.modversion }
+        } else {
+
+            def builder = new JsonBuilder()
+            updateJson = builder {
+                homepage "${modPageUrl}"
+                promos { project.findProperty('curseProjectVersion').replaceAll(" ", "").split(",").each { version -> "${version}-latest" project.modversion } }
+            }
         }
 
-        def updateJson = new JsonSlurper().parseText(updateFile.text)
-        project.findProperty('curseProjectVersion').replaceAll(" ", "").split(",").each { version -> (updateJson['promos']["${version}-latest"] = project.modversion) }
-        updateFile.write(new JsonBuilder(updateJson).toPrettyString())
+        def output = new JsonOutput()
+        updateFile.write(output.prettyPrint(output.toJson(updateJson)))
     }
 }
 

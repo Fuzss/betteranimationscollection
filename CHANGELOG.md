@@ -48,7 +48,7 @@ The format is based on [Keep a Changelog].
 - Re-added playful doggy model
 - Re-added zombie knees model
 
-## [v1.2b6-1.16.5] - 2021-07-24
+## [v1.2b6-1.16.5] - 2021-07-31
 ### Added
 - Re-added jiggly liquidy slime model
 - Re-added magma cube burger model
