@@ -35,7 +35,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
     private final Map<EntityType<?>, ModelInfo> entityTypeToModelInfo = Maps.newHashMap();
     /**
      * element can provide multiple models for multiple mobs, therefore store by model class
-     * also don't use multi map as wen want to retrieve a list with index access
+     * also don't use multi map as we want to retrieve a list with index access
      */
     private final Map<Class<?>, List<LayerTransformer<?>>> layerTransformers = Maps.newHashMap();
     protected final LoadedLocationList defaultEntityBlacklist = new LoadedLocationList();
@@ -99,15 +99,19 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
             if (renderer instanceof LivingRenderer) {
 
                 LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>> livingRenderer = (LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>>) renderer;
-                // find all renderers which normally use the super class of our models, so we can exchange them
-                for (Supplier<EntityModel<? extends LivingEntity>> entityModel : this.getEntityModels()) {
+                // whisperwoods uses null for models...
+                if (livingRenderer.getModel() != null) {
 
-                    EntityModel<? extends LivingEntity> model = entityModel.get();
-                    if (livingRenderer.getModel().getClass().equals(model.getClass().getSuperclass())) {
+                    // find all renderers which normally use the super class of our model's, so we can exchange them
+                    for (Supplier<EntityModel<? extends LivingEntity>> entityModel : this.getEntityModels()) {
 
-                        List<LayerTransformer<?>> modelLayerTransformers = this.layerTransformers.get(model.getClass());
-                        this.entityTypeToModelInfo.put(entityType, new ModelInfo(livingRenderer, livingRenderer.getModel(), model, modelLayerTransformers != null ? modelLayerTransformers.size() : 0));
-                        break;
+                        EntityModel<? extends LivingEntity> model = entityModel.get();
+                        if (livingRenderer.getModel().getClass().equals(model.getClass().getSuperclass())) {
+
+                            List<LayerTransformer<?>> modelLayerTransformers = this.layerTransformers.get(model.getClass());
+                            this.entityTypeToModelInfo.put(entityType, new ModelInfo(livingRenderer, livingRenderer.getModel(), model, modelLayerTransformers != null ? modelLayerTransformers.size() : 0));
+                            break;
+                        }
                     }
                 }
             }

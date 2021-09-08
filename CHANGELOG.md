@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog].
 - Adjusted some bucka bucka chicken config strings
 ### Fixed
 - Fixed chicken wattles not properly rotating when clucking
+- Fixed animations failing to apply with Whisperwoods mod installed
 
 ## [v1.2.3-1.16.5] - 2021-07-28
 ### Added
