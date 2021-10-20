@@ -98,11 +98,11 @@ public abstract class PlayerModelMixin<T extends LivingEntity> extends BipedMode
                 if ((entityIn.getUsedItemHand() == Hand.MAIN_HAND ? mainArm : mainArm.getOpposite()) == HandSide.RIGHT) {
 
                     this.rightArm.xRot = useFactor * (this.rightArm.xRot * 0.5F - ((float) Math.PI * 4.0F / 10.0F));
-                    this.rightArm.yRot = useFactor * (float) Math.PI / -6F;
+                    this.rightArm.yRot = useFactor * (float) Math.PI / -9F;
                 } else {
 
                     this.leftArm.xRot = useFactor * (this.leftArm.xRot * 0.5F - ((float) Math.PI * 4.0F / 10.0F));
-                    this.leftArm.yRot = useFactor * (float) Math.PI / 6F;
+                    this.leftArm.yRot = useFactor * (float) Math.PI / 9F;
                 }
             }
         }

@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [v1.2.1-1.16.5] - 2021-07-25
+## [v1.2.1-1.16.5] - 2021-10-20
 ### Added
 - Player animations, mostly taken from [Console Experience] mod
 - Eating animation for both eating and drinking
@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog].
 - Renamed zombie knees element to humanoid knees, now also includes piglin-like mobs
 - Made humanoid knees look better when walking and riding
 
-## [v1.2-1.16.5] - 2021-07-24
+## [v1.2-1.16.5] - 2021-09-10
 ### Added
 - Re-added arm flailing enderman model
 - Re-added wobbly creeper model
