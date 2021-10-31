@@ -7,8 +7,8 @@ import net.minecraft.entity.MobEntity;
 
 public class PiglinKneesModel<T extends MobEntity> extends PiglinModel<T> {
 
-    private final ModelRenderer rightLowerLeg;
-    private final ModelRenderer leftLowerLeg;
+    private final ModelRenderer rightShin;
+    private final ModelRenderer leftShin;
     private final ModelRenderer leftPants;
     private final ModelRenderer rightPants;
     private final ModelRenderer rightLowerPants;
@@ -18,16 +18,16 @@ public class PiglinKneesModel<T extends MobEntity> extends PiglinModel<T> {
         
         super(0.0F, 64, 64);
 
-        this.rightLeg = BipedKneesModel.makeHalfLeg(this, 0.0F, -1.9F, 0.0F, 0.0F, 0, 16, false);
-        this.leftLeg = BipedKneesModel.makeHalfLeg(this, 0.0F, 1.9F, 0.0F, 0.0F, 16, 48, true);
-        this.rightLowerLeg = BipedKneesModel.makeHalfLeg(this, 0.0F, 0.0F, -6.0F, -2.0F, 0, 22, false);
-        this.leftLowerLeg = BipedKneesModel.makeHalfLeg(this, 0.0F, 0.0F, -6.0F, -2.0F, 16, 54, true);
-        this.rightLeg.addChild(this.rightLowerLeg);
-        this.leftLeg.addChild(this.leftLowerLeg);
-        this.rightPants = BipedKneesModel.makeHalfLeg(this, 0.25F, -1.9F, 0.0F, 0.0F, 0, 32, false);
-        this.leftPants = BipedKneesModel.makeHalfLeg(this, 0.25F, 1.9F, 0.0F, 0.0F, 0, 48, true);
-        this.rightLowerPants = BipedKneesModel.makeHalfLeg(this, 0.25F, 0.0F, -6.0F, -2.0F, 0, 38, false);
-        this.leftLowerPants = BipedKneesModel.makeHalfLeg(this, 0.25F, 0.0F, -6.0F, -2.0F, 0, 54, true);
+        this.rightLeg = BipedKneesModel.makeShin(this, 0.0F, -1.9F, 0.0F, 0.0F, 0, 16, false);
+        this.leftLeg = BipedKneesModel.makeShin(this, 0.0F, 1.9F, 0.0F, 0.0F, 16, 48, true);
+        this.rightShin = BipedKneesModel.makeShin(this, 0.0F, 0.0F, -6.0F, -2.0F, 0, 22, false);
+        this.leftShin = BipedKneesModel.makeShin(this, 0.0F, 0.0F, -6.0F, -2.0F, 16, 54, true);
+        this.rightLeg.addChild(this.rightShin);
+        this.leftLeg.addChild(this.leftShin);
+        this.rightPants = BipedKneesModel.makeShin(this, 0.25F, -1.9F, 0.0F, 0.0F, 0, 32, false);
+        this.leftPants = BipedKneesModel.makeShin(this, 0.25F, 1.9F, 0.0F, 0.0F, 0, 48, true);
+        this.rightLowerPants = BipedKneesModel.makeShin(this, 0.25F, 0.0F, -6.0F, -2.0F, 0, 38, false);
+        this.leftLowerPants = BipedKneesModel.makeShin(this, 0.25F, 0.0F, -6.0F, -2.0F, 0, 54, true);
         this.rightPants.addChild(this.rightLowerPants);
         this.leftPants.addChild(this.leftLowerPants);
     }
@@ -42,11 +42,11 @@ public class PiglinKneesModel<T extends MobEntity> extends PiglinModel<T> {
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
         super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        BipedKneesModel.setupKneeAnim(entityIn, limbSwing, limbSwingAmount, this, this.rightLowerLeg, this.leftLowerLeg);
+        BipedKneesModel.setupKneeAnim(entityIn, limbSwing, limbSwingAmount, this, this.rightShin, this.leftShin);
         this.rightPants.copyFrom(this.rightLeg);
         this.leftPants.copyFrom(this.leftLeg);
-        this.rightLowerPants.copyFrom(this.rightLowerLeg);
-        this.leftLowerPants.copyFrom(this.leftLowerLeg);
+        this.rightLowerPants.copyFrom(this.rightShin);
+        this.leftLowerPants.copyFrom(this.leftShin);
     }
 
     @Override
