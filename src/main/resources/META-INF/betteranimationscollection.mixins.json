@@ -11,11 +11,13 @@
     "client.CreeperChargeLayerMixin",
     "client.DrownedOuterLayerMixin",
     "client.LeatherHorseArmorLayerMixin",
+    "client.LlamaDecorLayerMixin",
     "client.PlayerModelMixin",
     "client.SaddleLayerMixin",
     "client.SheepWoolLayerMixin",
     "client.SlimeGelLayerMixin",
     "client.accessor.LivingRendererAccessor",
+    "client.accessor.LlamaModelAccessor",
     "client.accessor.SpiderModelAccessor",
     "client.accessor.WolfModelAccessor"
   ],

@@ -1,13 +1,16 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.renderer.entity.model.HorseModel;
+import net.minecraft.client.renderer.entity.model.HorseArmorChestsModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.passive.horse.AbstractChestedHorseEntity;
 import net.minecraft.util.math.MathHelper;
 
+/**
+ * everything copied from {@link fuzs.betteranimationscollection.client.renderer.entity.model.FamiliarHorseModel}
+ */
 @SuppressWarnings("DuplicatedCode")
-public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseModel<T> {
+public class FamiliarHorseArmorChestsModel<T extends AbstractChestedHorseEntity> extends HorseArmorChestsModel<T> {
 
     private final ModelRenderer neck;
     private final ModelRenderer upperMouth;
@@ -36,7 +39,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
     private final ModelRenderer[] saddleParts;
     private final ModelRenderer[] ridingParts;
 
-    public FamiliarHorseModel(float scaleIn) {
+    public FamiliarHorseArmorChestsModel(float scaleIn) {
 
         super(scaleIn);
 
@@ -275,7 +278,7 @@ public class FamiliarHorseModel<T extends AbstractHorseEntity> extends HorseMode
     }
 
     private void setBabyModelVisibility() {
-        
+
         this.backLeftLeg.visible = !this.young;
         this.backRightLeg.visible = !this.young;
         this.frontLeftLeg.visible = !this.young;

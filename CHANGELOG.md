@@ -3,17 +3,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2.3-1.16.5] - 2021-11-06
+### Added
+- Added spitful llama model
+- Added update checker
+- Added mod logo for mod list
+- Added support for [Catalogue] and [Configured] mods
+### Changed
+- Familiar horse element now works for donkeys and mules
+- Updated local gradle setup
+### Fixed
+- Fixed foal model floating above the ground
+
 ## [v1.2.2-1.16.5] - 2021-10-31
 ### Added
 - Added familiar horse model based on [Familiar Horses] mod
 
 ## [v1.2.1-1.16.5] - 2021-10-20
 ### Added
-- Player animations, mostly taken from [Console Experience] mod
-- Eating animation for both eating and drinking
-- Rowing animation when in a boat
-- Riding animation when on a horses
-- Animation for inspecting hand held items, such as compass and clock
+- Added player animations element, mostly taken from [Console Experience] mod, including:
+    - Eating animation for both eating and drinking
+    - Rowing animation when in a boat
+    - Riding animation when on a horses
+    - Animation for inspecting hand held items, such as compass and clock
 ### Changed
 - Renamed zombie knees element to humanoid knees, now also includes piglin-like mobs
 - Made humanoid knees look better when walking and riding
@@ -77,3 +89,5 @@ The format is based on [Keep a Changelog].
 [Puzzles Lib]: https://www.curseforge.com/minecraft/mc-mods/puzzles-lib
 [Console Experience]: https://www.curseforge.com/minecraft/mc-mods/console-hud
 [Familiar Horses]: https://www.curseforge.com/minecraft/mc-mods/familiar-horses
+[Catalogue]: https://www.curseforge.com/minecraft/mc-mods/catalogue
+[Configured]: https://www.curseforge.com/minecraft/mc-mods/configured

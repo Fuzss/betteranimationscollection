@@ -1,11 +1,15 @@
 package fuzs.betteranimationscollection.client.element;
 
-import fuzs.betteranimationscollection.client.renderer.entity.model.FamiliarHorseModel;
+import com.google.common.collect.ImmutableList;
+import fuzs.betteranimationscollection.client.renderer.entity.model.*;
 import net.minecraft.client.renderer.entity.layers.LeatherHorseArmorLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 
-public class FamiliarHorseElement extends ModelElement {
+import java.util.List;
+import java.util.function.Supplier;
+
+public class FamiliarHorseElement extends MultiModelElement {
 
     @Override
     public String[] getDescription() {
@@ -21,9 +25,9 @@ public class FamiliarHorseElement extends ModelElement {
     }
 
     @Override
-    protected EntityModel<? extends LivingEntity> getEntityModel() {
+    protected List<Supplier<EntityModel<? extends LivingEntity>>> getEntityModels() {
 
-        return new FamiliarHorseModel<>(0.0F);
+        return ImmutableList.of(() -> new FamiliarHorseModel<>(0.0F), () -> new FamiliarHorseArmorChestsModel<>(0.0F));
     }
 
 }
