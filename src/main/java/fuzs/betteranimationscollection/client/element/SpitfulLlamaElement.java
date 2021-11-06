@@ -12,7 +12,7 @@ public class SpitfulLlamaElement extends SoundModelElement {
 
     public SpitfulLlamaElement() {
 
-        this.defaultSounds.add(SoundEvents.LLAMA_SPIT.getRegistryName());
+        this.defaultSounds.add(SoundEvents.LLAMA_SPIT);
     }
 
     @Override

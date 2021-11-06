@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v1.2.4-1.16.5] - 2021-07-28
+### Added
+- Added floaty pig ears
+### Changed
+- Chicken bills are a lot slimmer by default
+- Cow udder no longer renders on calves
+- Calf model now renders as it used to before Minecraft 1.15
+- Adjusted some bucka bucka chicken config strings
+### Fixed
+- Fixed chicken wattles not properly rotating when clucking
+- Fixed animations failing to apply with Whisperwoods mod installed
+
 ## [v1.2.3-1.16.5] - 2021-11-06
 ### Added
 - Added spitful llama model
@@ -37,7 +49,7 @@ The format is based on [Keep a Changelog].
 - Re-added playful doggy model
 - Re-added zombie knees model
 
-## [v1.2b6-1.16.5] - 2021-07-24
+## [v1.2b6-1.16.5] - 2021-07-31
 ### Added
 - Re-added jiggly liquidy slime model
 - Re-added magma cube burger model

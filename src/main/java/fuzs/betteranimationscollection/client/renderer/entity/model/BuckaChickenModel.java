@@ -1,9 +1,9 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.BuckaChickenElement;
-import fuzs.betteranimationscollection.client.util.ModelUtil;
 import net.minecraft.client.renderer.entity.model.ChickenModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -15,22 +15,24 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
 
-    private final ModelRenderer head = ModelUtil.getAtIndex(super.headParts().iterator(), 0);
-    private final ModelRenderer body = ModelUtil.getAtIndex(super.bodyParts().iterator(), 0);
-    private final ModelRenderer leg0 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 1);
-    private final ModelRenderer leg1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 2);
-    private final ModelRenderer wing0 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 3);
-    private final ModelRenderer wing1 = ModelUtil.getAtIndex(super.bodyParts().iterator(), 4);
+    private final ModelRenderer head = Iterables.get(super.headParts(), 0);
+    private final ModelRenderer body = Iterables.get(super.bodyParts(), 0);
+    private final ModelRenderer leg0 = Iterables.get(super.bodyParts(), 1);
+    private final ModelRenderer leg1 = Iterables.get(super.bodyParts(), 2);
+    private final ModelRenderer wing0 = Iterables.get(super.bodyParts(), 3);
+    private final ModelRenderer wing1 = Iterables.get(super.bodyParts(), 4);
     private final ModelRenderer redThing;
     private final ModelRenderer billBottom;
 
     public BuckaChickenModel() {
 
-        ModelRenderer billTop = new ModelRenderer(this, 14, 0);
-        billTop.addBox(-2.0F, -4.0F, -4.0F, 4, 1, 2, 0.0F);
+        BuckaChickenElement element = (BuckaChickenElement) BetterAnimationsCollection.BUCKA_BUCKA_CHICKEN;
+        boolean slimBill = element.slimBill;
+        ModelRenderer billTop = new ModelRenderer(this, slimBill ? 15 : 14, 0);
+        billTop.addBox(slimBill ? -1.0F : -2.0F, -4.0F, -4.0F, slimBill ? 2 : 4, 1, 2, 0.0F);
         this.head.addChild(billTop);
-        this.billBottom = new ModelRenderer(this, 14, 1);
-        this.billBottom.addBox(-2.0F, 0.0F, -2.0F, 4, 1, 2, 0.0F);
+        this.billBottom = new ModelRenderer(this, slimBill ? 15 : 14, 1);
+        this.billBottom.addBox(slimBill ? -1.0F : -2.0F, 0.0F, -2.0F, slimBill ? 2 : 4, 1, 2, 0.0F);
         this.billBottom.setPos(0.0F, -3.0F, -2.0F);
         billTop.addChild(this.billBottom);
         this.redThing = new ModelRenderer(this, 14, 4);
@@ -79,10 +81,9 @@ public class BuckaChickenModel<T extends Entity> extends ChickenModel<T> {
             this.head.z = -4.0F + MathHelper.cos(limbSwing) * element.headAnimationSpeed * 0.5F * limbSwingAmount;
         }
         
-        if (element.moveChin) {
-            
-            this.redThing.xRot = MathHelper.sin(limbSwing) * (float) element.chinAnimationSpeed * 0.1F * limbSwingAmount;
-            this.redThing.xRot -= this.billBottom.xRot;
+        if (element.moveWattles) {
+
+            this.redThing.xRot = MathHelper.sin(limbSwing) * (float) element.wattlesAnimationSpeed * 0.1F * limbSwingAmount;
         }
     }
 

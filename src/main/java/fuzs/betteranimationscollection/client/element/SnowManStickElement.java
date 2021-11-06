@@ -11,7 +11,7 @@ public class SnowManStickElement extends SoundModelElement {
 
     public SnowManStickElement() {
 
-        this.defaultSounds.add(SoundEvents.SNOW_GOLEM_SHOOT.getRegistryName());
+        this.defaultSounds.add(SoundEvents.SNOW_GOLEM_SHOOT);
     }
 
     @Override

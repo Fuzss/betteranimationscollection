@@ -101,6 +101,7 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
             }
         });
 
+        // just do this so we can handle everything via ambientSoundTime and don't have to bother with hurtDuration as well
         for (Class<? extends MobEntity> clazz : ATTACKABLE_ENTITIES) {
 
             if (clazz.isAssignableFrom(entity.getClass())) {

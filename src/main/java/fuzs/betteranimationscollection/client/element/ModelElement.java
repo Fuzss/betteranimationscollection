@@ -12,6 +12,7 @@ import fuzs.puzzleslib.config.option.OptionsBuilder;
 import fuzs.puzzleslib.config.serialization.EntryCollectionBuilder;
 import fuzs.puzzleslib.element.AbstractElement;
 import fuzs.puzzleslib.element.side.IClientElement;
+import fuzs.puzzleslib.util.LoadedLocationList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -19,7 +20,6 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
 public abstract class ModelElement extends AbstractElement implements IClientElement {
@@ -36,10 +35,10 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
     private final Map<EntityType<?>, ModelInfo> entityTypeToModelInfo = Maps.newHashMap();
     /**
      * element can provide multiple models for multiple mobs, therefore store by model class
-     * also don't use multi map as wen want to retrieve a list with index access
+     * also don't use multi map as we want to retrieve a list with index access
      */
     private final Map<Class<?>, List<LayerTransformer<?>>> layerTransformers = Maps.newHashMap();
-    protected final List<ResourceLocation> defaultEntityBlacklist = Lists.newArrayList();
+    protected final LoadedLocationList defaultEntityBlacklist = new LoadedLocationList();
 
     private Set<EntityType<?>> blacklistedEntities = Sets.newHashSet();
 
@@ -64,9 +63,7 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
     @Override
     public final void setupClientConfig(OptionsBuilder builder) {
 
-        builder.define("Mob Blacklist", this.defaultEntityBlacklist.stream()
-                .map(ResourceLocation::toString)
-                .collect(Collectors.toList())).comment("Mob variants these model changes shouldn't be applied to.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
+        builder.define("Mob Blacklist", this.defaultEntityBlacklist).comment("Mob variants these model changes shouldn't be applied to.", EntryCollectionBuilder.CONFIG_STRING).sync(v -> {
 
             this.blacklistedEntities = ConfigManager.deserializeToSet(v, ForgeRegistries.ENTITIES);
             if (this.isEnabled() && this.isTypeLoaded(ModConfig.Type.CLIENT)) {
@@ -102,15 +99,19 @@ public abstract class ModelElement extends AbstractElement implements IClientEle
             if (renderer instanceof LivingRenderer) {
 
                 LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>> livingRenderer = (LivingRenderer<? extends LivingEntity, EntityModel<? extends LivingEntity>>) renderer;
-                // find all renderers which normally use the super class of our models, so we can exchange them
-                for (Supplier<EntityModel<? extends LivingEntity>> entityModel : this.getEntityModels()) {
+                // whisperwoods uses null for models...
+                if (livingRenderer.getModel() != null) {
 
-                    EntityModel<? extends LivingEntity> model = entityModel.get();
-                    if (livingRenderer.getModel().getClass().equals(model.getClass().getSuperclass())) {
+                    // find all renderers which normally use the super class of our model's, so we can exchange them
+                    for (Supplier<EntityModel<? extends LivingEntity>> entityModel : this.getEntityModels()) {
 
-                        List<LayerTransformer<?>> modelLayerTransformers = this.layerTransformers.get(model.getClass());
-                        this.entityTypeToModelInfo.put(entityType, new ModelInfo(livingRenderer, livingRenderer.getModel(), model, modelLayerTransformers != null ? modelLayerTransformers.size() : 0));
-                        break;
+                        EntityModel<? extends LivingEntity> model = entityModel.get();
+                        if (livingRenderer.getModel().getClass().equals(model.getClass().getSuperclass())) {
+
+                            List<LayerTransformer<?>> modelLayerTransformers = this.layerTransformers.get(model.getClass());
+                            this.entityTypeToModelInfo.put(entityType, new ModelInfo(livingRenderer, livingRenderer.getModel(), model, modelLayerTransformers != null ? modelLayerTransformers.size() : 0));
+                            break;
+                        }
                     }
                 }
             }

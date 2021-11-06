@@ -1,6 +1,6 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
-import fuzs.betteranimationscollection.client.util.ModelUtil;
+import com.google.common.collect.Iterables;
 import net.minecraft.client.renderer.entity.model.SnowManModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -11,8 +11,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class SnowManStickModel<T extends Entity> extends SnowManModel<T> {
     
-    private final ModelRenderer arm1 = ModelUtil.getAtIndex(super.parts().iterator(), 3);
-    private final ModelRenderer arm2 = ModelUtil.getAtIndex(super.parts().iterator(), 4);
+    private final ModelRenderer arm1 = Iterables.get(super.parts(), 3);
+    private final ModelRenderer arm2 = Iterables.get(super.parts(), 4);
     
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

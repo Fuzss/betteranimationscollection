@@ -1,6 +1,6 @@
 package fuzs.betteranimationscollection.client.renderer.entity.model;
 
-import fuzs.betteranimationscollection.client.util.ModelUtil;
+import com.google.common.collect.Iterables;
 import net.minecraft.client.renderer.entity.model.MagmaCubeModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.monster.SlimeEntity;
@@ -13,7 +13,7 @@ public class MagmaCubeBurgerModel<T extends SlimeEntity> extends MagmaCubeModel<
     
     public MagmaCubeBurgerModel() {
 
-        this.insideCube = ModelUtil.getAtIndex(super.parts().iterator(), 0);
+        this.insideCube = Iterables.get(super.parts(), 0);
         this.bodyCubes = super.parts().stream().skip(1).toArray(ModelRenderer[]::new);
     }
 

@@ -5,17 +5,13 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 
 public class VillagerNoseElement extends SoundModelElement {
 
     public VillagerNoseElement() {
 
-        this.defaultSounds.add(SoundEvents.VILLAGER_AMBIENT.getRegistryName());
-        this.defaultSounds.add(SoundEvents.VILLAGER_TRADE.getRegistryName());
-        this.defaultSounds.add(SoundEvents.WANDERING_TRADER_AMBIENT.getRegistryName());
-        this.defaultSounds.add(SoundEvents.WANDERING_TRADER_TRADE.getRegistryName());
+        this.defaultSounds.add(SoundEvents.VILLAGER_AMBIENT, SoundEvents.VILLAGER_TRADE, SoundEvents.WANDERING_TRADER_AMBIENT, SoundEvents.WANDERING_TRADER_TRADE);
     }
 
     @Override
