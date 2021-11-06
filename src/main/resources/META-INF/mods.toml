@@ -9,7 +9,7 @@ issueTrackerURL="${modIssueUrl}"
     description="${modDescription}"
     version="${modVersion}"
     authors="${modAuthor}"
-    logoFile="logo.png"
+    logoFile="mod_banner.png"
     logoBlur=false
     displayURL="${modPageUrl}"
     updateJSONURL="${modUpdateUrl}"
@@ -36,5 +36,5 @@ issueTrackerURL="${modIssueUrl}"
     side="BOTH"
 
 [modproperties.${modId}]
-    catalogueItemIcon="avatar.png"
-    configuredBackground="minecraft:textures/block/honeycomb_block.png"
+    catalogueItemIcon="mod_logo.png"
+    configuredBackground="minecraft:textures/block/cobblestone.png"

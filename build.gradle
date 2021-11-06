@@ -45,7 +45,7 @@ version = "v${project.modversion}-${project.mcversion}"
 group = "${modGroup}"
 def mcVersionMatcher = Pattern.compile("(\\d+.\\d+)").matcher(project.mcversion)
 mcVersionMatcher.find()
-ext.modupdateurl = "https://raw.githubusercontent.com/${githubAuthor}/${project.modid}/".concat(mcVersionMatcher.group(1)).concat("/update.json")
+ext.modupdateurl = "https://raw.githubusercontent.com/Fuzss/modresources/main/update/betteranimationscollection.json"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
