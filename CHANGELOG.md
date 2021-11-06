@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [v1.2.4-1.16.5] - 2021-07-28
+## [v1.2.4-1.16.5] - 2021-11-06
 ### Added
 - Added floaty pig ears
 ### Changed
@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog].
 ### Fixed
 - Fixed chicken wattles not properly rotating when clucking
 - Fixed animations failing to apply with Whisperwoods mod installed
+- Fixed crash when a sound Better Animations Collection is listening for is played when no world is loaded
 
 ## [v1.2.3-1.16.5] - 2021-11-06
 ### Added

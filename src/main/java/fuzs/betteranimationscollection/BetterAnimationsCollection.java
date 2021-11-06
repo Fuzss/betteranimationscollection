@@ -19,6 +19,8 @@ public class BetterAnimationsCollection {
 
     private static final ElementRegistry REGISTRY = PuzzlesLib.create(MODID);
 
+    // having these static final field here in the main mod class is not good, as fields will be initialized before mod loading has properly started and most loading contexts are set
+    // TODO put this into separate / inner class or something else
     public static final AbstractElement SOUND_DETECTION = REGISTRY.register("sound_detection", () -> new SoundDetectionElement(), Dist.CLIENT);
     public static final AbstractElement OINKY_PIG = REGISTRY.register("oinky_pig", () -> new OinkyPigElement(), Dist.CLIENT);
     public static final AbstractElement BUCKA_BUCKA_CHICKEN = REGISTRY.register("bucka_bucka_chicken", () -> new BuckaChickenElement(), Dist.CLIENT);
@@ -43,9 +45,8 @@ public class BetterAnimationsCollection {
     public static final AbstractElement SPITFUL_LLAMA = REGISTRY.register("spitful_llama", () -> new SpitfulLlamaElement(), Dist.CLIENT);
 
     public BetterAnimationsCollection() {
-
         PuzzlesLib.setup(true);
-        PuzzlesLib.setSideSideOnly();
+        PuzzlesLib.setSideOnly();
     }
 
 }

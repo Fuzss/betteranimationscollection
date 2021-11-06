@@ -24,17 +24,17 @@ issueTrackerURL="${modIssueUrl}"
 [[dependencies.${modId}]]
     modId="minecraft"
     mandatory=true
-    versionRange="[${minMcVersion},${nextMcVersion})"
+    versionRange="[${minMinecraftVersion},${nextMinecraftVersion})"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.${modId}]]
     modId="puzzleslib"
     mandatory=true
-    versionRange="[${puzzlesVersion},)"
+    versionRange="[${minPuzzlesVersion},)"
     ordering="NONE"
     side="BOTH"
 
 [modproperties.${modId}]
-    catalogueItemIcon="mod_logo.png"
+    catalogueImageIcon="mod_logo.png"
     configuredBackground="minecraft:textures/block/cobblestone.png"

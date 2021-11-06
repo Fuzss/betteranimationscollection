@@ -141,41 +141,33 @@ public class SoundDetectionElement extends AbstractElement implements IClientEle
      * as separate class so there is no crash when loading on server
      */
     private class SoundDetectionListener implements ISoundEventListener {
-
-        private final Minecraft mc = Minecraft.getInstance();
-
+        private final Minecraft minecraft = Minecraft.getInstance();
         private boolean isLoaded;
 
         public void load() {
-
             if (!this.isLoaded) {
-
                 this.isLoaded = true;
-                this.mc.getSoundManager().addListener(this);
+                this.minecraft.getSoundManager().addListener(this);
             }
         }
 
         public void unload() {
-
             if (this.isLoaded) {
-
                 this.isLoaded = false;
-                this.mc.getSoundManager().removeListener(this);
+                this.minecraft.getSoundManager().removeListener(this);
             }
         }
 
         @Override
         public void onPlaySound(ISound soundIn, SoundEventAccessor accessor) {
-
+            // check is actually necessary here, as sounds might be played in some menu when no world has been loaded yet
+            if (this.minecraft.level == null) return;
             Class<? extends MobEntity> entityClazz = AMBIENT_SOUNDS.get(soundIn.getLocation());
             if (entityClazz != null) {
-
                 // accuracy is 1/8, so we center this and then apply #soundRange
                 Vector3d center = new Vector3d(soundIn.getX() + 0.0625, soundIn.getY() + 0.0625, soundIn.getZ() + 0.0625);
                 AxisAlignedBB axisAlignedBB = new AxisAlignedBB(center, center).inflate(SoundDetectionElement.this.soundRange + 0.0625);
-
-                assert this.mc.level != null;
-                List<MobEntity> entities = this.mc.level.getEntitiesOfClass(entityClazz, axisAlignedBB);
+                List<MobEntity> entities = this.minecraft.level.getEntitiesOfClass(entityClazz, axisAlignedBB);
                 entities.stream()
                         .min((o1, o2) -> (int) Math.signum(o1.position().distanceTo(center) - o2.position().distanceTo(center)))
                         .ifPresent(entity -> entity.ambientSoundTime = -entity.getAmbientSoundInterval());
