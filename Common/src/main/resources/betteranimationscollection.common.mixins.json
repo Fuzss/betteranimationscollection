@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "package": "fuzs.betteranimationscollection.mixin",
+  "refmap": "betteranimationscollection.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+    "client.accessor.CreeperPowerLayerAccessor",
+    "client.accessor.EntityRenderDispatcherAccessor",
+    "client.accessor.LayerDefinitionAccessor",
+    "client.accessor.LivingEntityRendererAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
