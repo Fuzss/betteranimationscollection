@@ -27,8 +27,7 @@ public class WobblyCreeperElement extends ModelElementBase {
 
     @Override
     public String[] modelDescription() {
-        return new String[]{"Remember that one very popular \"TNT\" music video by CaptainSparklez with the really cute wobbly Creeper?",
-                "Well, it's in the game now. The full thing, the real deal, exactly like the video."};
+        return new String[]{"Remember that one very popular \"TNT\" music video by CaptainSparklez with the really cute wobbly Creeper?", "Well, it's in the game now. The full thing, the real deal, exactly like the video."};
     }
 
     @Override

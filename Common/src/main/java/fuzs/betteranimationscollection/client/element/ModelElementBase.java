@@ -48,6 +48,10 @@ public abstract class ModelElementBase {
     @FunctionalInterface
     public interface AnimatedModelsContext {
 
+        default <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel) {
+            this.registerAnimatedModel(vanillaModelClazz, animatedModel, layer -> {});
+        }
+
         <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, Consumer<RenderLayer<?, ?>> layerTransformer);
     }
 

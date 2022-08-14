@@ -3,6 +3,8 @@ package fuzs.betteranimationscollection.client;
 import com.google.common.collect.Maps;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.client.element.ModelElementBase;
+import fuzs.betteranimationscollection.client.element.SpiderKneesElement;
+import fuzs.betteranimationscollection.client.element.SquidTentaclesElement;
 import fuzs.betteranimationscollection.client.element.WobblyCreeperElement;
 import fuzs.betteranimationscollection.config.ClientConfig;
 import fuzs.betteranimationscollection.mixin.client.accessor.EntityRenderDispatcherAccessor;
@@ -31,9 +33,15 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
 
     @Override
     public void onConstructMod() {
-        registerModelElement("wobbly_creeper", WobblyCreeperElement::new);
+        bootstrap();
         // do this here instead of in common construct since we need all elements to be registered first, which can only happen on the client though
         BetterAnimationsCollection.CONFIG.bakeConfigs(BetterAnimationsCollection.MOD_ID);
+    }
+
+    private static void bootstrap() {
+        registerModelElement("wobbly_creeper", WobblyCreeperElement::new);
+        registerModelElement("squiggly_squid_tentacles", SquidTentaclesElement::new);
+        registerModelElement("spider_knees", SpiderKneesElement::new);
     }
 
     private static void registerModelElement(String identifier, Function<ModelLayerRegistry, ModelElementBase> factory) {
@@ -82,5 +90,7 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
                 }
             }
         }
+        // let vanilla run this once during start-up, afterwards it's ok for us to trigger resource pack reloads as well
+        allowResourceReloading = true;
     }
 }

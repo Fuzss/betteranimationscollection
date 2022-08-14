@@ -38,8 +38,8 @@ public class ClientConfig implements ConfigCore {
     @Override
     public void afterConfigReload() {
         Set<EntityType<?>> mobBlacklist = EntryCollectionBuilder.of(Registry.ENTITY_TYPE_REGISTRY).buildSet(this.mobBlacklistRaw);
-        boolean initialReload = this.mobBlacklist == null;
-        if (initialReload || !mobBlacklist.equals(this.mobBlacklist)) {
+        if (!mobBlacklist.equals(this.mobBlacklist)) {
+            boolean initialReload = this.mobBlacklist == null;
             this.mobBlacklist = mobBlacklist;
             if (!initialReload) {
                 BetterAnimationsCollectionClient.buildAnimatedModels(false, true);

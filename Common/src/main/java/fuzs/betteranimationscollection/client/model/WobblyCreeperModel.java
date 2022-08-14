@@ -46,18 +46,18 @@ public class WobblyCreeperModel<T extends Entity> extends CreeperModel<T> {
         // fewer parts for charge layer as it looks silly with too much overlap inside the model
         int partHeight = chargedModel ? 3 : 1;
         LayerDefinition layerDefinition = CreeperModel.createBodyLayer(cubeDeformation);
-        MeshDefinition meshdefinition = ((LayerDefinitionAccessor) layerDefinition).getMesh();
-        PartDefinition partdefinition = meshdefinition.getRoot();
-        PartDefinition lastBodyPart = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 27).addBox(-4.0F, 12.0F - partHeight, -2.0F, 8.0F, partHeight, 4.0F, cubeDeformation), PartPose.offset(0.0F, 6.0F, 0.0F));
+        MeshDefinition meshDefinition = ((LayerDefinitionAccessor) layerDefinition).getMesh();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+        PartDefinition lastBodyPart = partDefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 27).addBox(-4.0F, 12.0F - partHeight, -2.0F, 8.0F, partHeight, 4.0F, cubeDeformation), PartPose.offset(0.0F, 6.0F, 0.0F));
         for (int i = 0; i < (chargedModel ? 4 : 11); i++) {
             lastBodyPart = lastBodyPart.addOrReplaceChild("body" + i, CubeListBuilder.create().texOffs(16, 27 - partHeight - i * partHeight).addBox(-4.0F, partHeight, -2.0F, 8.0F, partHeight, 4.0F, cubeDeformation), PartPose.offset(0.0F, i == 0 ? 9.0F : -partHeight, 0.0F));
         }
         lastBodyPart.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, cubeDeformation), PartPose.offset(0.0F, 1.0F, 0.0F));
         // basically sets rotation points to be at body, fixes a vanilla issue, has nothing to do with any animations
-        partdefinition.addOrReplaceChild("right_hind_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, 0.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(-2.0F, 18.0F, 2.0F));
-        partdefinition.addOrReplaceChild("left_hind_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, 0.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(2.0F, 18.0F, 2.0F));
-        partdefinition.addOrReplaceChild("right_front_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -4.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(-2.0F, 18.0F, -2.0F));
-        partdefinition.addOrReplaceChild("left_front_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -4.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(2.0F, 18.0F, -2.0F));
+        partDefinition.addOrReplaceChild("right_hind_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, 0.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(-2.0F, 18.0F, 2.0F));
+        partDefinition.addOrReplaceChild("left_hind_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, 0.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(2.0F, 18.0F, 2.0F));
+        partDefinition.addOrReplaceChild("right_front_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -4.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(-2.0F, 18.0F, -2.0F));
+        partDefinition.addOrReplaceChild("left_front_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -4.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(2.0F, 18.0F, -2.0F));
         return layerDefinition;
     }
 
@@ -79,7 +79,7 @@ public class WobblyCreeperModel<T extends Entity> extends CreeperModel<T> {
 
         WobblyCreeperElement.WobbleDirection wobbleDirection = WobblyCreeperElement.wobbleDirection;
         if (wobbleDirection == WobblyCreeperElement.WobbleDirection.RANDOM) {
-            wobbleDirection = WobblyCreeperElement.WobbleDirection.values()[(int) Math.abs(entityIn.getUUID().getLeastSignificantBits() % 3)];
+            wobbleDirection = WobblyCreeperElement.WobbleDirection.values()[(int) Math.abs(entityIn.getUUID().getLeastSignificantBits() % WobblyCreeperElement.WobbleDirection.values().length - 1)];
         }
 
         final float magnitude = this.resolveMagnitude(limbSwingAmount * 3.5F);
