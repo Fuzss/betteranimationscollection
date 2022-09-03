@@ -6,12 +6,12 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.ChickenModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.animal.Chicken;
 
-import java.util.function.Function;
-
-public class BuckaChickenElement extends ModelElementBase {
+public class BuckaChickenElement extends SoundDetectionElement {
     public static boolean slimBill;
     public static boolean moveHead;
     public static boolean moveWattles;
@@ -23,6 +23,7 @@ public class BuckaChickenElement extends ModelElementBase {
     private final ModelLayerLocation animatedChicken;
 
     public BuckaChickenElement(ModelLayerRegistry modelLayerRegistry) {
+        super(Chicken.class, SoundEvents.CHICKEN_AMBIENT);
         this.animatedChicken = modelLayerRegistry.register("animated_chicken");
     }
 
@@ -33,8 +34,8 @@ public class BuckaChickenElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(ChickenModel.class, () -> new BuckaChickenModel<>(bakery.apply(this.animatedChicken)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
+        context.registerAnimatedModel(ChickenModel.class, () -> new BuckaChickenModel<>(bakery.bakeLayer(this.animatedChicken)));
     }
 
     @Override
@@ -44,6 +45,7 @@ public class BuckaChickenElement extends ModelElementBase {
 
     @Override
     public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+        super.setupModelConfig(builder, callback);
         callback.accept(builder.comment("Make bill a lot slimmer so chickens look less like ducks.").define("slim_bill", true), v -> slimBill = v);
         callback.accept(builder.comment("Move head back and forth when chicken is walking.").define("move_head", true), v -> moveWattles = v);
         callback.accept(builder.comment("Wiggle chin when chicken is walking.").define("wiggle_wattles", true), v -> moveWings = v);

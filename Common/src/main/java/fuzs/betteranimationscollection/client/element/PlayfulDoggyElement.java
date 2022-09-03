@@ -6,10 +6,8 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.WolfModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
-
-import java.util.function.Function;
 
 public class PlayfulDoggyElement extends ModelElementBase {
     public static int tailLength;
@@ -30,8 +28,8 @@ public class PlayfulDoggyElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(WolfModel.class, () -> new PlayfulDoggyModel<>(bakery.apply(this.animatedWolf)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
+        context.registerAnimatedModel(WolfModel.class, () -> new PlayfulDoggyModel<>(bakery.bakeLayer(this.animatedWolf)));
     }
 
     @Override

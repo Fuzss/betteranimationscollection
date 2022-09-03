@@ -6,11 +6,9 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.OcelotModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
-
-import java.util.function.Function;
 
 public class OcelotTailElement extends ModelElementBase {
     public static int tailLength;
@@ -29,8 +27,8 @@ public class OcelotTailElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(OcelotModel.class, () -> new OcelotTailModel<>(bakery.apply(this.animatedOcelot)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
+        context.registerAnimatedModel(OcelotModel.class, () -> new OcelotTailModel<>(bakery.bakeLayer(this.animatedOcelot)));
     }
 
     @Override
@@ -40,7 +38,7 @@ public class OcelotTailElement extends ModelElementBase {
 
     @Override
     public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
-        callback.accept(builder.comment("Define tail length.").defineInRange("tail_length", 15, 1, 15), v -> tailLength = v);
+        callback.accept(builder.comment("Define tail length.").defineInRange("tail_length", OcelotTailModel.OCELOT_TAIL_LENGTH, 1, OcelotTailModel.OCELOT_TAIL_LENGTH), v -> tailLength = v);
         callback.accept(builder.comment("Animation swing speed for tail.").defineInRange("animation_speed", 7, 1, 20), v -> animationSpeed = v);
     }
 }

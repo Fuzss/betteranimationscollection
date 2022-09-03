@@ -1,17 +1,17 @@
 package fuzs.betteranimationscollection.client.model;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.model.HorseModel;
+import net.minecraft.client.model.ChestedHorseModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 
-public class FamiliarHorseModel<T extends AbstractHorse> extends HorseModel<T> {
+/**
+ * everything copied from {@link FamiliarHorseModel}
+ */
+public class FamiliarChestedHorseModel<T extends AbstractChestedHorse> extends ChestedHorseModel<T> {
     private final ModelPart headParts;
     private final ModelPart upperMouth;
     private final ModelPart lowerMouth;
@@ -38,7 +38,7 @@ public class FamiliarHorseModel<T extends AbstractHorse> extends HorseModel<T> {
 //    private final ModelPart[] saddleParts;
 //    private final ModelPart[] ridingParts;
 
-    public FamiliarHorseModel(ModelPart modelPart) {
+    public FamiliarChestedHorseModel(ModelPart modelPart) {
         super(modelPart);
         this.headParts = modelPart.getChild("head_parts");
         this.upperMouth = this.headParts.getChild("upper_mouth");
@@ -178,51 +178,18 @@ public class FamiliarHorseModel<T extends AbstractHorse> extends HorseModel<T> {
 //        this.headParts.addChild(this.lowerMouthSaddleWrap);
     }
 
-    public static MeshDefinition createAnimatedBodyMesh(CubeDeformation cubeDeformation) {
-        MeshDefinition meshDefinition = HorseModel.createBodyMesh(cubeDeformation);
+    public static LayerDefinition createAnimatedBodyLayer() {
+        MeshDefinition meshDefinition = FamiliarHorseModel.createAnimatedBodyMesh(CubeDeformation.NONE);
         PartDefinition partDefinition = meshDefinition.getRoot();
-//        PartDefinition partDefinition2 = partDefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 32).addBox(-5.0F, -8.0F, -17.0F, 10.0F, 10.0F, 22.0F, new CubeDeformation(0.05F)), PartPose.offset(0.0F, 11.0F, 5.0F));
-        PartDefinition partDefinition3 = partDefinition.addOrReplaceChild("head_parts", CubeListBuilder.create().texOffs(0, 35).addBox(-2.05F, -6.0F, -2.0F, 4.0F, 12.0F, 7.0F), PartPose.rotation(0.5235988F, 0.0F, 0.0F));
-//        PartDefinition partDefinition4 = partDefinition3.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 13).addBox(-3.0F, -11.0F, -2.0F, 6.0F, 5.0F, 7.0F, cubeDeformation), PartPose.ZERO);
-//        partDefinition3.addOrReplaceChild("mane", CubeListBuilder.create().texOffs(56, 36).addBox(-1.0F, -11.0F, 5.01F, 2.0F, 16.0F, 2.0F, cubeDeformation), PartPose.ZERO);
-        partDefinition3.addOrReplaceChild("upper_mouth", CubeListBuilder.create().texOffs(0, 25).addBox(-2.0F, -11.0F, -7.0F, 4.0F, 3.0F, 5.0F, cubeDeformation), PartPose.ZERO);
-        partDefinition3.addOrReplaceChild("lower_mouth", CubeListBuilder.create().texOffs(0, 28).addBox(-2.0F, -8.0F, -7.0F, 4.0F, 2.0F, 5.0F, cubeDeformation), PartPose.ZERO);
-
-        // adult legs parts
-        partDefinition.addOrReplaceChild("left_hind_leg", CubeListBuilder.create().texOffs(48, 21).mirror().addBox(-3.0F, -1.01F, -1.0F, 4.0F, 5.0F, 4.0F, cubeDeformation), PartPose.offset(4.0F, 14.0F, 7.0F));
-        partDefinition.addOrReplaceChild("right_hind_leg", CubeListBuilder.create().texOffs(48, 21).addBox(-1.0F, -1.01F, -1.0F, 4.0F, 5.0F, 4.0F, cubeDeformation), PartPose.offset(-4.0F, 14.0F, 7.0F));
-        partDefinition.addOrReplaceChild("left_front_leg", CubeListBuilder.create().texOffs(48, 21).mirror().addBox(-3.0F, -1.01F, -1.9F, 4.0F, 5.0F, 4.0F, cubeDeformation), PartPose.offset(4.0F, 6.0F, -12.0F));
-        partDefinition.addOrReplaceChild("right_front_leg", CubeListBuilder.create().texOffs(48, 21).addBox(-1.0F, -1.01F, -1.9F, 4.0F, 5.0F, 4.0F, cubeDeformation), PartPose.offset(-4.0F, 6.0F, -12.0F));
-        partDefinition.addOrReplaceChild("left_hind_shin", CubeListBuilder.create().texOffs(48, 26).mirror().addBox(-3.0F, 0.99F, -1.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(4.0F, 17.0F, 7.0F));
-        partDefinition.addOrReplaceChild("right_hind_shin", CubeListBuilder.create().texOffs(48, 26).addBox(-1.0F, 0.99F, -1.0F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(-4.0F, 17.0F, 7.0F));
-        partDefinition.addOrReplaceChild("left_front_shin", CubeListBuilder.create().texOffs(48, 26).mirror().addBox(-3.0F, 0.99F, -1.9F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(4.0F, 9.0F, -12.0F));
-        partDefinition.addOrReplaceChild("right_front_shin", CubeListBuilder.create().texOffs(48, 26).addBox(-1.0F, 0.99F, -1.9F, 4.0F, 6.0F, 4.0F, cubeDeformation), PartPose.offset(-4.0F, 9.0F, -12.0F));
-
-        // baby legs parts
-        CubeDeformation cubeDeformation2 = cubeDeformation.extend(0.0F, 1.0F, 0.0F);
-        partDefinition.addOrReplaceChild("left_hind_baby_leg", CubeListBuilder.create().texOffs(48, 21).mirror().addBox(-3.0F, 0.01F, -1.0F, 4.0F, 5.0F, 4.0F, cubeDeformation2), PartPose.offset(4.0F, 14.0F, 7.0F));
-        partDefinition.addOrReplaceChild("right_hind_baby_leg", CubeListBuilder.create().texOffs(48, 21).addBox(-1.0F, 0.01F, -1.0F, 4.0F, 5.0F, 4.0F, cubeDeformation2), PartPose.offset(-4.0F, 14.0F, 7.0F));
-        partDefinition.addOrReplaceChild("left_front_baby_leg", CubeListBuilder.create().texOffs(48, 21).mirror().addBox(-3.0F, -1.01F, -1.9F, 4.0F, 11.0F, 4.0F, cubeDeformation2), PartPose.offset(4.0F, 6.0F, -12.0F));
-        partDefinition.addOrReplaceChild("right_front_baby_leg", CubeListBuilder.create().texOffs(48, 21).addBox(-3.0F, 0.01F, -1.9F, 4.0F, 5.0F, 4.0F, cubeDeformation2), PartPose.offset(-4.0F, 6.0F, -12.0F));
-        partDefinition.addOrReplaceChild("left_hind_baby_shin", CubeListBuilder.create().texOffs(48, 26).mirror().addBox(-3.0F, 4.01F, -1.0F, 4.0F, 6.0F, 4.0F, cubeDeformation2), PartPose.offset(4.0F, 17.0F, 7.0F));
-        partDefinition.addOrReplaceChild("right_hind_baby_shin", CubeListBuilder.create().texOffs(48, 26).addBox(-1.0F, 4.01F, -1.0F, 4.0F, 6.0F, 4.0F, cubeDeformation2), PartPose.offset(-4.0F, 17.0F, 7.0F));
-        partDefinition.addOrReplaceChild("left_front_baby_shin", CubeListBuilder.create().texOffs(48, 26).mirror().addBox(-3.0F, 4.01F, -1.9F, 4.0F, 6.0F, 4.0F, cubeDeformation2), PartPose.offset(4.0F, 9.0F, -12.0F));
-        partDefinition.addOrReplaceChild("right_front_baby_shin", CubeListBuilder.create().texOffs(48, 26).addBox(-1.0F, 4.01F, -1.9F, 4.0F, 6.0F, 4.0F, cubeDeformation2), PartPose.offset(-4.0F, 9.0F, -12.0F));
-
-//        partDefinition2.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(42, 36).addBox(-1.5F, 0.0F, 0.0F, 3.0F, 14.0F, 4.0F, cubeDeformation), PartPose.offsetAndRotation(0.0F, -5.0F, 2.0F, 0.5235988F, 0.0F, 0.0F));
-//        partDefinition2.addOrReplaceChild("saddle", CubeListBuilder.create().texOffs(26, 0).addBox(-5.0F, -8.0F, -9.0F, 10.0F, 9.0F, 9.0F, new CubeDeformation(0.5F)), PartPose.ZERO);
-        partDefinition3.addOrReplaceChild("left_saddle_mouth", CubeListBuilder.create().texOffs(29, 5).addBox(2.0F, -9.0F, -5.0F, 1.0F, 2.0F, 2.0F, cubeDeformation), PartPose.ZERO);
-        partDefinition3.addOrReplaceChild("right_saddle_mouth", CubeListBuilder.create().texOffs(29, 5).addBox(-3.0F, -9.0F, -5.0F, 1.0F, 2.0F, 2.0F, cubeDeformation), PartPose.ZERO);
-//        partDefinition3.addOrReplaceChild("left_saddle_line", CubeListBuilder.create().texOffs(32, 2).addBox(3.1F, -6.0F, -8.0F, 0.0F, 3.0F, 16.0F, cubeDeformation), PartPose.rotation(-0.5235988F, 0.0F, 0.0F));
-//        partDefinition3.addOrReplaceChild("right_saddle_line", CubeListBuilder.create().texOffs(32, 2).addBox(-3.1F, -6.0F, -8.0F, 0.0F, 3.0F, 16.0F, cubeDeformation), PartPose.rotation(-0.5235988F, 0.0F, 0.0F));
-
-        CubeDeformation cubeDeformation1 = new CubeDeformation(0.2F);
-        partDefinition3.addOrReplaceChild("head_saddle", CubeListBuilder.create().texOffs(1, 1).addBox(-3.0F, -11.0F, -1.9F, 6.0F, 5.0F, 6.0F, cubeDeformation1), PartPose.ZERO);
-        partDefinition3.addOrReplaceChild("mouth_saddle_wrap", CubeListBuilder.create().texOffs(19, 0).addBox(-2.0F, -11.0F, -4.0F, 4.0F, 3.0F, 2.0F, cubeDeformation1), PartPose.ZERO);
-        partDefinition3.addOrReplaceChild("lower_mouth_saddle_wrap", CubeListBuilder.create().texOffs(19, 0).addBox(-2.0F, -8.0F, -4.0F, 4.0F, 2.0F, 2.0F, cubeDeformation1), PartPose.ZERO);
-//        partDefinition4.addOrReplaceChild("left_ear", CubeListBuilder.create().texOffs(19, 16).addBox(0.55F, -13.0F, 4.0F, 2.0F, 3.0F, 1.0F, new CubeDeformation(-0.001F)), PartPose.ZERO);
-//        partDefinition4.addOrReplaceChild("right_ear", CubeListBuilder.create().texOffs(19, 16).addBox(-2.55F, -13.0F, 4.0F, 2.0F, 3.0F, 1.0F, new CubeDeformation(-0.001F)), PartPose.ZERO);
-        return meshDefinition;
+        PartDefinition partDefinition2 = partDefinition.getChild("body");
+        CubeListBuilder cubeListBuilder = CubeListBuilder.create().texOffs(26, 21).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 8.0F, 3.0F);
+        partDefinition2.addOrReplaceChild("left_chest", cubeListBuilder, PartPose.offsetAndRotation(6.0F, -8.0F, 0.0F, 0.0F, -1.5707964F, 0.0F));
+        partDefinition2.addOrReplaceChild("right_chest", cubeListBuilder, PartPose.offsetAndRotation(-6.0F, -8.0F, 0.0F, 0.0F, 1.5707964F, 0.0F));
+        PartDefinition partDefinition3 = partDefinition.getChild("head_parts").getChild("head");
+        CubeListBuilder cubeListBuilder2 = CubeListBuilder.create().texOffs(0, 12).addBox(-1.0F, -7.0F, 0.0F, 2.0F, 7.0F, 1.0F);
+        partDefinition3.addOrReplaceChild("left_ear", cubeListBuilder2, PartPose.offsetAndRotation(1.25F, -10.0F, 4.0F, 0.2617994F, 0.0F, 0.2617994F));
+        partDefinition3.addOrReplaceChild("right_ear", cubeListBuilder2, PartPose.offsetAndRotation(-1.25F, -10.0F, 4.0F, 0.2617994F, 0.0F, -0.2617994F));
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 
     @Override

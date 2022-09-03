@@ -14,20 +14,18 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 
 public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
+    public static final int GHAST_MAX_TENTACLES_LENGTH = 14;
+
     private final ModelPart[] tentacles = new ModelPart[9];
     private final ModelPart[][] tentacleParts = new ModelPart[9][];
 
     public GhastTentaclesModel(ModelPart modelPart) {
         super(modelPart);
-        RandomSource randomSource = RandomSource.create(1660L);
         for (int i = 0; i < this.tentacles.length; i++) {
             ModelPart tentacle = this.tentacles[i] = modelPart.getChild("tentacle" + i);
-            int randomLength = randomSource.nextInt(GhastTentaclesElement.maxTentaclesLength / 2) + GhastTentaclesElement.maxTentaclesLength / 2 + 1;
-            this.tentacleParts[i] = new ModelPart[14];
+            this.tentacleParts[i] = new ModelPart[GHAST_MAX_TENTACLES_LENGTH];
             for (int j = 0; j < this.tentacleParts[i].length; j++) {
                 tentacle = this.tentacleParts[i][j] = tentacle.getChild("tentacle_part" + j);
-                // we always create all parts, the config only sets unwanted ones invisible
-                if (j >= randomLength) tentacle.visible = false;
             }
         }
     }
@@ -41,7 +39,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
             float offsetY = 24.6F;
             float offsetZ = ((float) (i / 3) / 2.0F * 2.0F - 1.0F) * 5.0F;
             PartDefinition partDefinition1 = partDefinition.addOrReplaceChild("tentacle" + i, CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 1.0F, 2.0F), PartPose.offset(offsetX, offsetY, offsetZ));
-            for (int j = 0; j < 14; j++) {
+            for (int j = 0; j < GHAST_MAX_TENTACLES_LENGTH; j++) {
                 partDefinition1 = partDefinition1.addOrReplaceChild("tentacle_part" + i, CubeListBuilder.create().texOffs(0, 1 + j).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 1.0F, 2.0F), PartPose.offset(0.0F, 1.0F, 0.0F));
             }
         }
@@ -51,10 +49,13 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float speed = 1.0F / (float) GhastTentaclesElement.animationSpeed;
+        RandomSource randomSource = RandomSource.create(1660L);
         for (int i = 0; i < this.tentacles.length; i++) {
             this.tentacles[i].xRot = speed * Mth.sin(ageInTicks * speed + (float) i) + 0.4F;
+            int randomLength = randomSource.nextInt(GhastTentaclesElement.maxTentaclesLength / 2) + GhastTentaclesElement.maxTentaclesLength / 2 + 1;
             for (int j = 0; j < this.tentacleParts[i].length; j++) {
                 this.tentacleParts[i][j].xRot = speed * Mth.sin(ageInTicks * speed + (float) i - (float) j / 2.0F);
+                this.tentacleParts[i][j].visible = i < randomLength;
             }
         }
     }

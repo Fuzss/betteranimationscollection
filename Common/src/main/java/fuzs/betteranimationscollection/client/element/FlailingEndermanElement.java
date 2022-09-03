@@ -7,15 +7,14 @@ import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EndermanModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CarriedBlockLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.monster.EnderMan;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 public class FlailingEndermanElement extends ModelElementBase {
     public static int animationSpeed;
@@ -34,8 +33,8 @@ public class FlailingEndermanElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(EndermanModel.class, () -> new FlailingEndermanModel<>(bakery.apply(this.animatedEnderman)), (RenderLayerParent<EnderMan, EndermanModel<EnderMan>> renderLayerParent, RenderLayer<EnderMan, EndermanModel<EnderMan>> renderLayer) -> {
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
+        context.registerAnimatedModel(EndermanModel.class, () -> new FlailingEndermanModel<>(bakery.bakeLayer(this.animatedEnderman)), (RenderLayerParent<EnderMan, EndermanModel<EnderMan>> renderLayerParent, RenderLayer<EnderMan, EndermanModel<EnderMan>> renderLayer) -> {
             if (renderLayer instanceof CarriedBlockLayer) {
                 return Optional.of(new CarriedBlockLayer(renderLayerParent, Minecraft.getInstance().getBlockRenderer()));
             }

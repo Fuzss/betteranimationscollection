@@ -18,6 +18,9 @@ import java.util.Set;
 public class ClientConfig implements ConfigCore {
     @Config(category = "general", name = "mob_blacklist", description = {"Mob variants that shouldn't have any model changes applied to them.", EntryCollectionBuilder.CONFIG_DESCRIPTION})
     List<String> mobBlacklistRaw = EntryCollectionBuilder.getKeyList(Registry.ENTITY_TYPE_REGISTRY);
+    @Config(description = "Block range for sound detection system to look for a mob that made a certain sound on the server, so the client may play an animation.")
+    @Config.DoubleRange(min = 0.5, max = 8.0)
+    public double soundDetectionRange = 1.5;
 
     public Set<EntityType<?>> mobBlacklist;
 

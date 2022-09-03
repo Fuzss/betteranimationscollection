@@ -60,6 +60,8 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
         registerModelElement("arm_flailing_enderman", FlailingEndermanElement::new);
         registerModelElement("wobbly_creeper", WobblyCreeperElement::new);
         registerModelElement("playful_doggy", PlayfulDoggyElement::new);
+        registerModelElement("bending_humanoid_knees", HumanoidKneesElement::new);
+        registerModelElement("familiar_horse", FamiliarHorseElement::new);
         registerModelElement("spitful_llama", SpitfulLlamaElement::new);
     }
 
@@ -79,13 +81,14 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
             ANIMATED_MODEL_DATA.clear();
             ModelElementBase.AnimatedModelsContext context = new ModelElementBase.AnimatedModelsContext() {
 
+                @SuppressWarnings("unchecked")
                 @Override
                 public <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<M> animatedModel, ModelElementBase.LayerTransformer<T, M> layerTransformer) {
                     ANIMATED_MODEL_DATA.put((Class<? extends EntityModel<?>>) vanillaModelClazz, new ModelElementBase.AnimatedModelData<>(vanillaModelClazz, animatedModel, layerTransformer));
                 }
             };
             MODEL_ELEMENTS.values().forEach(element -> {
-                element.registerAnimatedModels(context, modelLayerLocation -> Minecraft.getInstance().getEntityModels().bakeLayer(modelLayerLocation));
+                element.registerAnimatedModels(context, Minecraft.getInstance().getEntityModels());
             });
             if (reloadResourcePacks && allowResourceReloading) {
                 Minecraft.getInstance().reloadResourcePacks();

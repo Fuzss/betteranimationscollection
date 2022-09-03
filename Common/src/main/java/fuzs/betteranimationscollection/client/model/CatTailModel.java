@@ -1,7 +1,6 @@
 package fuzs.betteranimationscollection.client.model;
 
 import fuzs.betteranimationscollection.client.element.CatTailElement;
-import fuzs.betteranimationscollection.client.element.OcelotTailElement;
 import net.minecraft.client.model.CatModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.animal.Cat;
@@ -13,7 +12,7 @@ public class CatTailModel<T extends Cat> extends CatModel<T> {
     public CatTailModel(ModelPart modelPart) {
         super(modelPart);
         this.tail = modelPart.getChild("tail1");
-        this.tailParts = OcelotTailModel.getTailParts(this.tail, CatTailElement.tailLength);
+        this.tailParts = OcelotTailModel.getTailParts(this.tail);
     }
 
     @Override
@@ -28,9 +27,10 @@ public class CatTailModel<T extends Cat> extends CatModel<T> {
             for (int i = 0; i < this.tailParts.length; i++) {
                 this.tailParts[i].xRot = 0.0F;
                 this.tailParts[i].zRot = (15.0F - (float) i) / 50.0F;
+                this.tailParts[i].visible = i < CatTailElement.tailLength;
             }
         } else {
-            OcelotTailModel.setupTailAnim(this.tail, this.tailParts, limbSwing, limbSwingAmount, ageInTicks, CatTailElement.animationSpeed);
+            OcelotTailModel.setupTailAnim(this.tail, this.tailParts, limbSwing, limbSwingAmount, ageInTicks, CatTailElement.animationSpeed, CatTailElement.tailLength);
         }
         super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }

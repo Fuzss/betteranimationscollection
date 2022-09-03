@@ -4,6 +4,7 @@ import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -31,14 +32,14 @@ public abstract class ModelElementBase {
 
     public abstract String[] modelDescription();
 
-    public final void registerAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
+    public final void registerAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
         this.dirty = false;
         if (this.enabled) {
             this.onRegisterAnimatedModels(context, bakery);
         }
     }
 
-    abstract void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery);
+    abstract void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery);
 
     public abstract void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context);
 

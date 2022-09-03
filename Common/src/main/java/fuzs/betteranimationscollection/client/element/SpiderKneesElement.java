@@ -4,10 +4,8 @@ import fuzs.betteranimationscollection.client.model.SpiderKneesModel;
 import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.SpiderModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
-
-import java.util.function.Function;
 
 public class SpiderKneesElement extends ModelElementBase {
     private final ModelLayerLocation animatedSpider;
@@ -22,8 +20,8 @@ public class SpiderKneesElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(SpiderModel.class, () -> new SpiderKneesModel<>(bakery.apply(this.animatedSpider)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
+        context.registerAnimatedModel(SpiderModel.class, () -> new SpiderKneesModel<>(bakery.bakeLayer(this.animatedSpider)));
     }
 
     @Override

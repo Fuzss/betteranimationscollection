@@ -6,10 +6,8 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.GhastModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
-
-import java.util.function.Function;
 
 public class GhastTentaclesElement extends ModelElementBase {
     public static int maxTentaclesLength;
@@ -28,8 +26,8 @@ public class GhastTentaclesElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(GhastModel.class, () -> new GhastTentaclesModel<>(bakery.apply(this.animatedGhast)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
+        context.registerAnimatedModel(GhastModel.class, () -> new GhastTentaclesModel<>(bakery.bakeLayer(this.animatedGhast)));
     }
 
     @Override
@@ -39,7 +37,7 @@ public class GhastTentaclesElement extends ModelElementBase {
 
     @Override
     public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
-        callback.accept(builder.comment("Define the max length of tentacles.").defineInRange("max_tentacles_length", 14, 2, 14), v -> maxTentaclesLength = v);
+        callback.accept(builder.comment("Define the max length of tentacles.").defineInRange("max_tentacles_length", GhastTentaclesModel.GHAST_MAX_TENTACLES_LENGTH, 2, GhastTentaclesModel.GHAST_MAX_TENTACLES_LENGTH), v -> maxTentaclesLength = v);
         callback.accept(builder.comment("Animation swing speed of tentacles.").defineInRange("animation_speed", 5, 1, 20), v -> animationSpeed = v);
     }
 }

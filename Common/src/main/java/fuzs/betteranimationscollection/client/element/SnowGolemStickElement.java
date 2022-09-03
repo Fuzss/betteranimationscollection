@@ -4,15 +4,16 @@ import fuzs.betteranimationscollection.client.model.SnowGolemStickModel;
 import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.SnowGolemModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.animal.SnowGolem;
 
-import java.util.function.Function;
-
-public class SnowGolemStickElement extends ModelElementBase {
+public class SnowGolemStickElement extends SoundDetectionElement {
     private final ModelLayerLocation animatedSnowGolem;
 
     public SnowGolemStickElement(ModelLayerRegistry modelLayerRegistry) {
+        super(SnowGolem.class, SoundEvents.SNOW_GOLEM_SHOOT);
         this.animatedSnowGolem = modelLayerRegistry.register("animated_snow_golem");
     }
 
@@ -22,8 +23,8 @@ public class SnowGolemStickElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(SnowGolemModel.class, () -> new SnowGolemStickModel<>(bakery.apply(this.animatedSnowGolem)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
+        context.registerAnimatedModel(SnowGolemModel.class, () -> new SnowGolemStickModel<>(bakery.bakeLayer(this.animatedSnowGolem)));
     }
 
     @Override

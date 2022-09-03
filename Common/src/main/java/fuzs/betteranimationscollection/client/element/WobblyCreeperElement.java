@@ -1,14 +1,14 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.WobblyCreeperModel;
-import fuzs.betteranimationscollection.mixin.client.accessor.CreeperPowerLayerAccessor;
 import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.CreeperModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CreeperPowerLayer;
@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.monster.Creeper;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 public class WobblyCreeperElement extends ModelElementBase {
     public static WobbleDirection wobbleDirection;
@@ -36,10 +35,17 @@ public class WobblyCreeperElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(CreeperModel.class, () -> new WobblyCreeperModel<>(bakery.apply(this.animatedCreeper), false), (RenderLayerParent<Creeper, CreeperModel<Creeper>> renderLayerParent, RenderLayer<Creeper, CreeperModel<Creeper>> renderLayer) -> {
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
+        context.registerAnimatedModel(CreeperModel.class, () -> new WobblyCreeperModel<>(bakery.bakeLayer(this.animatedCreeper), false), (RenderLayerParent<Creeper, CreeperModel<Creeper>> renderLayerParent, RenderLayer<Creeper, CreeperModel<Creeper>> renderLayer) -> {
             if (renderLayer instanceof CreeperPowerLayer) {
-                ((CreeperPowerLayerAccessor) renderLayer).setModel(new WobblyCreeperModel<>(bakery.apply(WobblyCreeperElement.this.animatedCreeperArmor), true));
+                return Optional.of(new CreeperPowerLayer(renderLayerParent, bakery) {
+                    private final WobblyCreeperModel<Creeper> model = new WobblyCreeperModel<>(bakery.bakeLayer(WobblyCreeperElement.this.animatedCreeperArmor), true);
+
+                    @Override
+                    protected EntityModel<Creeper> model() {
+                        return this.model;
+                    }
+                });
             }
             return Optional.empty();
         });

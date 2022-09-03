@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [v4.0.0-1.19] - 2022-07-06
+## [v4.0.0-1.19.2] - 2022-09-04
 - Ported to Minecraft 1.19
 - Split into multi-loader project
 
