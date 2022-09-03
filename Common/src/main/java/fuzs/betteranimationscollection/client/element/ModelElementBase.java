@@ -9,7 +9,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.LivingEntity;
 
-import java.util.function.Consumer;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -49,13 +49,19 @@ public abstract class ModelElementBase {
     public interface AnimatedModelsContext {
 
         default <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel) {
-            this.registerAnimatedModel(vanillaModelClazz, animatedModel, layer -> {});
+            this.registerAnimatedModel(vanillaModelClazz, animatedModel, renderLayer -> Optional.empty());
         }
 
-        <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, Consumer<RenderLayer<?, ?>> layerTransformer);
+        <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, LayerTransformer layerTransformer);
     }
 
-    public record AnimatedModelData<T extends LivingEntity, M extends EntityModel<T>>(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, Consumer<RenderLayer<?, ?>> layerTransformer) {
+    @FunctionalInterface
+    public interface LayerTransformer {
+
+        Optional<? extends RenderLayer<?, ?>> apply(RenderLayer<?, ?> next);
+    }
+
+    public record AnimatedModelData<T extends LivingEntity, M extends EntityModel<T>>(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, LayerTransformer layerTransformer) {
 
     }
 }

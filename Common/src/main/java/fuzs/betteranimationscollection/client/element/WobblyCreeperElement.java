@@ -12,6 +12,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.layers.CreeperPowerLayer;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 public class WobblyCreeperElement extends ModelElementBase {
@@ -27,7 +28,8 @@ public class WobblyCreeperElement extends ModelElementBase {
 
     @Override
     public String[] modelDescription() {
-        return new String[]{"Remember that one very popular \"TNT\" music video by CaptainSparklez with the really cute wobbly Creeper?", "Well, it's in the game now. The full thing, the real deal, exactly like the video."};
+        return new String[]{"Remember that one very popular \"TNT\" music video by CaptainSparklez with the really cute wobbly Creeper?",
+                "Well, it's in the game now. The full thing, the real deal, exactly like the video."};
     }
 
     @Override
@@ -36,13 +38,14 @@ public class WobblyCreeperElement extends ModelElementBase {
             if (layer instanceof CreeperPowerLayer) {
                 ((CreeperPowerLayerAccessor) layer).setModel(new WobblyCreeperModel<>(bakery.apply(this.animatedCreeperArmor), true));
             }
+            return Optional.empty();
         });
     }
 
     @Override
     public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedCreeper, () -> WobblyCreeperModel.createBodyLayer(CubeDeformation.NONE, false));
-        context.registerLayerDefinition(this.animatedCreeperArmor, () -> WobblyCreeperModel.createBodyLayer(new CubeDeformation(2.0F), true));
+        context.registerLayerDefinition(this.animatedCreeper, () -> WobblyCreeperModel.createAnimatedBodyLayer(CubeDeformation.NONE, false));
+        context.registerLayerDefinition(this.animatedCreeperArmor, () -> WobblyCreeperModel.createAnimatedBodyLayer(new CubeDeformation(2.0F), true));
     }
 
     @Override

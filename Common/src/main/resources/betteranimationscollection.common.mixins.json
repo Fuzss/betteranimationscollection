@@ -7,10 +7,17 @@
   "mixins": [
   ],
   "client": [
+    "client.accessor.AgeableListModelAccessor",
+    "client.accessor.CatCollarLayerAccessor",
     "client.accessor.CreeperPowerLayerAccessor",
     "client.accessor.EntityRenderDispatcherAccessor",
     "client.accessor.LayerDefinitionAccessor",
-    "client.accessor.LivingEntityRendererAccessor"
+    "client.accessor.LivingEntityRendererAccessor",
+    "client.accessor.LlamaDecorLayerAccessor",
+    "client.accessor.SaddleLayerAccessor",
+    "client.accessor.SheepFurLayerAccessor",
+    "client.accessor.SlimeOuterLayerAccessor",
+    "client.accessor.WolfModelAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

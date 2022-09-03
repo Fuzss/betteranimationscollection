@@ -2,10 +2,7 @@ package fuzs.betteranimationscollection.client;
 
 import com.google.common.collect.Maps;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
-import fuzs.betteranimationscollection.client.element.ModelElementBase;
-import fuzs.betteranimationscollection.client.element.SpiderKneesElement;
-import fuzs.betteranimationscollection.client.element.SquidTentaclesElement;
-import fuzs.betteranimationscollection.client.element.WobblyCreeperElement;
+import fuzs.betteranimationscollection.client.element.*;
 import fuzs.betteranimationscollection.config.ClientConfig;
 import fuzs.betteranimationscollection.mixin.client.accessor.EntityRenderDispatcherAccessor;
 import fuzs.betteranimationscollection.mixin.client.accessor.LivingEntityRendererAccessor;
@@ -17,11 +14,16 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.Unit;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 
+import java.util.ListIterator;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.concurrent.Executor;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -29,6 +31,7 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
     private static final ModelLayerRegistry MODEL_LAYER_REGISTRY = ModelLayerRegistry.of(BetterAnimationsCollection.MOD_ID);
     public static final Map<ResourceLocation, ModelElementBase> MODEL_ELEMENTS = Maps.newHashMap();
     private static final Map<Class<? extends EntityModel<?>>, ModelElementBase.AnimatedModelData<?, ?>> ANIMATED_MODEL_DATA = Maps.newIdentityHashMap();
+
     private static boolean allowResourceReloading;
 
     @Override
@@ -39,9 +42,23 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
     }
 
     private static void bootstrap() {
-        registerModelElement("wobbly_creeper", WobblyCreeperElement::new);
+        registerModelElement("oinky_pig", OinkyPigElement::new);
+        registerModelElement("bucka_bucka_chicken", BuckaChickenElement::new);
+        registerModelElement("wiggly_ghast_tentacles", GhastTentaclesElement::new);
         registerModelElement("squiggly_squid_tentacles", SquidTentaclesElement::new);
+        registerModelElement("kneeling_sheep", KneelingSheepElement::new);
         registerModelElement("spider_knees", SpiderKneesElement::new);
+        registerModelElement("animated_snow_man_stick", SnowGolemStickElement::new);
+        registerModelElement("wobbly_cow_udder", CowUdderElement::new);
+        registerModelElement("wiggly_iron_golem_nose", IronGolemNoseElement::new);
+        registerModelElement("flowy_ocelot_tail", OcelotTailElement::new);
+        registerModelElement("curly_cat_tail", CatTailElement::new);
+        registerModelElement("wiggly_villager_nose", VillagerNoseElement::new);
+        registerModelElement("magma_cube_burger", MagmaCubeBurgerElement::new);
+        registerModelElement("jiggly_liquidy_slime", JigglySlimeElement::new);
+        registerModelElement("wobbly_creeper", WobblyCreeperElement::new);
+        registerModelElement("playful_doggy", PlayfulDoggyElement::new);
+        registerModelElement("spitful_llama", SpitfulLlamaElement::new);
     }
 
     private static void registerModelElement(String identifier, Function<ModelLayerRegistry, ModelElementBase> factory) {
@@ -61,7 +78,7 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
             ModelElementBase.AnimatedModelsContext context = new ModelElementBase.AnimatedModelsContext() {
 
                 @Override
-                public <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, Consumer<RenderLayer<?, ?>> layerTransformer) {
+                public <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, ModelElementBase.LayerTransformer layerTransformer) {
                     ANIMATED_MODEL_DATA.put(vanillaModelClazz, new ModelElementBase.AnimatedModelData<>(vanillaModelClazz, animatedModel, layerTransformer));
                 }
             };
@@ -79,14 +96,24 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
         MODEL_ELEMENTS.values().forEach(element -> element.onRegisterLayerDefinitions(context));
     }
 
+    @Override
+    public void onRegisterClientReloadListeners(ClientReloadListenersContext context) {
+        context.registerReloadListener("animated_models", (PreparableReloadListener.PreparationBarrier preparationBarrier, ResourceManager resourceManager, ProfilerFiller profilerFiller, ProfilerFiller profilerFiller2, Executor executor, Executor executor2) -> {
+            return preparationBarrier.wait(Unit.INSTANCE).thenRunAsync(BetterAnimationsCollectionClient::applyAnimatedModels, executor2);
+        });
+    }
+
     @SuppressWarnings("unchecked")
-    public static void applyAnimatedModels() {
+    public static <T extends RenderLayer<?, ?>> void applyAnimatedModels() {
         for (Map.Entry<EntityType<?>, EntityRenderer<?>> entry : ((EntityRenderDispatcherAccessor) Minecraft.getInstance().getEntityRenderDispatcher()).getRenderers().entrySet()) {
             if (!BetterAnimationsCollection.CONFIG.get(ClientConfig.class).mobBlacklist.contains(entry.getKey()) && entry.getValue() instanceof LivingEntityRenderer<?,?> renderer) {
                 ModelElementBase.AnimatedModelData<?, ?> animatedModelData = ANIMATED_MODEL_DATA.get(renderer.getModel().getClass());
                 if (animatedModelData != null) {
                     ((LivingEntityRendererAccessor<?, EntityModel<?>>) renderer).setModel(animatedModelData.animatedModel().get());
-                    ((LivingEntityRendererAccessor<?, ?>) renderer).getLayers().forEach(layer -> animatedModelData.layerTransformer().accept(layer));
+                    ListIterator<T> iterator = (ListIterator<T>) ((LivingEntityRendererAccessor<?, ?>) renderer).getLayers().listIterator();
+                    while (iterator.hasNext()) {
+                        animatedModelData.layerTransformer().apply(iterator.next()).ifPresent(e -> iterator.set((T) e));
+                    }
                 }
             }
         }

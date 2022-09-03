@@ -32,7 +32,7 @@ public class SquidTentaclesElement extends ModelElementBase {
 
     @Override
     public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedSquid, SquidTentaclesModel::createBodyLayer);
+        context.registerLayerDefinition(this.animatedSquid, SquidTentaclesModel::createAnimatedBodyLayer);
     }
 
     @Override

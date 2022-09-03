@@ -1,4 +1,4 @@
-package betteranimationscollection;
+package fuzs.betteranimationscollection;
 
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.puzzleslib.core.CoreServices;

@@ -42,7 +42,7 @@ public class WobblyCreeperModel<T extends Entity> extends CreeperModel<T> {
         this.chargedModel = chargedModel;
     }
 
-    public static LayerDefinition createBodyLayer(CubeDeformation cubeDeformation, boolean chargedModel) {
+    public static LayerDefinition createAnimatedBodyLayer(CubeDeformation cubeDeformation, boolean chargedModel) {
         // fewer parts for charge layer as it looks silly with too much overlap inside the model
         int partHeight = chargedModel ? 3 : 1;
         LayerDefinition layerDefinition = CreeperModel.createBodyLayer(cubeDeformation);

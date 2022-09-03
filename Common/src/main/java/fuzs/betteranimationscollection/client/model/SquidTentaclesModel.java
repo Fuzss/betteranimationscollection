@@ -32,7 +32,7 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
         }
     }
 
-    public static LayerDefinition createBodyLayer() {
+    public static LayerDefinition createAnimatedBodyLayer() {
         LayerDefinition layerDefinition = SquidModel.createBodyLayer();
         MeshDefinition meshDefinition = ((LayerDefinitionAccessor) layerDefinition).getMesh();
         PartDefinition partDefinition = meshDefinition.getRoot();
@@ -43,7 +43,7 @@ public class SquidTentaclesModel<T extends Entity> extends SquidModel<T> {
             float z = (float) Math.sin(swingAmount) * 5.0F;
             swingAmount = i * Math.PI * -2.0 / 8.0 + Math.PI / 2.0;
             PartDefinition partDefinition1 = partDefinition.addOrReplaceChild("tentacle" + i, cubeListBuilder, PartPose.offsetAndRotation(x, 15.0F, z, 0.0F, (float) swingAmount, 0.0F));
-            for (int k = 0; k < SquidTentaclesElement.tentaclesLength; k++) {
+            for (int k = 0; k < 8; k++) {
                 CubeListBuilder cubeListBuilder1 = CubeListBuilder.create().texOffs(48, 2 + 2 * k).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 2.0F, 2.0F);
                 partDefinition1 = partDefinition1.addOrReplaceChild("tentacle" + i + k, cubeListBuilder1, PartPose.offset(0.0F, 2.0F, 0.0F));
             }

@@ -29,7 +29,7 @@ public class SpiderKneesModel<T extends Entity> extends SpiderModel<T> {
         this.leftFrontLeg = modelPart.getChild("left_front_leg");
     }
 
-    public static LayerDefinition createSpiderBodyLayer() {
+    public static LayerDefinition createAnimatedSpiderBodyLayer() {
         LayerDefinition layerDefinition = SpiderModel.createSpiderBodyLayer();
         MeshDefinition meshDefinition = ((LayerDefinitionAccessor) layerDefinition).getMesh();
         PartDefinition partDefinition = meshDefinition.getRoot();
