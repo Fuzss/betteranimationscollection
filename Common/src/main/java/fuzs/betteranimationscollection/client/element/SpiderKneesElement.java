@@ -28,6 +28,6 @@ public class SpiderKneesElement extends ModelElementBase {
 
     @Override
     public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedSpider, SpiderKneesModel::createSpiderBodyLayer);
+        context.registerLayerDefinition(this.animatedSpider, SpiderKneesModel::createAnimatedSpiderBodyLayer);
     }
 }
