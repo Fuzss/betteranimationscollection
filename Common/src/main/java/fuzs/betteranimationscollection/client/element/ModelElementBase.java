@@ -6,6 +6,7 @@ import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -48,20 +49,20 @@ public abstract class ModelElementBase {
     @FunctionalInterface
     public interface AnimatedModelsContext {
 
-        default <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel) {
-            this.registerAnimatedModel(vanillaModelClazz, animatedModel, renderLayer -> Optional.empty());
+        default <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<M> animatedModel) {
+            this.registerAnimatedModel(vanillaModelClazz, animatedModel, (RenderLayerParent<T, M> renderLayerParent, RenderLayer<T, M> renderLayer) -> Optional.empty());
         }
 
-        <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, LayerTransformer layerTransformer);
+        <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<M> animatedModel, LayerTransformer<T, M> layerTransformer);
     }
 
     @FunctionalInterface
-    public interface LayerTransformer {
+    public interface LayerTransformer<T extends LivingEntity, M extends EntityModel<T>> {
 
-        Optional<? extends RenderLayer<?, ?>> apply(RenderLayer<?, ?> next);
+        Optional<RenderLayer<T, M>> apply(RenderLayerParent<T, M> renderLayerParent, RenderLayer<T, M> renderLayer);
     }
 
-    public record AnimatedModelData<T extends LivingEntity, M extends EntityModel<T>>(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, LayerTransformer layerTransformer) {
+    public record AnimatedModelData<T extends LivingEntity, M extends EntityModel<T>>(Class<? super M> vanillaModelClazz, Supplier<M> animatedModel, LayerTransformer<T, M> layerTransformer) {
 
     }
 }

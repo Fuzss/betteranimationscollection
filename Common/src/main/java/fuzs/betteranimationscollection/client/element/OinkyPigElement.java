@@ -10,7 +10,10 @@ import net.minecraft.client.model.PigModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.SaddleLayer;
+import net.minecraft.world.entity.animal.Pig;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -36,9 +39,9 @@ public class OinkyPigElement extends ModelElementBase {
     @SuppressWarnings("unchecked")
     @Override
     void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(PigModel.class, () -> new OinkyPigModel<>(bakery.apply(this.animatedPig)), layerRenderer -> {
-            if (layerRenderer instanceof SaddleLayer) {
-                ((SaddleLayerAccessor<?, PigModel<?>>) layerRenderer).setModel(new OinkyPigModel<>(bakery.apply(this.animatedPigSaddle)));
+        context.registerAnimatedModel(PigModel.class, () -> new OinkyPigModel<>(bakery.apply(this.animatedPig)), (RenderLayerParent<Pig, PigModel<Pig>> renderLayerParent, RenderLayer<Pig, PigModel<Pig>> renderLayer) -> {
+            if (renderLayer instanceof SaddleLayer) {
+                ((SaddleLayerAccessor<Pig, PigModel<Pig>>) renderLayer).setModel(new OinkyPigModel<>(bakery.apply(this.animatedPigSaddle)));
             }
             return Optional.empty();
         });

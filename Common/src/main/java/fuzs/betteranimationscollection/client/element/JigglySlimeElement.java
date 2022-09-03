@@ -9,7 +9,10 @@ import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.SlimeModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.SlimeOuterLayer;
+import net.minecraft.world.entity.LivingEntity;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -33,8 +36,7 @@ public class JigglySlimeElement extends ModelElementBase {
 
     @Override
     void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(SlimeModel.class, () -> new JigglySlimeModel<>(bakery.apply(this.animatedSlime)), renderLayer -> {
-
+        context.registerAnimatedModel(SlimeModel.class, () -> new JigglySlimeModel<>(bakery.apply(this.animatedSlime)), (RenderLayerParent<LivingEntity, SlimeModel<LivingEntity>> renderLayerParent, RenderLayer<LivingEntity, SlimeModel<LivingEntity>> renderLayer) -> {
             if (renderLayer instanceof SlimeOuterLayer) {
                 ((SlimeOuterLayerAccessor<?>) renderLayer).setModel(new JigglySlimeModel<>(bakery.apply(this.animatedSlimeOuter)));
             }

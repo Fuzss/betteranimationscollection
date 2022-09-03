@@ -10,7 +10,10 @@ import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CreeperPowerLayer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.world.entity.monster.Creeper;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -34,9 +37,9 @@ public class WobblyCreeperElement extends ModelElementBase {
 
     @Override
     void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(CreeperModel.class, () -> new WobblyCreeperModel<>(bakery.apply(this.animatedCreeper), false), layer -> {
-            if (layer instanceof CreeperPowerLayer) {
-                ((CreeperPowerLayerAccessor) layer).setModel(new WobblyCreeperModel<>(bakery.apply(this.animatedCreeperArmor), true));
+        context.registerAnimatedModel(CreeperModel.class, () -> new WobblyCreeperModel<>(bakery.apply(this.animatedCreeper), false), (RenderLayerParent<Creeper, CreeperModel<Creeper>> renderLayerParent, RenderLayer<Creeper, CreeperModel<Creeper>> renderLayer) -> {
+            if (renderLayer instanceof CreeperPowerLayer) {
+                ((CreeperPowerLayerAccessor) renderLayer).setModel(new WobblyCreeperModel<>(bakery.apply(WobblyCreeperElement.this.animatedCreeperArmor), true));
             }
             return Optional.empty();
         });

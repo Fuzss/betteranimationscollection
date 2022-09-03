@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -56,6 +57,7 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
         registerModelElement("wiggly_villager_nose", VillagerNoseElement::new);
         registerModelElement("magma_cube_burger", MagmaCubeBurgerElement::new);
         registerModelElement("jiggly_liquidy_slime", JigglySlimeElement::new);
+        registerModelElement("arm_flailing_enderman", FlailingEndermanElement::new);
         registerModelElement("wobbly_creeper", WobblyCreeperElement::new);
         registerModelElement("playful_doggy", PlayfulDoggyElement::new);
         registerModelElement("spitful_llama", SpitfulLlamaElement::new);
@@ -78,8 +80,8 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
             ModelElementBase.AnimatedModelsContext context = new ModelElementBase.AnimatedModelsContext() {
 
                 @Override
-                public <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<M> vanillaModelClazz, Supplier<? extends M> animatedModel, ModelElementBase.LayerTransformer layerTransformer) {
-                    ANIMATED_MODEL_DATA.put(vanillaModelClazz, new ModelElementBase.AnimatedModelData<>(vanillaModelClazz, animatedModel, layerTransformer));
+                public <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<M> animatedModel, ModelElementBase.LayerTransformer<T, M> layerTransformer) {
+                    ANIMATED_MODEL_DATA.put((Class<? extends EntityModel<?>>) vanillaModelClazz, new ModelElementBase.AnimatedModelData<>(vanillaModelClazz, animatedModel, layerTransformer));
                 }
             };
             MODEL_ELEMENTS.values().forEach(element -> {
@@ -104,15 +106,16 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends RenderLayer<?, ?>> void applyAnimatedModels() {
+    public static <T extends LivingEntity, M extends EntityModel<T>> void applyAnimatedModels() {
         for (Map.Entry<EntityType<?>, EntityRenderer<?>> entry : ((EntityRenderDispatcherAccessor) Minecraft.getInstance().getEntityRenderDispatcher()).getRenderers().entrySet()) {
-            if (!BetterAnimationsCollection.CONFIG.get(ClientConfig.class).mobBlacklist.contains(entry.getKey()) && entry.getValue() instanceof LivingEntityRenderer<?,?> renderer) {
-                ModelElementBase.AnimatedModelData<?, ?> animatedModelData = ANIMATED_MODEL_DATA.get(renderer.getModel().getClass());
+            if (!BetterAnimationsCollection.CONFIG.get(ClientConfig.class).mobBlacklist.contains(entry.getKey()) && entry.getValue() instanceof LivingEntityRenderer<?,?>) {
+                RenderLayerParent<T, M> livingRenderer = (LivingEntityRenderer<T, M>) entry.getValue();
+                ModelElementBase.AnimatedModelData<T, M> animatedModelData = (ModelElementBase.AnimatedModelData<T, M>) ANIMATED_MODEL_DATA.get(livingRenderer.getModel().getClass());
                 if (animatedModelData != null) {
-                    ((LivingEntityRendererAccessor<?, EntityModel<?>>) renderer).setModel(animatedModelData.animatedModel().get());
-                    ListIterator<T> iterator = (ListIterator<T>) ((LivingEntityRendererAccessor<?, ?>) renderer).getLayers().listIterator();
+                    ((LivingEntityRendererAccessor<T, M>) livingRenderer).setModel(animatedModelData.animatedModel().get());
+                    ListIterator<RenderLayer<T, M>> iterator = ((LivingEntityRendererAccessor<T, M>) livingRenderer).getLayers().listIterator();
                     while (iterator.hasNext()) {
-                        animatedModelData.layerTransformer().apply(iterator.next()).ifPresent(e -> iterator.set((T) e));
+                        animatedModelData.layerTransformer().apply(livingRenderer, iterator.next()).ifPresent(iterator::set);
                     }
                 }
             }

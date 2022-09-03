@@ -11,7 +11,10 @@ import net.minecraft.client.model.CatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CatCollarLayer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.world.entity.animal.Cat;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -36,12 +39,10 @@ public class CatTailElement extends ModelElementBase {
 
     @Override
     void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(CatModel.class, () -> new CatTailModel<>(bakery.apply(this.animatedCat)), renderLayer -> {
-
+        context.registerAnimatedModel(CatModel.class, () -> new CatTailModel<>(bakery.apply(this.animatedCat)), (RenderLayerParent<Cat, CatModel<Cat>> renderLayerParent, RenderLayer<Cat, CatModel<Cat>> renderLayer) -> {
             if (renderLayer instanceof CatCollarLayer) {
                 ((CatCollarLayerAccessor) renderLayer).setCatModel(new CatTailModel<>(bakery.apply(this.animatedCatCollar)));
             }
-
             return Optional.empty();
         });
     }

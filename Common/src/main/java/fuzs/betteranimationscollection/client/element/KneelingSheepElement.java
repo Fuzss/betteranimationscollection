@@ -8,7 +8,10 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.SheepModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.SheepFurLayer;
+import net.minecraft.world.entity.animal.Sheep;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -31,9 +34,9 @@ public class KneelingSheepElement extends ModelElementBase {
 
     @Override
     void onRegisterAnimatedModels(AnimatedModelsContext context, Function<ModelLayerLocation, ModelPart> bakery) {
-        context.registerAnimatedModel(SheepModel.class, () -> new KneelingSheepModel<>(bakery.apply(this.animatedSheep)), layerRenderer -> {
-            if (layerRenderer instanceof SheepFurLayer) {
-                ((SheepFurLayerAccessor) layerRenderer).setModel(new KneelingSheepFurModel<>(bakery.apply(this.animatedSheepFur)));
+        context.registerAnimatedModel(SheepModel.class, () -> new KneelingSheepModel<>(bakery.apply(this.animatedSheep)), (RenderLayerParent<Sheep, SheepModel<Sheep>> renderLayerParent, RenderLayer<Sheep, SheepModel<Sheep>> renderLayer) -> {
+            if (renderLayer instanceof SheepFurLayer) {
+                ((SheepFurLayerAccessor) renderLayer).setModel(new KneelingSheepFurModel<>(bakery.apply(this.animatedSheepFur)));
             }
             return Optional.empty();
         });
