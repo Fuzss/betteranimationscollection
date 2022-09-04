@@ -6,8 +6,8 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.CowModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.world.entity.LivingEntity;
 
 public class CowUdderElement extends ModelElementBase {
     public static int animationSpeed;
@@ -27,8 +27,8 @@ public class CowUdderElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(CowModel.class, () -> new CowUdderModel<>(bakery.bakeLayer(this.animatedCow)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<LivingEntity, CowUdderModel<LivingEntity>>registerAnimatedModel(CowModel.class, () -> new CowUdderModel<>(bakery.bakeLayer(this.animatedCow)));
     }
 
     @Override

@@ -40,7 +40,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
             float offsetZ = ((float) (i / 3) / 2.0F * 2.0F - 1.0F) * 5.0F;
             PartDefinition partDefinition1 = partDefinition.addOrReplaceChild("tentacle" + i, CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 1.0F, 2.0F), PartPose.offset(offsetX, offsetY, offsetZ));
             for (int j = 0; j < GHAST_MAX_TENTACLES_LENGTH; j++) {
-                partDefinition1 = partDefinition1.addOrReplaceChild("tentacle_part" + i, CubeListBuilder.create().texOffs(0, 1 + j).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 1.0F, 2.0F), PartPose.offset(0.0F, 1.0F, 0.0F));
+                partDefinition1 = partDefinition1.addOrReplaceChild("tentacle_part" + j, CubeListBuilder.create().texOffs(0, 1 + j).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 1.0F, 2.0F), PartPose.offset(0.0F, 1.0F, 0.0F));
             }
         }
         return layerDefinition;
@@ -55,7 +55,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
             int randomLength = randomSource.nextInt(GhastTentaclesElement.maxTentaclesLength / 2) + GhastTentaclesElement.maxTentaclesLength / 2 + 1;
             for (int j = 0; j < this.tentacleParts[i].length; j++) {
                 this.tentacleParts[i][j].xRot = speed * Mth.sin(ageInTicks * speed + (float) i - (float) j / 2.0F);
-                this.tentacleParts[i][j].visible = i < randomLength;
+                this.tentacleParts[i][j].visible = j < randomLength;
             }
         }
     }

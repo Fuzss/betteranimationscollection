@@ -1,11 +1,11 @@
 package fuzs.betteranimationscollection.client.model;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import fuzs.betteranimationscollection.client.element.PlayfulDoggyElement;
 import fuzs.betteranimationscollection.mixin.client.accessor.LayerDefinitionAccessor;
-import fuzs.betteranimationscollection.mixin.client.accessor.WolfModelAccessor;
 import net.minecraft.client.model.WolfModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -13,7 +13,12 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.Wolf;
 
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
+    public static final int WOLF_TAIL_LENGTH = 7;
+
     private final ModelPart head;
     private final ModelPart realHead;
     private final ModelPart body;
@@ -24,6 +29,9 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
     private final ModelPart tail;
     private final ModelPart realTail;
     private final ModelPart[] realTailParts;
+    private final ModelPart fluffyTail;
+    private final ModelPart realFluffyTail;
+    private final ModelPart[] realFluffyTailParts;
     private final ModelPart upperBody;
 
     private boolean isInSittingPose;
@@ -39,16 +47,17 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
         this.leftHindLeg = modelPart.getChild("left_hind_leg");
         this.rightFrontLeg = modelPart.getChild("right_front_leg");
         this.leftFrontLeg = modelPart.getChild("left_front_leg");
-        this.tail = modelPart.getChild(PlayfulDoggyElement.fluffyTail ? "fluffy_tail" : "tail");
-        ModelPart modelPart1 = this.realTail = this.tail.getChild(PlayfulDoggyElement.fluffyTail ? "real_fluffy_tail" : "real_tail");
-        this.realTailParts = new ModelPart[PlayfulDoggyElement.tailLength];
+        this.tail = modelPart.getChild("tail");
+        this.fluffyTail = modelPart.getChild("fluffy_tail");
+        ModelPart modelPart1 = this.realTail = this.tail.getChild("real_tail");
+        this.realTailParts = new ModelPart[WOLF_TAIL_LENGTH];
         for (int i = 0; i < this.realTailParts.length; i++) {
-            this.realTailParts[i] = modelPart1 = modelPart1.getChild(PlayfulDoggyElement.fluffyTail ? "real_fluffy_tail" : "real_tail");
+            this.realTailParts[i] = modelPart1 = modelPart1.getChild("real_tail" + i);
         }
-        // we bake everything so that models can be changed during resource reloads, now just select the correct parts we want to show
-        if (PlayfulDoggyElement.fluffyTail) {
-            ((WolfModelAccessor) this).setTail(this.tail);
-            ((WolfModelAccessor) this).setRealTail(this.realTail);
+        ModelPart modelPart2 = this.realFluffyTail = this.fluffyTail.getChild("real_fluffy_tail");
+        this.realFluffyTailParts = new ModelPart[WOLF_TAIL_LENGTH];
+        for (int i = 0; i < this.realFluffyTailParts.length; i++) {
+            this.realFluffyTailParts[i] = modelPart2 = modelPart2.getChild("real_fluffy_tail" + i);
         }
     }
 
@@ -61,7 +70,7 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
         CubeListBuilder cubeListBuilder = CubeListBuilder.create().texOffs(9, 18).addBox(0.0F, 0.0F, -1.0F, 2.0F, 1.0F, 2.0F);
         PartDefinition partDefinition2 = partDefinition1.addOrReplaceChild("real_tail", cubeListBuilder, PartPose.ZERO);
         PartDefinition partDefinition4 = partDefinition3.addOrReplaceChild("real_fluffy_tail", cubeListBuilder, PartPose.ZERO);
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < WOLF_TAIL_LENGTH; i++) {
             partDefinition2 = partDefinition2.addOrReplaceChild("real_tail" + i, CubeListBuilder.create().texOffs(9, Math.min(19 + i, 25)).addBox(0.0F, 0.0F, -1.0F, 2.0F, 1.0F, 2.0F), PartPose.offset(0.0F, 1.0F, 0.0F));
             partDefinition4 = partDefinition4.addOrReplaceChild("real_fluffy_tail" + i, CubeListBuilder.create().texOffs(9, Math.min(19 + i, 25)).addBox(0.0F, 0.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(getTailFluffiness(i))), PartPose.offset(0.0F, 1.0F + getTailFluffiness(i), 0.0F));
         }
@@ -72,6 +81,11 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
         if (index < 5) return 0.1F + 0.1F * index;
         if (index == 5) return 0.4F;
         return  0.15F;
+    }
+
+    @Override
+    protected Iterable<ModelPart> bodyParts() {
+        return Stream.concat(StreamSupport.stream(super.bodyParts().spliterator(), false), Stream.of(this.fluffyTail)).collect(ImmutableList.toImmutableList());
     }
 
     @Override
@@ -158,6 +172,23 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
                 this.realTailParts[i].zRot = Mth.sin(amplitude - (float)(i + 1) * PlayfulDoggyElement.animationSpeed * 0.15F) * magnitude;
             }
         }
+
+        this.copyAllTailParts();
+        this.setModelPartVisibilities();
+    }
+
+    private void copyAllTailParts() {
+        this.fluffyTail.copyFrom(this.tail);
+        this.realFluffyTail.copyFrom(this.realTail);
+        for (int i = 0; i < this.realTailParts.length; i++) {
+            this.realFluffyTailParts[i].copyFrom(this.realTailParts[i]);
+        }
+    }
+
+    private void setModelPartVisibilities() {
+        // this also makes all children invisible, so setting just the main tail is enough
+        this.tail.visible = !PlayfulDoggyElement.fluffyTail;
+        this.fluffyTail.visible = PlayfulDoggyElement.fluffyTail;
     }
 
     @Override

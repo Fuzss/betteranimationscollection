@@ -6,6 +6,7 @@ import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.config.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.client.sounds.SoundEventListener;
 import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -31,30 +32,21 @@ public class RemoteSoundHandler {
      */
     private final Map<ResourceLocation, Class<? extends Mob>> ambientSounds = Maps.newHashMap();
     /**
+     * set of entities whose model should do something when they make a noise
+     * this is separate from {@link #ambientSounds} to make sure even when no sound is registered
+     * (the user probably wants to disable the animation) no animation is played from the client updating the sound time value
+     */
+    private final Set<Class<? extends Mob>> noisyEntities = Sets.newHashSet();
+    /**
      * set of entities whose model should do something when they are hurt
      */
     private final Set<Class<? extends Mob>> attackableEntities = Sets.newHashSet();
-
-    private RemoteSoundHandler() {
-        Minecraft.getInstance().getSoundManager().addListener((SoundInstance soundIn, WeighedSoundEvents accessor) -> {
-            Level level = Minecraft.getInstance().level;
-            // check is actually necessary here, as sounds might be played in some menu when no world has been loaded yet
-            if (level == null) return;
-            Class<? extends Mob> entityClazz = this.ambientSounds.get(soundIn.getLocation());
-            if (entityClazz != null) {
-                // accuracy is 1/8, so we center this and then apply #soundRange
-                Vec3 center = new Vec3(soundIn.getX() + 0.0625, soundIn.getY() + 0.0625, soundIn.getZ() + 0.0625);
-                final double soundDetectionRange = BetterAnimationsCollection.CONFIG.get(ClientConfig.class).soundDetectionRange;
-                AABB axisAlignedBB = new AABB(center, center).inflate(soundDetectionRange + 0.0625);
-                List<? extends Mob> entities = level.getEntitiesOfClass(entityClazz, axisAlignedBB);
-                entities.stream().min((o1, o2) -> (int) Math.signum(o1.position().distanceTo(center) - o2.position().distanceTo(center))).ifPresent(entity -> entity.ambientSoundTime = -entity.getAmbientSoundInterval());
-            }
-        });
-    }
+    private final SoundDetectionListener soundListener = new SoundDetectionListener();
 
     public Optional<Unit> onLivingTick(LivingEntity entity) {
+        this.soundListener.ensureInitialized();
         if (!entity.level.isClientSide || !(entity instanceof Mob mob)) return Optional.empty();
-        Stream.concat(this.ambientSounds.values().stream(), this.attackableEntities.stream()).forEach(clazz -> {
+        Stream.concat(this.noisyEntities.stream(), this.attackableEntities.stream()).forEach(clazz -> {
             if (clazz.isAssignableFrom(entity.getClass())) {
                 if (mob.ambientSoundTime >= 0) {
                     // prevent ambientSoundTime from reaching values greater than zero, as the client tries to play a sound then, messing up our system
@@ -78,6 +70,7 @@ public class RemoteSoundHandler {
     }
 
     public void addAmbientSounds(Class<? extends Mob> entityClazz, Collection<SoundEvent> soundEvents) {
+        this.noisyEntities.add(entityClazz);
         for (SoundEvent soundEvent : soundEvents) {
             this.ambientSounds.put(soundEvent.getLocation(), entityClazz);
         }
@@ -89,5 +82,32 @@ public class RemoteSoundHandler {
 
     public void addAttackableEntity(Class<? extends Mob> entityClazz) {
         this.attackableEntities.add(entityClazz);
+    }
+
+    private class SoundDetectionListener implements SoundEventListener {
+        private boolean initialized;
+
+        public void ensureInitialized() {
+            if (!this.initialized) {
+                Minecraft.getInstance().getSoundManager().addListener(this);
+                this.initialized = true;
+            }
+        }
+
+        @Override
+        public void onPlaySound(SoundInstance soundIn, WeighedSoundEvents accessor) {
+            Level level = Minecraft.getInstance().level;
+            // check is actually necessary here, as sounds might be played in some menu when no world has been loaded yet
+            if (level == null) return;
+            Class<? extends Mob> entityClazz = RemoteSoundHandler.this.ambientSounds.get(soundIn.getLocation());
+            if (entityClazz != null) {
+                // accuracy is 1/8, so we center this and then apply #soundRange
+                Vec3 center = new Vec3(soundIn.getX() + 0.0625, soundIn.getY() + 0.0625, soundIn.getZ() + 0.0625);
+                final double soundDetectionRange = BetterAnimationsCollection.CONFIG.get(ClientConfig.class).soundDetectionRange;
+                AABB axisAlignedBB = new AABB(center, center).inflate(soundDetectionRange + 0.0625);
+                List<? extends Mob> entities = level.getEntitiesOfClass(entityClazz, axisAlignedBB);
+                entities.stream().min((o1, o2) -> (int) Math.signum(o1.position().distanceTo(center) - o2.position().distanceTo(center))).ifPresent(entity -> entity.ambientSoundTime = -entity.getAmbientSoundInterval());
+            }
+        }
     }
 }

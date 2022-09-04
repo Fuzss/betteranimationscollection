@@ -1,13 +1,13 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.FlailingEndermanModel;
+import fuzs.betteranimationscollection.client.renderer.entity.layers.FlailingCarriedBlockLayer;
 import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EndermanModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CarriedBlockLayer;
@@ -33,10 +33,10 @@ public class FlailingEndermanElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(EndermanModel.class, () -> new FlailingEndermanModel<>(bakery.bakeLayer(this.animatedEnderman)), (RenderLayerParent<EnderMan, EndermanModel<EnderMan>> renderLayerParent, RenderLayer<EnderMan, EndermanModel<EnderMan>> renderLayer) -> {
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<EnderMan, EndermanModel<EnderMan>>registerAnimatedModel(EndermanModel.class, () -> new FlailingEndermanModel<>(bakery.bakeLayer(this.animatedEnderman)), (RenderLayerParent<EnderMan, EndermanModel<EnderMan>> renderLayerParent, RenderLayer<EnderMan, EndermanModel<EnderMan>> renderLayer) -> {
             if (renderLayer instanceof CarriedBlockLayer) {
-                return Optional.of(new CarriedBlockLayer(renderLayerParent, Minecraft.getInstance().getBlockRenderer()));
+                return Optional.of(new FlailingCarriedBlockLayer(renderLayerParent, Minecraft.getInstance().getBlockRenderer()));
             }
             return Optional.empty();
         });

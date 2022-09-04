@@ -22,11 +22,11 @@ public class FlailingEndermanModel<T extends LivingEntity> extends EndermanModel
         super(modelPart);
         ModelPart rightArm = modelPart.getChild("right_arm");
         for (int i = 0; i < this.rightArmParts.length; i++) {
-            rightArm = this.rightArmParts[i] = rightArm.getChild("right_arm" + i);
+            rightArm = this.rightArmParts[i] = rightArm.getChild("right_arm_part" + i);
         }
         ModelPart leftArm = modelPart.getChild("left_arm");
         for (int i = 0; i < this.leftArmParts.length; i++) {
-            leftArm = this.leftArmParts[i] = leftArm.getChild("right_arm" + i);
+            leftArm = this.leftArmParts[i] = leftArm.getChild("left_arm_part" + i);
         }
     }
 

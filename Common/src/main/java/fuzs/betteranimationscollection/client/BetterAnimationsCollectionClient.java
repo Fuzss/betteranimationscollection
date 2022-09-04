@@ -83,12 +83,12 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
 
                 @SuppressWarnings("unchecked")
                 @Override
-                public <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<M> animatedModel, ModelElementBase.LayerTransformer<T, M> layerTransformer) {
+                public <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<? extends M> animatedModel, ModelElementBase.LayerTransformer<T, M> layerTransformer) {
                     ANIMATED_MODEL_DATA.put((Class<? extends EntityModel<?>>) vanillaModelClazz, new ModelElementBase.AnimatedModelData<>(vanillaModelClazz, animatedModel, layerTransformer));
                 }
             };
             MODEL_ELEMENTS.values().forEach(element -> {
-                element.registerAnimatedModels(context, Minecraft.getInstance().getEntityModels());
+                element.registerAnimatedModels(context, ModelElementBase.EntityModelBakery.of(Minecraft.getInstance()::getEntityModels));
             });
             if (reloadResourcePacks && allowResourceReloading) {
                 Minecraft.getInstance().reloadResourcePacks();

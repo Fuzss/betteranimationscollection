@@ -6,8 +6,8 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.WolfModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.world.entity.animal.Wolf;
 
 public class PlayfulDoggyElement extends ModelElementBase {
     public static int tailLength;
@@ -28,8 +28,8 @@ public class PlayfulDoggyElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(WolfModel.class, () -> new PlayfulDoggyModel<>(bakery.bakeLayer(this.animatedWolf)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<Wolf, WolfModel<Wolf>>registerAnimatedModel(WolfModel.class, () -> new PlayfulDoggyModel<>(bakery.bakeLayer(this.animatedWolf)));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class PlayfulDoggyElement extends ModelElementBase {
 
     @Override
     public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
-        callback.accept(builder.comment("Define tail length.").defineInRange("tail_length", 7, 1, 7), v -> tailLength = v);
+        callback.accept(builder.comment("Define tail length.").defineInRange("tail_length", PlayfulDoggyModel.WOLF_TAIL_LENGTH, 1, PlayfulDoggyModel.WOLF_TAIL_LENGTH), v -> tailLength = v);
         callback.accept(builder.comment("Make wolf tail fluffy.").define("fluffy_tail", true), v -> fluffyTail = v);
         callback.accept(builder.comment("Animation swing speed for tail.").defineInRange("animation_speed", 5, 1, 20), v -> animationSpeed = v);
         callback.accept(builder.comment("Pose and behaviour when sitting.", "By default makes wolves lie down instead, and roll over when a nearby player is holding a piece meat.").defineEnum("sitting_behaviour", SittingBehaviour.LIE_DOWN_AND_BEG_FOR_MEAT), v -> sittingBehaviour = v);

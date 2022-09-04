@@ -24,6 +24,8 @@ public class KneelingSheepFurModel<T extends Sheep> extends SheepFurModel<T> {
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        // this was removed from super in 1.17, but we need it since we modify the rotation for some sheep only
+        this.body.xRot = ((float) Math.PI / 2.0F);
         // small trick to get partial ticks in here again
         float partialTicks = ageInTicks - entityIn.tickCount;
         float rotation = entityIn.getHeadEatPositionScale(partialTicks);

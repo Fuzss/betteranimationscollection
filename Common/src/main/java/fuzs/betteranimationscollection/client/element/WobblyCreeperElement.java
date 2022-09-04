@@ -7,7 +7,6 @@ import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -35,10 +34,10 @@ public class WobblyCreeperElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(CreeperModel.class, () -> new WobblyCreeperModel<>(bakery.bakeLayer(this.animatedCreeper), false), (RenderLayerParent<Creeper, CreeperModel<Creeper>> renderLayerParent, RenderLayer<Creeper, CreeperModel<Creeper>> renderLayer) -> {
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<Creeper, CreeperModel<Creeper>>registerAnimatedModel(CreeperModel.class, () -> new WobblyCreeperModel<>(bakery.bakeLayer(this.animatedCreeper), false), (RenderLayerParent<Creeper, CreeperModel<Creeper>> renderLayerParent, RenderLayer<Creeper, CreeperModel<Creeper>> renderLayer) -> {
             if (renderLayer instanceof CreeperPowerLayer) {
-                return Optional.of(new CreeperPowerLayer(renderLayerParent, bakery) {
+                return Optional.of(new CreeperPowerLayer(renderLayerParent, bakery.get()) {
                     private final WobblyCreeperModel<Creeper> model = new WobblyCreeperModel<>(bakery.bakeLayer(WobblyCreeperElement.this.animatedCreeperArmor), true);
 
                     @Override

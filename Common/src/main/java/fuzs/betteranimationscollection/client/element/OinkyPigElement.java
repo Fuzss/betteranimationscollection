@@ -7,13 +7,13 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.PigModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.SaddleLayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Pig;
 
 import java.util.Optional;
@@ -39,8 +39,8 @@ public class OinkyPigElement extends SoundDetectionElement {
 
     @SuppressWarnings("unchecked")
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(PigModel.class, () -> new OinkyPigModel<>(bakery.bakeLayer(this.animatedPig)), (RenderLayerParent<Pig, PigModel<Pig>> renderLayerParent, RenderLayer<Pig, PigModel<Pig>> renderLayer) -> {
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<LivingEntity, PigModel<LivingEntity>>registerAnimatedModel(PigModel.class, () -> new OinkyPigModel<>(bakery.bakeLayer(this.animatedPig)), (RenderLayerParent<LivingEntity, PigModel<LivingEntity>> renderLayerParent, RenderLayer<LivingEntity, PigModel<LivingEntity>> renderLayer) -> {
             if (renderLayer instanceof SaddleLayer) {
                 // we could also replace the whole layer, but we don't know which texture location has been used, so better this way
                 ((SaddleLayerAccessor<Pig, PigModel<Pig>>) renderLayer).setModel(new OinkyPigModel<>(bakery.bakeLayer(this.animatedPigSaddle)));
@@ -51,8 +51,8 @@ public class OinkyPigElement extends SoundDetectionElement {
 
     @Override
     public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedPig, () -> OinkyPigModel.createBodyLayer(CubeDeformation.NONE));
-        context.registerLayerDefinition(this.animatedPigSaddle, () -> OinkyPigModel.createBodyLayer(new CubeDeformation(0.5F)));
+        context.registerLayerDefinition(this.animatedPig, () -> OinkyPigModel.createAnimatedBodyLayer(CubeDeformation.NONE));
+        context.registerLayerDefinition(this.animatedPigSaddle, () -> OinkyPigModel.createAnimatedBodyLayer(new CubeDeformation(0.5F)));
     }
 
     @Override

@@ -8,6 +8,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 /**
  * everything copied from {@link FamiliarHorseModel}
  */
@@ -69,113 +72,6 @@ public class FamiliarChestedHorseModel<T extends AbstractChestedHorse> extends C
         this.lowerMouthSaddleWrap = this.headParts.getChild("lower_mouth_saddle_wrap");
 //        this.saddleParts = new ModelPart[]{saddle, this.leftSaddleMouth, this.rightSaddleMouth, headSaddle, this.mouthSaddleWrap, this.lowerMouthSaddleWrap};
 //        this.ridingParts = new ModelPart[]{leftSaddleLine, rightSaddleLine};
-
-//        this.neck = new ModelPart(this, 0, 35);
-//        this.neck.addBox(-2.05F, -6.0F, -2.0F, 4.0F, 12.0F, 7.0F);
-//        this.neck.xRot = ((float) Math.PI / 6F);
-//        ModelPart head = new ModelPart(this, 0, 13);
-//        head.addBox(-3.0F, -11.0F, -2.0F, 6.0F, 5.0F, 7.0F, scaleIn);
-//        this.neck.addChild(head);
-//        ModelPart mane = new ModelPart(this, 56, 36);
-//        mane.addBox(-1.0F, -11.0F, 5.01F, 2.0F, 16.0F, 2.0F, scaleIn);
-//        this.neck.addChild(mane);
-//        this.upperMouth = new ModelPart(this, 0, 25);
-//        this.upperMouth.addBox(-2.0F, -11.0F, -7.0F, 4.0F, 3.0F, 5.0F, scaleIn);
-//        this.neck.addChild(this.upperMouth);
-//        this.lowerMouth = new ModelPart(this, 0, 28);
-//        this.lowerMouth.addBox(-2.0F, -8.0F, -7.0F, 4.0F, 2.0F, 5.0F, scaleIn);
-//        this.neck.addChild(this.lowerMouth);
-//        this.addEarModels(this.neck);
-//
-//        // adult leg parts
-//        this.rightHindLeg = new ModelPart(this, 48, 21);
-//        this.rightHindLeg.addBox(-1.0F, -1.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn);
-//        this.rightHindLeg.setPos(-4.0F, 14.0F, 7.0F);
-//        this.rightHindShin = new ModelPart(this, 48, 26);
-//        this.rightHindShin.addBox(-1.0F, 0.99F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn);
-//        this.rightHindShin.setPos(-4.0F, 17.0F, 7.0F);
-//
-//        this.leftHindLeg = new ModelPart(this, 48, 21);
-//        this.leftHindLeg.mirror = true;
-//        this.leftHindLeg.addBox(-3.0F, -1.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn);
-//        this.leftHindLeg.setPos(4.0F, 14.0F, 7.0F);
-//        this.leftHindShin = new ModelPart(this, 48, 26);
-//        this.leftHindShin.mirror = true;
-//        this.leftHindShin.addBox(-3.0F, 0.99F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn);
-//        this.leftHindShin.setPos(4.0F, 17.0F, 7.0F);
-//
-//        this.rightFrontLeg = new ModelPart(this, 48, 21);
-//        this.rightFrontLeg.addBox(-1.0F, -1.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn);
-//        this.rightFrontLeg.setPos(-4.0F, 6.0F, -12.0F);
-//        this.rightFrontShin = new ModelPart(this, 48, 26);
-//        this.rightFrontShin.addBox(-1.0F, 0.99F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn);
-//        this.rightFrontShin.setPos(-4.0F, 9.0F, -12.0F);
-//
-//        this.leftFrontLeg = new ModelPart(this, 48, 21);
-//        this.leftFrontLeg.mirror = true;
-//        this.leftFrontLeg.addBox(-3.0F, -1.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn);
-//        this.leftFrontLeg.setPos(4.0F, 6.0F, -12.0F);
-//        this.leftFrontShin = new ModelPart(this, 48, 26);
-//        this.leftFrontShin.mirror = true;
-//        this.leftFrontShin.addBox(-3.0F, 0.99F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn);
-//        this.leftFrontShin.setPos(4.0F, 9.0F, -12.0F);
-//
-//        // baby leg parts
-//        this.rightHindBabyLeg = new ModelPart(this, 48, 21);
-//        this.rightHindBabyLeg.addBox(-1.0F, 0.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
-//        this.rightHindBabyLeg.setPos(-4.0F, 14.0F, 7.0F);
-//        this.rightHindBabyShin = new ModelPart(this, 48, 26);
-//        this.rightHindBabyShin.addBox(-1.0F, 4.01F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
-//        this.rightHindBabyShin.setPos(-4.0F, 17.0F, 7.0F);
-//
-//        this.leftHindBabyLeg = new ModelPart(this, 48, 21);
-//        this.leftHindBabyLeg.mirror = true;
-//        this.leftHindBabyLeg.addBox(-3.0F, 0.01F, -1.0F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
-//        this.leftHindBabyLeg.setPos(4.0F, 14.0F, 7.0F);
-//        this.leftHindBabyShin = new ModelPart(this, 48, 26);
-//        this.leftHindBabyShin.mirror = true;
-//        this.leftHindBabyShin.addBox(-3.0F, 4.01F, -1.0F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
-//        this.leftHindBabyShin.setPos(4.0F, 17.0F, 7.0F);
-//
-//        this.rightFrontBabyLeg = new ModelPart(this, 48, 21);
-//        this.rightFrontBabyLeg.addBox(-1.0F, 0.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
-//        this.rightFrontBabyLeg.setPos(-4.0F, 6.0F, -12.0F);
-//        this.rightFrontBabyShin = new ModelPart(this, 48, 26);
-//        this.rightFrontBabyShin.addBox(-1.0F, 4.01F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
-//        this.rightFrontBabyShin.setPos(-4.0F, 9.0F, -12.0F);
-//
-//        this.leftFrontBabyLeg = new ModelPart(this, 48, 21);
-//        this.leftFrontBabyLeg.mirror = true;
-//        this.leftFrontBabyLeg.addBox(-3.0F, 0.01F, -1.9F, 4.0F, 5.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
-//        this.leftFrontBabyLeg.setPos(4.0F, 6.0F, -12.0F);
-//        this.leftFrontBabyShin = new ModelPart(this, 48, 26);
-//        this.leftFrontBabyShin.mirror = true;
-//        this.leftFrontBabyShin.addBox(-3.0F, 4.01F, -1.9F, 4.0F, 6.0F, 4.0F, scaleIn, scaleIn + 1.0F, scaleIn);
-//        this.leftFrontBabyShin.setPos(4.0F, 9.0F, -12.0F);
-
-//        this.leftSaddleMouth = new ModelPart(this, 29, 5);
-//        this.leftSaddleMouth.addBox(2.0F, -9.0F, -5.0F, 1.0F, 2.0F, 2.0F, scaleIn);
-//        this.headParts.addChild(this.leftSaddleMouth);
-//        this.rightSaddleMouth = new ModelPart(this, 29, 5);
-//        this.rightSaddleMouth.addBox(-3.0F, -9.0F, -5.0F, 1.0F, 2.0F, 2.0F, scaleIn);
-//        this.headParts.addChild(this.rightSaddleMouth);
-//        ModelPart leftSaddleLine = new ModelPart(this, 32, 2);
-//        leftSaddleLine.addBox(3.1F, -6.0F, -8.0F, 0.0F, 3.0F, 16.0F, scaleIn);
-//        leftSaddleLine.xRot = (-(float) Math.PI / 6F);
-//        this.headParts.addChild(leftSaddleLine);
-//        ModelPart rightSaddleLine = new ModelPart(this, 32, 2);
-//        rightSaddleLine.addBox(-3.1F, -6.0F, -8.0F, 0.0F, 3.0F, 16.0F, scaleIn);
-//        rightSaddleLine.xRot = (-(float) Math.PI / 6F);
-//        this.headParts.addChild(rightSaddleLine);
-//        ModelPart headSaddle = new ModelPart(this, 1, 1);
-//        headSaddle.addBox(-3.0F, -11.0F, -1.9F, 6.0F, 5.0F, 6.0F, 0.2F);
-//        this.headParts.addChild(headSaddle);
-//        this.mouthSaddleWrap = new ModelPart(this, 19, 0);
-//        this.mouthSaddleWrap.addBox(-2.0F, -11.0F, -4.0F, 4.0F, 3.0F, 2.0F, 0.2F);
-//        this.headParts.addChild(this.mouthSaddleWrap);
-//        this.lowerMouthSaddleWrap = new ModelPart(this, 19, 0);
-//        this.lowerMouthSaddleWrap.addBox(-2.0F, -8.0F, -4.0F, 4.0F, 2.0F, 2.0F, 0.2F);
-//        this.headParts.addChild(this.lowerMouthSaddleWrap);
     }
 
     public static LayerDefinition createAnimatedBodyLayer() {
@@ -193,13 +89,8 @@ public class FamiliarChestedHorseModel<T extends AbstractChestedHorse> extends C
     }
 
     @Override
-    public Iterable<ModelPart> headParts() {
-        return ImmutableList.of(this.headParts);
-    }
-
-    @Override
     protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(this.body, this.leftHindLeg, this.rightHindLeg, this.leftFrontLeg, this.rightFrontLeg, this.leftHindShin, this.rightHindShin, this.leftFrontShin, this.rightFrontShin, this.leftHindBabyLeg, this.rightHindBabyLeg, this.leftFrontBabyLeg, this.rightFrontBabyLeg, this.leftHindBabyShin, this.rightHindBabyShin, this.leftFrontBabyShin, this.rightFrontBabyShin);
+        return Stream.concat(StreamSupport.stream(super.bodyParts().spliterator(), false), Stream.of(this.leftHindShin, this.rightHindShin, this.leftFrontShin, this.rightFrontShin, this.leftHindBabyShin, this.rightHindBabyShin, this.leftFrontBabyShin, this.rightFrontBabyShin)).collect(ImmutableList.toImmutableList());
     }
 
     @Override

@@ -6,9 +6,9 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.OcelotModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.world.entity.LivingEntity;
 
 public class OcelotTailElement extends ModelElementBase {
     public static int tailLength;
@@ -27,8 +27,8 @@ public class OcelotTailElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(OcelotModel.class, () -> new OcelotTailModel<>(bakery.bakeLayer(this.animatedOcelot)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<LivingEntity, OcelotTailModel<LivingEntity>>registerAnimatedModel(OcelotModel.class, () -> new OcelotTailModel<>(bakery.bakeLayer(this.animatedOcelot)));
     }
 
     @Override

@@ -6,7 +6,6 @@ import fuzs.betteranimationscollection.mixin.client.accessor.SheepFurLayerAccess
 import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.SheepModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -32,8 +31,8 @@ public class KneelingSheepElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(SheepModel.class, () -> new KneelingSheepModel<>(bakery.bakeLayer(this.animatedSheep)), (RenderLayerParent<Sheep, SheepModel<Sheep>> renderLayerParent, RenderLayer<Sheep, SheepModel<Sheep>> renderLayer) -> {
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<Sheep, SheepModel<Sheep>>registerAnimatedModel(SheepModel.class, () -> new KneelingSheepModel<>(bakery.bakeLayer(this.animatedSheep)), (RenderLayerParent<Sheep, SheepModel<Sheep>> renderLayerParent, RenderLayer<Sheep, SheepModel<Sheep>> renderLayer) -> {
             if (renderLayer instanceof SheepFurLayer) {
                 ((SheepFurLayerAccessor) renderLayer).setModel(new KneelingSheepFurModel<>(bakery.bakeLayer(this.animatedSheepFur)));
             }

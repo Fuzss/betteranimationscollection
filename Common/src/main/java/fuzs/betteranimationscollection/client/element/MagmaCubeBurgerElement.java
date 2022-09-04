@@ -4,8 +4,8 @@ import fuzs.betteranimationscollection.client.model.MagmaCubeBurgerModel;
 import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.LavaSlimeModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.world.entity.monster.Slime;
 
 public class MagmaCubeBurgerElement extends ModelElementBase {
     private final ModelLayerLocation animatedMagmaCube;
@@ -21,8 +21,8 @@ public class MagmaCubeBurgerElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(LavaSlimeModel.class, () -> new MagmaCubeBurgerModel<>(bakery.bakeLayer(this.animatedMagmaCube)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<Slime, LavaSlimeModel<Slime>>registerAnimatedModel(LavaSlimeModel.class, () -> new MagmaCubeBurgerModel<>(bakery.bakeLayer(this.animatedMagmaCube)));
     }
 
     @Override

@@ -17,8 +17,7 @@
     "client.accessor.LlamaDecorLayerAccessor",
     "client.accessor.SaddleLayerAccessor",
     "client.accessor.SheepFurLayerAccessor",
-    "client.accessor.SlimeOuterLayerAccessor",
-    "client.accessor.WolfModelAccessor"
+    "client.accessor.SlimeOuterLayerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

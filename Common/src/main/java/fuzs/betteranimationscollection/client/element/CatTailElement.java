@@ -8,7 +8,6 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.CatModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -37,8 +36,8 @@ public class CatTailElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(CatModel.class, () -> new CatTailModel<>(bakery.bakeLayer(this.animatedCat)), (RenderLayerParent<Cat, CatModel<Cat>> renderLayerParent, RenderLayer<Cat, CatModel<Cat>> renderLayer) -> {
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<Cat, CatModel<Cat>>registerAnimatedModel(CatModel.class, () -> new CatTailModel<>(bakery.bakeLayer(this.animatedCat)), (RenderLayerParent<Cat, CatModel<Cat>> renderLayerParent, RenderLayer<Cat, CatModel<Cat>> renderLayer) -> {
             if (renderLayer instanceof CatCollarLayer) {
                 ((CatCollarLayerAccessor) renderLayer).setCatModel(new CatTailModel<>(bakery.bakeLayer(this.animatedCatCollar)));
             }

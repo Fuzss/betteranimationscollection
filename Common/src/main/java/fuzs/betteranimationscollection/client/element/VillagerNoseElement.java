@@ -5,11 +5,10 @@ import fuzs.betteranimationscollection.client.model.VillagerNoseModel;
 import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.VillagerModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.AbstractVillager;
 
 public class VillagerNoseElement extends SoundDetectionElement {
@@ -18,7 +17,7 @@ public class VillagerNoseElement extends SoundDetectionElement {
     public VillagerNoseElement(ModelLayerRegistry modelLayerRegistry) {
         super(AbstractVillager.class, SoundEvents.VILLAGER_AMBIENT, SoundEvents.VILLAGER_TRADE, SoundEvents.WANDERING_TRADER_AMBIENT, SoundEvents.WANDERING_TRADER_TRADE);
         this.animatedVillager = modelLayerRegistry.register("animated_villager");
-        RemoteSoundHandler.INSTANCE.addAttackableEntity(IronGolem.class);
+        RemoteSoundHandler.INSTANCE.addAttackableEntity(AbstractVillager.class);
     }
 
     @Override
@@ -28,8 +27,8 @@ public class VillagerNoseElement extends SoundDetectionElement {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(VillagerModel.class, () -> new VillagerNoseModel<>(bakery.bakeLayer(this.animatedVillager)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<LivingEntity, VillagerModel<LivingEntity>>registerAnimatedModel(VillagerModel.class, () -> new VillagerNoseModel<>(bakery.bakeLayer(this.animatedVillager)));
     }
 
     @Override

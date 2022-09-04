@@ -6,8 +6,8 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.GhastModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.world.entity.LivingEntity;
 
 public class GhastTentaclesElement extends ModelElementBase {
     public static int maxTentaclesLength;
@@ -26,8 +26,8 @@ public class GhastTentaclesElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(GhastModel.class, () -> new GhastTentaclesModel<>(bakery.bakeLayer(this.animatedGhast)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<LivingEntity, GhastTentaclesModel<LivingEntity>>registerAnimatedModel(GhastModel.class, () -> new GhastTentaclesModel<>(bakery.bakeLayer(this.animatedGhast)));
     }
 
     @Override

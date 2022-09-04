@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class ModelElementBase {
@@ -32,14 +31,14 @@ public abstract class ModelElementBase {
 
     public abstract String[] modelDescription();
 
-    public final void registerAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
+    public final void registerAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
         this.dirty = false;
         if (this.enabled) {
             this.onRegisterAnimatedModels(context, bakery);
         }
     }
 
-    abstract void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery);
+    abstract void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery);
 
     public abstract void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context);
 
@@ -50,11 +49,11 @@ public abstract class ModelElementBase {
     @FunctionalInterface
     public interface AnimatedModelsContext {
 
-        default <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<M> animatedModel) {
+        default <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<? extends M> animatedModel) {
             this.registerAnimatedModel(vanillaModelClazz, animatedModel, (RenderLayerParent<T, M> renderLayerParent, RenderLayer<T, M> renderLayer) -> Optional.empty());
         }
 
-        <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<M> animatedModel, LayerTransformer<T, M> layerTransformer);
+        <T extends LivingEntity, M extends EntityModel<T>> void registerAnimatedModel(Class<? super M> vanillaModelClazz, Supplier<? extends M> animatedModel, LayerTransformer<T, M> layerTransformer);
     }
 
     @FunctionalInterface
@@ -63,7 +62,22 @@ public abstract class ModelElementBase {
         Optional<RenderLayer<T, M>> apply(RenderLayerParent<T, M> renderLayerParent, RenderLayer<T, M> renderLayer);
     }
 
-    public record AnimatedModelData<T extends LivingEntity, M extends EntityModel<T>>(Class<? super M> vanillaModelClazz, Supplier<M> animatedModel, LayerTransformer<T, M> layerTransformer) {
+    public record AnimatedModelData<T extends LivingEntity, M extends EntityModel<T>>(Class<? super M> vanillaModelClazz, Supplier<? extends M> animatedModel, LayerTransformer<T, M> layerTransformer) {
 
+    }
+
+    public record EntityModelBakery(Supplier<EntityModelSet> entityModelSet) {
+
+        public EntityModelSet get() {
+            return this.entityModelSet.get();
+        }
+
+        public ModelPart bakeLayer(ModelLayerLocation modelLayerLocation) {
+            return this.entityModelSet.get().bakeLayer(modelLayerLocation);
+        }
+
+        public static EntityModelBakery of(Supplier<EntityModelSet> entityModelSet) {
+            return new EntityModelBakery(entityModelSet);
+        }
     }
 }

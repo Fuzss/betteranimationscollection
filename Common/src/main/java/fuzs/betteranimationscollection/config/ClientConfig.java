@@ -18,7 +18,7 @@ import java.util.Set;
 public class ClientConfig implements ConfigCore {
     @Config(category = "general", name = "mob_blacklist", description = {"Mob variants that shouldn't have any model changes applied to them.", EntryCollectionBuilder.CONFIG_DESCRIPTION})
     List<String> mobBlacklistRaw = EntryCollectionBuilder.getKeyList(Registry.ENTITY_TYPE_REGISTRY);
-    @Config(description = "Block range for sound detection system to look for a mob that made a certain sound on the server, so the client may play an animation.")
+    @Config(category = "general", description = {"Block range for sound detection system to look for a mob that made a certain sound on the server, so the client may play an animation.", "The client is not sent an exact position, so the mob's location must be estimated."})
     @Config.DoubleRange(min = 0.5, max = 8.0)
     public double soundDetectionRange = 1.5;
 
@@ -26,7 +26,7 @@ public class ClientConfig implements ConfigCore {
 
     @Override
     public void addToBuilder(AbstractConfigBuilder builder, ValueCallback callback) {
-        builder.push("general");
+        builder.push("models");
         for (Map.Entry<ResourceLocation, ModelElementBase> entry : BetterAnimationsCollectionClient.MODEL_ELEMENTS.entrySet()) {
             callback.accept(builder.comment(entry.getValue().modelDescription()).define(entry.getKey().getPath(), true), entry.getValue()::setEnabled);
         }

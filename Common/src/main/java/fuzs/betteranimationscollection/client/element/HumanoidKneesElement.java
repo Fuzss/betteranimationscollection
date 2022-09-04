@@ -10,7 +10,6 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.DrownedModel;
 import net.minecraft.client.model.PiglinModel;
 import net.minecraft.client.model.ZombieModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -19,7 +18,6 @@ import net.minecraft.client.renderer.entity.layers.DrownedOuterLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.Zombie;
 
 import java.util.Optional;
@@ -56,23 +54,23 @@ public class HumanoidKneesElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(ZombieModel.class, () -> new ZombieKneesModel<>(bakery.bakeLayer(this.animatedZombie)), (RenderLayerParent<Zombie, ZombieKneesModel<Zombie>> renderLayerParent, RenderLayer<Zombie, ZombieKneesModel<Zombie>> renderLayer) -> {
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<Zombie, ZombieModel<Zombie>>registerAnimatedModel(ZombieModel.class, () -> new ZombieKneesModel<>(bakery.bakeLayer(this.animatedZombie)), (RenderLayerParent<Zombie, ZombieModel<Zombie>> renderLayerParent, RenderLayer<Zombie, ZombieModel<Zombie>> renderLayer) -> {
             if (renderLayer instanceof HumanoidArmorLayer) {
                 return Optional.of(new HumanoidArmorLayer<>(renderLayerParent, new ZombieKneesModel<>(bakery.bakeLayer(this.animatedZombieInnerArmor)), new ZombieKneesModel<>(bakery.bakeLayer(this.animatedZombieOuterArmor))));
             }
             return Optional.empty();
         });
-        context.registerAnimatedModel(DrownedModel.class, () -> new DrownedKneesModel<>(bakery.bakeLayer(this.animatedDrowned)), (RenderLayerParent<Drowned, DrownedModel<Drowned>> renderLayerParent, RenderLayer<Drowned, DrownedModel<Drowned>> renderLayer) -> {
+        context.<Zombie, DrownedModel<Zombie>>registerAnimatedModel(DrownedModel.class, () -> new DrownedKneesModel<>(bakery.bakeLayer(this.animatedDrowned)), (RenderLayerParent<Zombie, DrownedModel<Zombie>> renderLayerParent, RenderLayer<Zombie, DrownedModel<Zombie>> renderLayer) -> {
             if (renderLayer instanceof HumanoidArmorLayer) {
                 return Optional.of(new HumanoidArmorLayer<>(renderLayerParent, new DrownedKneesModel<>(bakery.bakeLayer(this.animatedDrownedInnerArmor)), new DrownedKneesModel<>(bakery.bakeLayer(this.animatedDrownedOuterArmor))));
             }
-            if (renderLayer instanceof DrownedOuterLayer<Drowned>) {
+            if (renderLayer instanceof DrownedOuterLayer) {
                 ((DrownedOuterLayerAccessor<?>) renderLayer).setModel(new DrownedKneesModel<>(bakery.bakeLayer(this.animatedDrownedOuterLayer)));
             }
             return Optional.empty();
         });
-        context.registerAnimatedModel(PiglinModel.class, () -> new PiglinKneesModel<>(bakery.bakeLayer(this.animatedPiglin)), (RenderLayerParent<Mob, PiglinModel<Mob>> renderLayerParent, RenderLayer<Mob, PiglinModel<Mob>> renderLayer) -> {
+        context.<Mob, PiglinModel<Mob>>registerAnimatedModel(PiglinModel.class, () -> new PiglinKneesModel<>(bakery.bakeLayer(this.animatedPiglin)), (RenderLayerParent<Mob, PiglinModel<Mob>> renderLayerParent, RenderLayer<Mob, PiglinModel<Mob>> renderLayer) -> {
             if (renderLayer instanceof HumanoidArmorLayer) {
                 return Optional.of(new HumanoidArmorLayer<>(renderLayerParent, new HumanoidKneesModel<>(bakery.bakeLayer(this.animatedPiglinInnerArmor)), new HumanoidKneesModel<>(bakery.bakeLayer(this.animatedPiglinOuterArmor))));
             }

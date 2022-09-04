@@ -4,9 +4,9 @@ import fuzs.betteranimationscollection.client.model.SnowGolemStickModel;
 import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.SnowGolemModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.SnowGolem;
 
 public class SnowGolemStickElement extends SoundDetectionElement {
@@ -23,8 +23,8 @@ public class SnowGolemStickElement extends SoundDetectionElement {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(SnowGolemModel.class, () -> new SnowGolemStickModel<>(bakery.bakeLayer(this.animatedSnowGolem)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<LivingEntity, SnowGolemModel<LivingEntity>>registerAnimatedModel(SnowGolemModel.class, () -> new SnowGolemStickModel<>(bakery.bakeLayer(this.animatedSnowGolem)));
     }
 
     @Override

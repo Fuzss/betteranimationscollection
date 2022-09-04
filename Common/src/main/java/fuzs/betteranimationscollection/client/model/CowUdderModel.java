@@ -34,7 +34,7 @@ public class CowUdderModel<T extends Entity> extends CowModel<T> {
         MeshDefinition meshDefinition = ((LayerDefinitionAccessor) layerDefinition).getMesh();
         PartDefinition partDefinition = meshDefinition.getRoot();
         // body has to be replaced as it already includes the utter normally
-        PartDefinition partDefinition1 = partDefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(18, 4).addBox(-6.0F, -10.0F, -7.0F, 12.0F, 18.0F, 10.0F), PartPose.offset(0.0F, 5.0F, 2.0F));
+        PartDefinition partDefinition1 = partDefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(18, 4).addBox(-6.0F, -10.0F, -7.0F, 12.0F, 18.0F, 10.0F), PartPose.offsetAndRotation(0.0F, 5.0F, 2.0F, 1.5707964F, 0.0F, 0.0F));
         PartDefinition partDefinition2 = partDefinition1.addOrReplaceChild("utter", CubeListBuilder.create().texOffs(52, 0).addBox(-2.0F, -2.5F, -2.0F, 4.0F, 6.0F, 1.0F), PartPose.offset(0.0F, 4.5F, -6.0F));
         for (int i = 0; i < 4; i++) {
             partDefinition2.addOrReplaceChild("nipple" + i, CubeListBuilder.create().texOffs(52, 0).addBox(i % 2 == 0 ? -2.0F : 1.0F, i / 2 == 0 ? -1.5F : 1.5F, -3.0F, 1.0F, 1.0F, 1.0F), PartPose.ZERO);

@@ -1,5 +1,6 @@
 package fuzs.betteranimationscollection.client.element;
 
+import com.google.common.collect.Lists;
 import fuzs.betteranimationscollection.client.handler.RemoteSoundHandler;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
@@ -21,6 +22,8 @@ public abstract class SoundDetectionElement extends ModelElementBase {
     public SoundDetectionElement(Class<? extends Mob> mobClazz, SoundEvent... sounds) {
         this.mobClazz = mobClazz;
         this.sounds = sounds;
+        // add this here already once in case config reload is not called during start-up (seems to happen on Windows)
+        RemoteSoundHandler.INSTANCE.addAmbientSounds(mobClazz, Lists.newArrayList(sounds));
     }
 
     @Override

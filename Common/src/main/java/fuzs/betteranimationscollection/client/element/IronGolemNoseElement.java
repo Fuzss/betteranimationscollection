@@ -5,7 +5,6 @@ import fuzs.betteranimationscollection.client.model.IronGolemNoseModel;
 import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.IronGolemModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.world.entity.animal.IronGolem;
 
@@ -24,8 +23,8 @@ public class IronGolemNoseElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(IronGolemModel.class, () -> new IronGolemNoseModel<>(bakery.bakeLayer(this.animatedIronGolem)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<IronGolem, IronGolemModel<IronGolem>>registerAnimatedModel(IronGolemModel.class, () -> new IronGolemNoseModel<>(bakery.bakeLayer(this.animatedIronGolem)));
     }
 
     @Override

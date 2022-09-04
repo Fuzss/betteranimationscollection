@@ -6,9 +6,9 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.ChickenModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Chicken;
 
 public class BuckaChickenElement extends SoundDetectionElement {
@@ -34,8 +34,8 @@ public class BuckaChickenElement extends SoundDetectionElement {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(ChickenModel.class, () -> new BuckaChickenModel<>(bakery.bakeLayer(this.animatedChicken)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<LivingEntity, BuckaChickenModel<LivingEntity>>registerAnimatedModel(ChickenModel.class, () -> new BuckaChickenModel<>(bakery.bakeLayer(this.animatedChicken)));
     }
 
     @Override
@@ -47,9 +47,9 @@ public class BuckaChickenElement extends SoundDetectionElement {
     public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
         super.setupModelConfig(builder, callback);
         callback.accept(builder.comment("Make bill a lot slimmer so chickens look less like ducks.").define("slim_bill", true), v -> slimBill = v);
-        callback.accept(builder.comment("Move head back and forth when chicken is walking.").define("move_head", true), v -> moveWattles = v);
-        callback.accept(builder.comment("Wiggle chin when chicken is walking.").define("wiggle_wattles", true), v -> moveWings = v);
-        callback.accept(builder.comment("Flap wings when chicken is walking.").define("flap_wings", false), v -> moveWings = v);
+        callback.accept(builder.comment("Move head back and forth when chicken is walking.").define("move_head", true), v -> moveHead = v);
+        callback.accept(builder.comment("Wiggle chin when chicken is walking.").define("wiggle_wattles", true), v -> moveWattles = v);
+        callback.accept(builder.comment("Flap wings when chicken is walking.").define("flap_wings", true), v -> moveWings = v);
         callback.accept(builder.comment("Move head back and forth when chicken is walking.").defineInRange("head_animation_speed", 4, 1, 20), v -> headAnimationSpeed = v);
         callback.accept(builder.comment("Animation swing speed for wattles movement.").defineInRange("wattles_animation_speed", 5, 1, 20), v -> wattlesAnimationSpeed = v);
         callback.accept(builder.comment("Animation swing speed of wing flapping.").defineInRange("wing_animation_speed", 3, 1, 20), v -> wingAnimationSpeed = v);

@@ -7,13 +7,13 @@ import fuzs.puzzleslib.client.core.ClientModConstructor;
 import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.ChestedHorseModel;
 import net.minecraft.client.model.HorseModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.HorseArmorLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.horse.Horse;
 
 import java.util.Optional;
@@ -36,14 +36,14 @@ public class FamiliarHorseElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(HorseModel.class, () -> new FamiliarHorseModel<>(bakery.bakeLayer(this.animatedHorse)), (RenderLayerParent<Horse, HorseModel<Horse>> renderLayerParent, RenderLayer<Horse, HorseModel<Horse>> renderLayer) -> {
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<Horse, HorseModel<Horse>>registerAnimatedModel(HorseModel.class, () -> new FamiliarHorseModel<>(bakery.bakeLayer(this.animatedHorse)), (RenderLayerParent<Horse, HorseModel<Horse>> renderLayerParent, RenderLayer<Horse, HorseModel<Horse>> renderLayer) -> {
             if (renderLayer instanceof HorseArmorLayer) {
                 ((HorseArmorLayerAccessor) renderLayer).setModel(new FamiliarHorseModel<>(bakery.bakeLayer(this.animatedHorseArmor)));
             }
             return Optional.empty();
         });
-        context.registerAnimatedModel(ChestedHorseModel.class, () -> new FamiliarChestedHorseModel<>(bakery.bakeLayer(this.animatedChestedHorse)));
+        context.<AbstractChestedHorse, FamiliarChestedHorseModel<AbstractChestedHorse>>registerAnimatedModel(ChestedHorseModel.class, () -> new FamiliarChestedHorseModel<>(bakery.bakeLayer(this.animatedChestedHorse)));
     }
 
     @Override

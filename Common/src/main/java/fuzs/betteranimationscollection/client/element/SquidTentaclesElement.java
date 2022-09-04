@@ -6,8 +6,8 @@ import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import fuzs.puzzleslib.config.ValueCallback;
 import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
 import net.minecraft.client.model.SquidModel;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.world.entity.LivingEntity;
 
 public class SquidTentaclesElement extends ModelElementBase {
     public static int tentaclesLength;
@@ -24,8 +24,8 @@ public class SquidTentaclesElement extends ModelElementBase {
     }
 
     @Override
-    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelSet bakery) {
-        context.registerAnimatedModel(SquidModel.class, () -> new SquidTentaclesModel<>(bakery.bakeLayer(this.animatedSquid)));
+    void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery) {
+        context.<LivingEntity, SquidModel<LivingEntity>>registerAnimatedModel(SquidModel.class, () -> new SquidTentaclesModel<>(bakery.bakeLayer(this.animatedSquid)));
     }
 
     @Override

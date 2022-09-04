@@ -3,7 +3,6 @@ package fuzs.betteranimationscollection.client.model;
 import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.client.model.PiglinModel;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -30,7 +29,7 @@ public class PiglinKneesModel<T extends Mob> extends PiglinModel<T> {
     }
 
     public static LayerDefinition createAnimatedBodyLayer() {
-        MeshDefinition meshDefinition = PlayerModel.createMesh(CubeDeformation.NONE, false);
+        MeshDefinition meshDefinition = PiglinModel.createMesh(CubeDeformation.NONE);
         PartDefinition partDefinition = meshDefinition.getRoot();
         Pair<CubeListBuilder, PartPose> rightLeg = HumanoidKneesModel.createShin(0, 16, -1.9F, 0.0F, 0.0F, false, CubeDeformation.NONE);
         Pair<CubeListBuilder, PartPose> leftLeg = HumanoidKneesModel.createShin(16, 48, 1.9F, 0.0F, 0.0F, true, CubeDeformation.NONE);
