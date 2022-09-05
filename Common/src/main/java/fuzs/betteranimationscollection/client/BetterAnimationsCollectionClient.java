@@ -113,6 +113,8 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
         for (Map.Entry<EntityType<?>, EntityRenderer<?>> entry : ((EntityRenderDispatcherAccessor) Minecraft.getInstance().getEntityRenderDispatcher()).getRenderers().entrySet()) {
             if (!BetterAnimationsCollection.CONFIG.get(ClientConfig.class).mobBlacklist.contains(entry.getKey()) && entry.getValue() instanceof LivingEntityRenderer<?,?>) {
                 RenderLayerParent<T, M> livingRenderer = (LivingEntityRenderer<T, M>) entry.getValue();
+                // this shouldn't be null, but some mods do it anyway...
+                if (livingRenderer.getModel() == null) continue;
                 ModelElementBase.AnimatedModelData<T, M> animatedModelData = (ModelElementBase.AnimatedModelData<T, M>) ANIMATED_MODEL_DATA.get(livingRenderer.getModel().getClass());
                 if (animatedModelData != null) {
                     ((LivingEntityRendererAccessor<T, M>) livingRenderer).setModel(animatedModelData.animatedModel().get());
