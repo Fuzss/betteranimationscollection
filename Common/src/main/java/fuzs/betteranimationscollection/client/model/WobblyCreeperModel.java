@@ -79,7 +79,7 @@ public class WobblyCreeperModel<T extends Entity> extends CreeperModel<T> {
 
         WobblyCreeperElement.WobbleDirection wobbleDirection = WobblyCreeperElement.wobbleDirection;
         if (wobbleDirection == WobblyCreeperElement.WobbleDirection.RANDOM) {
-            wobbleDirection = WobblyCreeperElement.WobbleDirection.values()[(int) Math.abs(entityIn.getUUID().getLeastSignificantBits() % WobblyCreeperElement.WobbleDirection.values().length - 1)];
+            wobbleDirection = WobblyCreeperElement.WobbleDirection.values()[(int) Math.abs(entityIn.getUUID().getLeastSignificantBits() % (WobblyCreeperElement.WobbleDirection.values().length - 1))];
         }
 
         final float magnitude = this.resolveMagnitude(limbSwingAmount * 3.5F);

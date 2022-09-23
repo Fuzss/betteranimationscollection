@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v4.0.2-1.19.2] - 2022-09-23
+### Fixed
+- Fixed crash rendering creepers with random wobble rotations
+
 ## [v4.0.1-1.19.2] - 2022-09-05
 ### Fixed
 - Fixed crash on start-up when handling entity renderers from certain mods
