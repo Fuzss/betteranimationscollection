@@ -81,14 +81,14 @@ public class HumanoidKneesElement extends ModelElementBase {
     @Override
     public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
         context.registerLayerDefinition(this.animatedZombie, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(CubeDeformation.NONE, 0.0F), 64, 64));
-        context.registerLayerDefinition(this.animatedZombieInnerArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(1.0F), 0.0F), 64, 64));
-        context.registerLayerDefinition(this.animatedZombieOuterArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(0.5F), 0.0F), 64, 64));
+        context.registerLayerDefinition(this.animatedZombieInnerArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(0.5F), 0.0F), 64, 32));
+        context.registerLayerDefinition(this.animatedZombieOuterArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(1.0F), 0.0F), 64, 32));
         context.registerLayerDefinition(this.animatedDrowned, () -> LayerDefinition.create(DrownedKneesModel.createAnimatedMesh(CubeDeformation.NONE, 0.0F), 64, 64));
         context.registerLayerDefinition(this.animatedDrownedOuterLayer, () -> LayerDefinition.create(DrownedKneesModel.createAnimatedMesh(new CubeDeformation(0.25F), 0.0F), 64, 64));
-        context.registerLayerDefinition(this.animatedDrownedInnerArmor, () -> LayerDefinition.create(DrownedKneesModel.createAnimatedMesh(new CubeDeformation(1.0F), 0.0F), 64, 64));
-        context.registerLayerDefinition(this.animatedDrownedOuterArmor, () -> LayerDefinition.create(DrownedKneesModel.createAnimatedMesh(new CubeDeformation(0.5F), 0.0F), 64, 64));
+        context.registerLayerDefinition(this.animatedDrownedInnerArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(0.5F), 0.0F), 64, 32));
+        context.registerLayerDefinition(this.animatedDrownedOuterArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(1.0F), 0.0F), 64, 32));
         context.registerLayerDefinition(this.animatedPiglin, PiglinKneesModel::createAnimatedBodyLayer);
-        context.registerLayerDefinition(this.animatedPiglinInnerArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(1.0F), 0.0F), 64, 64));
-        context.registerLayerDefinition(this.animatedPiglinOuterArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(0.5F), 0.0F), 64, 64));
+        context.registerLayerDefinition(this.animatedPiglinInnerArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(0.5F), 0.0F), 64, 32));
+        context.registerLayerDefinition(this.animatedPiglinOuterArmor, () -> LayerDefinition.create(HumanoidKneesModel.createAnimatedMesh(new CubeDeformation(1.02F), 0.0F), 64, 32));
     }
 }

@@ -2,13 +2,15 @@ package fuzs.betteranimationscollection.client.model;
 
 import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.Pair;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PiglinModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Mob;
 
-public class PiglinKneesModel<T extends Mob> extends PiglinModel<T> {
+public class PiglinKneesModel<T extends Mob> extends PiglinModel<T> implements KneesModel {
     private final ModelPart rightShin;
     private final ModelPart leftShin;
     private final ModelPart rightPants;
@@ -59,7 +61,7 @@ public class PiglinKneesModel<T extends Mob> extends PiglinModel<T> {
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        HumanoidKneesModel.setupKneeAnim(entityIn, limbSwing, limbSwingAmount, this, this.rightShin, this.leftShin);
+        KneesModel.setupAnim(this, entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         this.rightPants.copyFrom(this.rightLeg);
         this.leftPants.copyFrom(this.leftLeg);
         this.rightLowerPants.copyFrom(this.rightShin);
@@ -67,9 +69,18 @@ public class PiglinKneesModel<T extends Mob> extends PiglinModel<T> {
     }
 
     @Override
-    public void setAllVisible(boolean visible) {
-        super.setAllVisible(visible);
-        this.rightPants.visible = visible;
-        this.leftPants.visible = visible;
+    public void copyPropertiesTo(HumanoidModel<T> model) {
+        super.copyPropertiesTo(model);
+        KneesModel.copyPropertiesTo(this, model);
+    }
+
+    @Override
+    public ModelPart rightShin() {
+        return this.rightShin;
+    }
+
+    @Override
+    public ModelPart leftShin() {
+        return this.leftShin;
     }
 }

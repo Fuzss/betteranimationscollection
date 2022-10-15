@@ -8,10 +8,9 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
-public class HumanoidKneesModel<T extends LivingEntity> extends HumanoidModel<T> {
+public class HumanoidKneesModel<T extends LivingEntity> extends HumanoidModel<T> implements KneesModel {
     private final ModelPart rightShin;
     private final ModelPart leftShin;
 
@@ -47,22 +46,22 @@ public class HumanoidKneesModel<T extends LivingEntity> extends HumanoidModel<T>
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        setupKneeAnim(entityIn, limbSwing, limbSwingAmount, this, this.rightShin, this.leftShin);
+        KneesModel.setupAnim(this, entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
 
-    public static <T extends LivingEntity> void setupKneeAnim(T entityIn, float limbSwing, float limbSwingAmount, HumanoidModel<T> model, ModelPart rightLowerLeg, ModelPart leftLowerLeg) {
-        float flightAmplifier = 1.0F;
-        if (entityIn.getFallFlyingTicks() > 4) {
-            flightAmplifier = (float) entityIn.getDeltaMovement().lengthSqr();
-            flightAmplifier = flightAmplifier / 0.2F;
-            flightAmplifier = Math.max(1.0F, flightAmplifier * flightAmplifier * flightAmplifier);
-        }
-        if (model.riding) {
-            rightLowerLeg.xRot = 0.6F;
-            leftLowerLeg.xRot = 0.6F;
-        } else {
-            rightLowerLeg.xRot = Math.max(0.0F, Mth.sin(limbSwing * 0.6662F)) * 1.5F * limbSwingAmount / flightAmplifier;
-            leftLowerLeg.xRot = Math.max(0.0F, Mth.sin(limbSwing * 0.6662F + (float) Math.PI)) * 1.5F * limbSwingAmount / flightAmplifier;
-        }
+    @Override
+    public void copyPropertiesTo(HumanoidModel<T> model) {
+        super.copyPropertiesTo(model);
+        KneesModel.copyPropertiesTo(this, model);
+    }
+
+    @Override
+    public ModelPart rightShin() {
+        return this.rightShin;
+    }
+
+    @Override
+    public ModelPart leftShin() {
+        return this.leftShin;
     }
 }
