@@ -36,6 +36,7 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
 
     private boolean isInSittingPose;
     private float rollOverAmount;
+    private float tickDelta;
 
     public PlayfulDoggyModel(ModelPart modelPart) {
         super(modelPart);
@@ -109,13 +110,14 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
         this.leftHindLeg.y -= rollOverAmount * 1.75F;
         this.rightFrontLeg.y -= rollOverAmount * 1.75F;
         this.leftFrontLeg.y -= rollOverAmount * 1.75F;
-        this.realHead.zRot = -rollOverAmount * 1.5F;
+        this.head.zRot = -rollOverAmount * 1.5F;
         super.renderToBuffer(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         matrixStackIn.popPose();
     }
 
     @Override
     public void prepareMobModel(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+        this.tickDelta = partialTickTime;
         super.prepareMobModel(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
         if (entitylivingbaseIn.isInSittingPose()) {
             if (PlayfulDoggyElement.sittingBehaviour.lieDown()) {
@@ -153,14 +155,25 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
         }
         this.upperBody.zRot = entitylivingbaseIn.getBodyRollAngle(partialTickTime, -0.08F);
         this.realTail.zRot = entitylivingbaseIn.getBodyRollAngle(partialTickTime, -0.2F);
-        
+    }
+
+    @Override
+    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        this.isInSittingPose = entityIn.isInSittingPose();
+        this.rollOverAmount = entityIn.getHeadRollAngle(1.0F) + entityIn.getBodyRollAngle(1.0F, 0.0F);
+        // needs to run after tail xRot has been set in super.setupAnim
+        this.setupAnimTail(entityIn, limbSwing, limbSwingAmount, this.tickDelta);
+    }
+
+    private void setupAnimTail(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
         // what ageInTicks would normally be which we don't have here
         float progress = ((float) entitylivingbaseIn.tickCount + partialTickTime) / 3.978873F;
         float magnitude = (0.5F + Math.max(limbSwingAmount, entitylivingbaseIn.getHeadRollAngle(partialTickTime) * 1.5F)) * 0.25F;
         float amplitude = limbSwing * 0.6662F + progress * 0.6662F;
         if (!entitylivingbaseIn.isTame()) {
-            this.tail.yRot = 0.0F;
             this.tail.xRot += Mth.sin(amplitude) * magnitude;
+            this.tail.yRot = 0.0F;
             for (int i = 0; i < this.realTailParts.length; i++) {
                 this.realTailParts[i].zRot = 0.0F;
                 this.realTailParts[i].xRot = Mth.sin(amplitude - (float)(i + 1) * PlayfulDoggyElement.animationSpeed * 0.15F) * magnitude;
@@ -189,12 +202,5 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
         // this also makes all children invisible, so setting just the main tail is enough
         this.tail.visible = !PlayfulDoggyElement.fluffyTail;
         this.fluffyTail.visible = PlayfulDoggyElement.fluffyTail;
-    }
-
-    @Override
-    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        this.isInSittingPose = entityIn.isInSittingPose();
-        this.rollOverAmount = entityIn.getHeadRollAngle(1.0F) + entityIn.getBodyRollAngle(1.0F, 0.0F);
     }
 }

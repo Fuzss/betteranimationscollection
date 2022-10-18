@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v4.0.4-1.19.2] - 2022-10-18
+### Fixed
+- Fixed wolf tail angle being affected by other wolf entities rendered on the screen
+
 ## [v4.0.3-1.19.2] - 2022-10-15
 ### Fixed
 - Fixed armor models for humanoid creatures being messed up
