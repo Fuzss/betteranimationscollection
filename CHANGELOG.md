@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [v4.0.4-1.19.2] - 2022-10-18
+## [v4.0.4-1.19.2] - 2022-10-19
 ### Fixed
 - Fixed wolf tail angle being affected by other wolf entities rendered on the screen
 

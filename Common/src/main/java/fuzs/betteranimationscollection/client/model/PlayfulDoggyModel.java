@@ -110,7 +110,7 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
         this.leftHindLeg.y -= rollOverAmount * 1.75F;
         this.rightFrontLeg.y -= rollOverAmount * 1.75F;
         this.leftFrontLeg.y -= rollOverAmount * 1.75F;
-        this.head.zRot = -rollOverAmount * 1.5F;
+        this.realHead.zRot = -rollOverAmount * 1.5F;
         super.renderToBuffer(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         matrixStackIn.popPose();
     }
