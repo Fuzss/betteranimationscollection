@@ -17,7 +17,7 @@ public class JigglySlimeModel<T extends Entity> extends SlimeModel<T> {
     public JigglySlimeModel(ModelPart modelPart) {
         super(modelPart);
         this.cube = modelPart.getChild("cube");
-        this.isSlimeGelLayer = !modelPart.hasChild("mouth");
+        this.isSlimeGelLayer = modelPart.getAllParts().count() <= 2;
         if (!this.isSlimeGelLayer) {
             this.rightEye = modelPart.getChild("right_eye");
             this.leftEye = modelPart.getChild("left_eye");

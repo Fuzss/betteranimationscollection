@@ -20,8 +20,8 @@ public class BetterAnimationsCollectionForgeClient {
     }
 
     private static void registerHandlers() {
-        MinecraftForge.EVENT_BUS.addListener((final LivingEvent.LivingTickEvent evt) -> {
-            RemoteSoundHandler.INSTANCE.onLivingTick(evt.getEntity()).ifPresent(unit -> evt.setCanceled(true));
+        MinecraftForge.EVENT_BUS.addListener((final LivingEvent.LivingUpdateEvent evt) -> {
+            RemoteSoundHandler.INSTANCE.onLivingTick(evt.getEntityLiving()).ifPresent(unit -> evt.setCanceled(true));
         });
     }
 }

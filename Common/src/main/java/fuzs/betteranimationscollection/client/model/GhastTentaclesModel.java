@@ -10,8 +10,9 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+
+import java.util.Random;
 
 public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
     public static final int GHAST_MAX_TENTACLES_LENGTH = 14;
@@ -49,7 +50,7 @@ public class GhastTentaclesModel<T extends Entity> extends GhastModel<T> {
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float speed = 1.0F / (float) GhastTentaclesElement.animationSpeed;
-        RandomSource randomSource = RandomSource.create(1660L);
+        Random randomSource = new Random(1660L);
         for (int i = 0; i < this.tentacles.length; i++) {
             this.tentacles[i].xRot = speed * Mth.sin(ageInTicks * speed + (float) i) + 0.4F;
             int randomLength = randomSource.nextInt(GhastTentaclesElement.maxTentaclesLength / 2) + GhastTentaclesElement.maxTentaclesLength / 2 + 1;

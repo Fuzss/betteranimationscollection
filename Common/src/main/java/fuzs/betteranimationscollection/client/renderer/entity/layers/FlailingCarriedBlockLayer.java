@@ -18,7 +18,7 @@ public class FlailingCarriedBlockLayer extends CarriedBlockLayer {
     private final BlockRenderDispatcher blockRenderer;
 
     public FlailingCarriedBlockLayer(RenderLayerParent<EnderMan, EndermanModel<EnderMan>> renderLayerParent, BlockRenderDispatcher blockRenderDispatcher) {
-        super(renderLayerParent, blockRenderDispatcher);
+        super(renderLayerParent);
         this.blockRenderer = blockRenderDispatcher;
     }
 
