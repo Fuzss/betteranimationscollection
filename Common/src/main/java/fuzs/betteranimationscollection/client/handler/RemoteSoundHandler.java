@@ -30,13 +30,13 @@ public class RemoteSoundHandler {
     /**
      * map of entities whose model should do something when they make a certain sound
      */
-    private final Map<ResourceLocation, Class<? extends Mob>> ambientSounds = Maps.newHashMap();
+    private final Map<ResourceLocation, Class<? extends Mob>> ambientSounds = Maps.newConcurrentMap();
     /**
      * set of entities whose model should do something when they make a noise
      * this is separate from {@link #ambientSounds} to make sure even when no sound is registered
      * (the user probably wants to disable the animation) no animation is played from the client updating the sound time value
      */
-    private final Set<Class<? extends Mob>> noisyEntities = Sets.newHashSet();
+    private final Set<Class<? extends Mob>> noisyEntities = Sets.newConcurrentHashSet();
     /**
      * set of entities whose model should do something when they are hurt
      */

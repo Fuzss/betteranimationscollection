@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v4.0.5-1.19.2] - 2022-11-22
+### Fixed
+- Hopefully fixed `java.util.ConcurrentModificationException` during launch or resource reload
+
 ## [v4.0.4-1.19.2] - 2022-10-19
 ### Fixed
 - Fixed wolf tail angle being affected by other wolf entities rendered on the screen
