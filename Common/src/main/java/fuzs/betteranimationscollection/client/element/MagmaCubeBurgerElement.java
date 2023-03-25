@@ -1,17 +1,20 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.MagmaCubeBurgerModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.LavaSlimeModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.world.entity.monster.Slime;
 
-public class MagmaCubeBurgerElement extends ModelElementBase {
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+public class MagmaCubeBurgerElement extends ModelElement {
     private final ModelLayerLocation animatedMagmaCube;
 
-    public MagmaCubeBurgerElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedMagmaCube = modelLayerRegistry.register("animated_magma_cube");
+    public MagmaCubeBurgerElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedMagmaCube = factory.apply("animated_magma_cube", "main");
     }
 
     @Override
@@ -26,7 +29,7 @@ public class MagmaCubeBurgerElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedMagmaCube, LavaSlimeModel::createBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedMagmaCube, LavaSlimeModel::createBodyLayer);
     }
 }

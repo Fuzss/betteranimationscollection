@@ -1,30 +1,32 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.WobblyCreeperModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CreeperPowerLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
-public class WobblyCreeperElement extends ModelElementBase {
+public class WobblyCreeperElement extends ModelElement {
     public static WobbleDirection wobbleDirection;
 
     private final ModelLayerLocation animatedCreeper;
     private final ModelLayerLocation animatedCreeperArmor;
 
-    public WobblyCreeperElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedCreeper = modelLayerRegistry.register("animated_creeper");
-        this.animatedCreeperArmor = modelLayerRegistry.register("animated_creeper", "armor");
+    public WobblyCreeperElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedCreeper = factory.apply("animated_creeper", "main");
+        this.animatedCreeperArmor = factory.apply("animated_creeper", "armor");
     }
 
     @Override
@@ -51,13 +53,13 @@ public class WobblyCreeperElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedCreeper, () -> WobblyCreeperModel.createAnimatedBodyLayer(CubeDeformation.NONE, false));
-        context.registerLayerDefinition(this.animatedCreeperArmor, () -> WobblyCreeperModel.createAnimatedBodyLayer(new CubeDeformation(2.0F), true));
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedCreeper, () -> WobblyCreeperModel.createAnimatedBodyLayer(CubeDeformation.NONE, false));
+        context.accept(this.animatedCreeperArmor, () -> WobblyCreeperModel.createAnimatedBodyLayer(new CubeDeformation(2.0F), true));
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         callback.accept(builder.comment("Different directional behaviour modes for the walking animation.").defineEnum("wobble_direction", WobbleDirection.SIDE), v -> wobbleDirection = v);
     }
 

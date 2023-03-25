@@ -1,15 +1,18 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.BuckaChickenModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.ChickenModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Chicken;
+import net.minecraftforge.common.ForgeConfigSpec;
+
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public class BuckaChickenElement extends SoundDetectionElement {
     public static boolean slimBill;
@@ -22,9 +25,9 @@ public class BuckaChickenElement extends SoundDetectionElement {
 
     private final ModelLayerLocation animatedChicken;
 
-    public BuckaChickenElement(ModelLayerRegistry modelLayerRegistry) {
+    public BuckaChickenElement(BiFunction<String, String, ModelLayerLocation> factory) {
         super(Chicken.class, SoundEvents.CHICKEN_AMBIENT);
-        this.animatedChicken = modelLayerRegistry.register("animated_chicken");
+        this.animatedChicken = factory.apply("animated_chicken", "main");
     }
 
     @Override
@@ -39,12 +42,12 @@ public class BuckaChickenElement extends SoundDetectionElement {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedChicken, BuckaChickenModel::createAnimatedBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedChicken, BuckaChickenModel::createAnimatedBodyLayer);
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         super.setupModelConfig(builder, callback);
         callback.accept(builder.comment("Make bill a lot slimmer so chickens look less like ducks.").define("slim_bill", true), v -> slimBill = v);
         callback.accept(builder.comment("Move head back and forth when chicken is walking.").define("move_head", true), v -> moveHead = v);

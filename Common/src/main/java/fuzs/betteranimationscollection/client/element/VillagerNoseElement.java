@@ -2,8 +2,6 @@ package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.handler.RemoteSoundHandler;
 import fuzs.betteranimationscollection.client.model.VillagerNoseModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.VillagerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -11,12 +9,16 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.AbstractVillager;
 
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
 public class VillagerNoseElement extends SoundDetectionElement {
     private final ModelLayerLocation animatedVillager;
 
-    public VillagerNoseElement(ModelLayerRegistry modelLayerRegistry) {
+    public VillagerNoseElement(BiFunction<String, String, ModelLayerLocation> factory) {
         super(AbstractVillager.class, SoundEvents.VILLAGER_AMBIENT, SoundEvents.VILLAGER_TRADE, SoundEvents.WANDERING_TRADER_AMBIENT, SoundEvents.WANDERING_TRADER_TRADE);
-        this.animatedVillager = modelLayerRegistry.register("animated_villager");
+        this.animatedVillager = factory.apply("animated_villager", "main");
         RemoteSoundHandler.INSTANCE.addAttackableEntity(AbstractVillager.class);
     }
 
@@ -32,7 +34,7 @@ public class VillagerNoseElement extends SoundDetectionElement {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedVillager, () -> LayerDefinition.create(VillagerModel.createBodyModel(), 64, 64));
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedVillager, () -> LayerDefinition.create(VillagerModel.createBodyModel(), 64, 64));
     }
 }

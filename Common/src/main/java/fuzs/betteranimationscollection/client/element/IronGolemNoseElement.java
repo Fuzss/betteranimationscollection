@@ -2,17 +2,20 @@ package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.handler.RemoteSoundHandler;
 import fuzs.betteranimationscollection.client.model.IronGolemNoseModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.IronGolemModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.world.entity.animal.IronGolem;
 
-public class IronGolemNoseElement extends ModelElementBase {
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+public class IronGolemNoseElement extends ModelElement {
     private final ModelLayerLocation animatedIronGolem;
 
-    public IronGolemNoseElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedIronGolem = modelLayerRegistry.register("animated_iron_golem");
+    public IronGolemNoseElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedIronGolem = factory.apply("animated_iron_golem", "main");
         RemoteSoundHandler.INSTANCE.addAttackableEntity(IronGolem.class);
     }
 
@@ -28,7 +31,7 @@ public class IronGolemNoseElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedIronGolem, IronGolemNoseModel::createAnimatedBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedIronGolem, IronGolemNoseModel::createAnimatedBodyLayer);
     }
 }

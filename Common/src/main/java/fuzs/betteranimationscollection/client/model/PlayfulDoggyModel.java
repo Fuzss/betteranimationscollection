@@ -3,7 +3,7 @@ package fuzs.betteranimationscollection.client.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import fuzs.betteranimationscollection.client.element.PlayfulDoggyElement;
 import fuzs.betteranimationscollection.mixin.client.accessor.LayerDefinitionAccessor;
 import net.minecraft.client.model.WolfModel;
@@ -100,7 +100,7 @@ public class PlayfulDoggyModel<T extends Wolf> extends WolfModel<T> {
         float rollOverAmount = PlayfulDoggyElement.sittingBehaviour.begForMeat() ? this.rollOverAmount : 0.47123888F;
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.0F, 1.25F, 0.0F);
-        matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(180.0F * rollOverAmount));
+        matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180.0F * rollOverAmount));
         matrixStackIn.translate(0.0F, -1.25F, 0.0F);
         this.rightHindLeg.xRot += rollOverAmount * 1.5F;
         this.leftHindLeg.xRot += rollOverAmount * 1.5F;

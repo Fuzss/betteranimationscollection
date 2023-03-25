@@ -2,28 +2,30 @@ package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.FlailingEndermanModel;
 import fuzs.betteranimationscollection.client.renderer.entity.layers.FlailingCarriedBlockLayer;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EndermanModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CarriedBlockLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
-public class FlailingEndermanElement extends ModelElementBase {
+public class FlailingEndermanElement extends ModelElement {
     public static int animationSpeed;
     public static boolean whileCarrying;
 
     private final ModelLayerLocation animatedEnderman;
 
-    public FlailingEndermanElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedEnderman = modelLayerRegistry.register("animated_enderman");
+    public FlailingEndermanElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedEnderman = factory.apply("animated_enderman", "main");
     }
 
     @Override
@@ -43,12 +45,12 @@ public class FlailingEndermanElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedEnderman, FlailingEndermanModel::createAnimatedBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedEnderman, FlailingEndermanModel::createAnimatedBodyLayer);
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         callback.accept(builder.comment("Animation swing speed for arms.").defineInRange("animation_speed", 5, 1, 20), v -> animationSpeed = v);
         callback.accept(builder.comment("Flail arms while carrying a block.").define("fail_while_carrying", true), v -> whileCarrying = v);
     }

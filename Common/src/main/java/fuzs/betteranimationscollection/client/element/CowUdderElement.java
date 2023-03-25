@@ -1,23 +1,26 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.CowUdderModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.CowModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.common.ForgeConfigSpec;
 
-public class CowUdderElement extends ModelElementBase {
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+public class CowUdderElement extends ModelElement {
     public static int animationSpeed;
     public static boolean showNipples;
     public static boolean calfUtter;
 
     private final ModelLayerLocation animatedCow;
 
-    public CowUdderElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedCow = modelLayerRegistry.register("animated_cow");
+    public CowUdderElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedCow = factory.apply("animated_cow", "main");
     }
 
     @Override
@@ -32,12 +35,12 @@ public class CowUdderElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedCow, CowUdderModel::createAnimatedBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedCow, CowUdderModel::createAnimatedBodyLayer);
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         callback.accept(builder.comment("Animation swing speed of utter when the cow is walking.").defineInRange("animation_speed", 5, 1, 20), v -> animationSpeed = v);
         callback.accept(builder.comment("Render tiny nipples on a cow's utter.").define("show_nipples", true), v -> showNipples = v);
         callback.accept(builder.comment("Should calves show an utter.").define("calf_utter", false), v -> calfUtter = v);

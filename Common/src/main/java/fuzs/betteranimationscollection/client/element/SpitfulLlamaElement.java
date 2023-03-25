@@ -2,11 +2,10 @@ package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.SpitfulLlamaModel;
 import fuzs.betteranimationscollection.mixin.client.accessor.LlamaDecorLayerAccessor;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.LlamaModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.LlamaDecorLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -14,15 +13,18 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.animal.horse.Llama;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public class SpitfulLlamaElement extends SoundDetectionElement {
     private final ModelLayerLocation animatedLlama;
     private final ModelLayerLocation animatedLlamaDecor;
 
-    public SpitfulLlamaElement(ModelLayerRegistry modelLayerRegistry) {
+    public SpitfulLlamaElement(BiFunction<String, String, ModelLayerLocation> factory) {
         super(Llama.class, SoundEvents.LLAMA_SPIT);
-        this.animatedLlama = modelLayerRegistry.register("animated_llama");
-        this.animatedLlamaDecor = modelLayerRegistry.register("animated_llama", "decor");
+        this.animatedLlama = factory.apply("animated_llama", "main");
+        this.animatedLlamaDecor = factory.apply("animated_llama", "decor");
     }
 
     @Override
@@ -41,8 +43,8 @@ public class SpitfulLlamaElement extends SoundDetectionElement {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedLlama, () -> SpitfulLlamaModel.createAnimatedBodyLayer(CubeDeformation.NONE));
-        context.registerLayerDefinition(this.animatedLlamaDecor, () -> SpitfulLlamaModel.createAnimatedBodyLayer(new CubeDeformation(0.5F)));
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedLlama, () -> SpitfulLlamaModel.createAnimatedBodyLayer(CubeDeformation.NONE));
+        context.accept(this.animatedLlamaDecor, () -> SpitfulLlamaModel.createAnimatedBodyLayer(new CubeDeformation(0.5F)));
     }
 }

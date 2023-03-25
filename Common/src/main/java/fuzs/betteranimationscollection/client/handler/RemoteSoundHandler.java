@@ -4,20 +4,23 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
 import fuzs.betteranimationscollection.config.ClientConfig;
+import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundEventListener;
 import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.Unit;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class RemoteSoundHandler {
@@ -43,9 +46,9 @@ public class RemoteSoundHandler {
     private final Set<Class<? extends Mob>> attackableEntities = Sets.newHashSet();
     private final SoundDetectionListener soundListener = new SoundDetectionListener();
 
-    public Optional<Unit> onLivingTick(LivingEntity entity) {
+    public EventResult onLivingTick(LivingEntity entity) {
         this.soundListener.ensureInitialized();
-        if (!entity.level.isClientSide || !(entity instanceof Mob mob)) return Optional.empty();
+        if (!entity.level.isClientSide || !(entity instanceof Mob mob)) return EventResult.PASS;
         Stream.concat(this.noisyEntities.stream(), this.attackableEntities.stream()).forEach(clazz -> {
             if (clazz.isAssignableFrom(entity.getClass())) {
                 if (mob.ambientSoundTime >= 0) {
@@ -66,7 +69,7 @@ public class RemoteSoundHandler {
                 }
             }
         }
-        return Optional.empty();
+        return EventResult.PASS;
     }
 
     public void addAmbientSounds(Class<? extends Mob> entityClazz, Collection<SoundEvent> soundEvents) {

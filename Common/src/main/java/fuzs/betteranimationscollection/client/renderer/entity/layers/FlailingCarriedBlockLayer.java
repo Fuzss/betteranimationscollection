@@ -1,7 +1,7 @@
 package fuzs.betteranimationscollection.client.renderer.entity.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import fuzs.betteranimationscollection.client.element.FlailingEndermanElement;
 import fuzs.betteranimationscollection.client.model.FlailingEndermanModel;
 import net.minecraft.client.model.EndermanModel;
@@ -41,11 +41,11 @@ public class FlailingCarriedBlockLayer extends CarriedBlockLayer {
             }
             // below just copied from super
             matrixStack.translate(-flailAmount * 0.0575, 0.6875D, -0.75D);
-            matrixStack.mulPose(Vector3f.XP.rotationDegrees(20.0F));
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(45.0F));
+            matrixStack.mulPose(Axis.XP.rotationDegrees(20.0F));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(45.0F));
             matrixStack.translate(0.25D, 0.1875D, 0.25D);
             matrixStack.scale(-0.5F, -0.5F, 0.5F);
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(90.0F));
             this.blockRenderer.renderSingleBlock(blockstate, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
             matrixStack.popPose();
         }

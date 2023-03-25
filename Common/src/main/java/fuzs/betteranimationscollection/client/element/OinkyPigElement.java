@@ -2,21 +2,23 @@ package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.OinkyPigModel;
 import fuzs.betteranimationscollection.mixin.client.accessor.SaddleLayerAccessor;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.PigModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.SaddleLayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Pig;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public class OinkyPigElement extends SoundDetectionElement {
     public static boolean floatyEars;
@@ -25,10 +27,10 @@ public class OinkyPigElement extends SoundDetectionElement {
     private final ModelLayerLocation animatedPig;
     private final ModelLayerLocation animatedPigSaddle;
 
-    public OinkyPigElement(ModelLayerRegistry modelLayerRegistry) {
+    public OinkyPigElement(BiFunction<String, String, ModelLayerLocation> factory) {
         super(Pig.class, SoundEvents.PIG_AMBIENT);
-        this.animatedPig = modelLayerRegistry.register("animated_pig");
-        this.animatedPigSaddle = modelLayerRegistry.register("animated_pig", "saddle");
+        this.animatedPig = factory.apply("animated_pig", "main");
+        this.animatedPigSaddle = factory.apply("animated_pig", "saddle");
     }
 
     @Override
@@ -50,13 +52,13 @@ public class OinkyPigElement extends SoundDetectionElement {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedPig, () -> OinkyPigModel.createAnimatedBodyLayer(CubeDeformation.NONE));
-        context.registerLayerDefinition(this.animatedPigSaddle, () -> OinkyPigModel.createAnimatedBodyLayer(new CubeDeformation(0.5F)));
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedPig, () -> OinkyPigModel.createAnimatedBodyLayer(CubeDeformation.NONE));
+        context.accept(this.animatedPigSaddle, () -> OinkyPigModel.createAnimatedBodyLayer(new CubeDeformation(0.5F)));
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         super.setupModelConfig(builder, callback);
         callback.accept(builder.comment("Fancy ears for pigs, just like piglins have them.").define("floaty_ears", true), v -> floatyEars = v);
         callback.accept(builder.comment("Animation swing speed for ear floatiness.").defineInRange("ear_animation_speed", 10, 1, 20), v -> earAnimationSpeed = v);

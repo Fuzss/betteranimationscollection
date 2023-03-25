@@ -3,24 +3,26 @@ package fuzs.betteranimationscollection.client.element;
 import fuzs.betteranimationscollection.client.model.KneelingSheepFurModel;
 import fuzs.betteranimationscollection.client.model.KneelingSheepModel;
 import fuzs.betteranimationscollection.mixin.client.accessor.SheepFurLayerAccessor;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.SheepModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.SheepFurLayer;
 import net.minecraft.world.entity.animal.Sheep;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
-public class KneelingSheepElement extends ModelElementBase {
+public class KneelingSheepElement extends ModelElement {
     private final ModelLayerLocation animatedSheep;
     private final ModelLayerLocation animatedSheepFur;
 
-    public KneelingSheepElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedSheep = modelLayerRegistry.register("animated_sheep");
-        this.animatedSheepFur = modelLayerRegistry.register("animated_sheep", "fur");
+    public KneelingSheepElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedSheep = factory.apply("animated_sheep", "main");
+        this.animatedSheepFur = factory.apply("animated_sheep", "fur");
     }
 
     @Override
@@ -41,8 +43,8 @@ public class KneelingSheepElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedSheep, KneelingSheepModel::createAnimatedBodyLayer);
-        context.registerLayerDefinition(this.animatedSheepFur, KneelingSheepFurModel::createAnimatedFurLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedSheep, KneelingSheepModel::createAnimatedBodyLayer);
+        context.accept(this.animatedSheepFur, KneelingSheepFurModel::createAnimatedFurLayer);
     }
 }

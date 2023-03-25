@@ -2,28 +2,30 @@ package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.JigglySlimeModel;
 import fuzs.betteranimationscollection.mixin.client.accessor.SlimeOuterLayerAccessor;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.SlimeModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.SlimeOuterLayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
-public class JigglySlimeElement extends ModelElementBase {
+public class JigglySlimeElement extends ModelElement {
     public static int animationSpeed;
 
     private final ModelLayerLocation animatedSlime;
     private final ModelLayerLocation animatedSlimeOuter;
 
-    public JigglySlimeElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedSlime = modelLayerRegistry.register("animated_slime");
-        this.animatedSlimeOuter = modelLayerRegistry.register("animated_slime", "outer");
+    public JigglySlimeElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedSlime = factory.apply("animated_slime", "main");
+        this.animatedSlimeOuter = factory.apply("animated_slime", "outer");
     }
 
     @Override
@@ -44,13 +46,13 @@ public class JigglySlimeElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedSlime, SlimeModel::createInnerBodyLayer);
-        context.registerLayerDefinition(this.animatedSlimeOuter, SlimeModel::createOuterBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedSlime, SlimeModel::createInnerBodyLayer);
+        context.accept(this.animatedSlimeOuter, SlimeModel::createOuterBodyLayer);
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         callback.accept(builder.comment("Animation swing speed of inner slime parts.").defineInRange("animation_speed", 5, 1, 20), v -> animationSpeed = v);
     }
 }

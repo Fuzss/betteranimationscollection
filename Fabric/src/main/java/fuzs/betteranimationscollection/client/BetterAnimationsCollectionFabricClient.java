@@ -1,20 +1,13 @@
 package fuzs.betteranimationscollection.client;
 
 import fuzs.betteranimationscollection.BetterAnimationsCollection;
-import fuzs.betteranimationscollection.api.event.entity.living.LivingEvents;
-import fuzs.betteranimationscollection.client.handler.RemoteSoundHandler;
-import fuzs.puzzleslib.client.core.ClientCoreServices;
+import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import net.fabricmc.api.ClientModInitializer;
 
 public class BetterAnimationsCollectionFabricClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ClientCoreServices.FACTORIES.clientModConstructor(BetterAnimationsCollection.MOD_ID).accept(new BetterAnimationsCollectionClient());
-        registerHandlers();
-    }
-
-    private static void registerHandlers() {
-        LivingEvents.TICK.register(RemoteSoundHandler.INSTANCE::onLivingTick);
+        ClientModConstructor.construct(BetterAnimationsCollection.MOD_ID, BetterAnimationsCollectionClient::new);
     }
 }

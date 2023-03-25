@@ -3,8 +3,6 @@ package fuzs.betteranimationscollection.client.element;
 import fuzs.betteranimationscollection.client.model.FamiliarChestedHorseModel;
 import fuzs.betteranimationscollection.client.model.FamiliarHorseModel;
 import fuzs.betteranimationscollection.mixin.client.accessor.HorseArmorLayerAccessor;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.ChestedHorseModel;
 import net.minecraft.client.model.HorseModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -17,16 +15,19 @@ import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.horse.Horse;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
-public class FamiliarHorseElement extends ModelElementBase {
+public class FamiliarHorseElement extends ModelElement {
     private final ModelLayerLocation animatedHorse;
     private final ModelLayerLocation animatedHorseArmor;
     private final ModelLayerLocation animatedChestedHorse;
 
-    public FamiliarHorseElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedHorse = modelLayerRegistry.register("animated_horse");
-        this.animatedHorseArmor = modelLayerRegistry.register("animated_horse_armor");
-        this.animatedChestedHorse = modelLayerRegistry.register("animated_chested_horse");
+    public FamiliarHorseElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedHorse = factory.apply("animated_horse", "main");
+        this.animatedHorseArmor = factory.apply("animated_horse_armor", "main");
+        this.animatedChestedHorse = factory.apply("animated_chested_horse", "main");
     }
 
     @Override
@@ -47,9 +48,9 @@ public class FamiliarHorseElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedHorse, () -> LayerDefinition.create(FamiliarHorseModel.createAnimatedBodyMesh(CubeDeformation.NONE), 64, 64));
-        context.registerLayerDefinition(this.animatedHorseArmor, () -> LayerDefinition.create(FamiliarHorseModel.createAnimatedBodyMesh(new CubeDeformation(0.1F)), 64, 64));
-        context.registerLayerDefinition(this.animatedChestedHorse, FamiliarChestedHorseModel::createAnimatedBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedHorse, () -> LayerDefinition.create(FamiliarHorseModel.createAnimatedBodyMesh(CubeDeformation.NONE), 64, 64));
+        context.accept(this.animatedHorseArmor, () -> LayerDefinition.create(FamiliarHorseModel.createAnimatedBodyMesh(new CubeDeformation(0.1F)), 64, 64));
+        context.accept(this.animatedChestedHorse, FamiliarChestedHorseModel::createAnimatedBodyLayer);
     }
 }

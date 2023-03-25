@@ -1,15 +1,18 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.PlayfulDoggyModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.WolfModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.world.entity.animal.Wolf;
+import net.minecraftforge.common.ForgeConfigSpec;
 
-public class PlayfulDoggyElement extends ModelElementBase {
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+public class PlayfulDoggyElement extends ModelElement {
     public static int tailLength;
     public static boolean fluffyTail;
     public static int animationSpeed;
@@ -17,8 +20,8 @@ public class PlayfulDoggyElement extends ModelElementBase {
 
     private final ModelLayerLocation animatedWolf;
 
-    public PlayfulDoggyElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedWolf = modelLayerRegistry.register("animated_wolf");
+    public PlayfulDoggyElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedWolf = factory.apply("animated_wolf", "main");
     }
 
     @Override
@@ -33,12 +36,12 @@ public class PlayfulDoggyElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedWolf, PlayfulDoggyModel::createAnimatedBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedWolf, PlayfulDoggyModel::createAnimatedBodyLayer);
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         callback.accept(builder.comment("Define tail length.").defineInRange("tail_length", PlayfulDoggyModel.WOLF_TAIL_LENGTH, 1, PlayfulDoggyModel.WOLF_TAIL_LENGTH), v -> tailLength = v);
         callback.accept(builder.comment("Make wolf tail fluffy.").define("fluffy_tail", true), v -> fluffyTail = v);
         callback.accept(builder.comment("Animation swing speed for tail.").defineInRange("animation_speed", 5, 1, 20), v -> animationSpeed = v);

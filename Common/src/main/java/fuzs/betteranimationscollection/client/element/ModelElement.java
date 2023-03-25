@@ -1,20 +1,21 @@
 package fuzs.betteranimationscollection.client.element;
 
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-public abstract class ModelElementBase {
+public abstract class ModelElement {
     private boolean enabled = true;
     private boolean dirty = true;
 
@@ -40,9 +41,9 @@ public abstract class ModelElementBase {
 
     abstract void onRegisterAnimatedModels(AnimatedModelsContext context, EntityModelBakery bakery);
 
-    public abstract void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context);
+    public abstract void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context);
 
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
 
     }
 

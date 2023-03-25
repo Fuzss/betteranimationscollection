@@ -3,30 +3,32 @@ package fuzs.betteranimationscollection.client.element;
 import fuzs.betteranimationscollection.client.model.CatTailModel;
 import fuzs.betteranimationscollection.client.model.OcelotTailModel;
 import fuzs.betteranimationscollection.mixin.client.accessor.CatCollarLayerAccessor;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.CatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CatCollarLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.animal.Cat;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
-public class CatTailElement extends ModelElementBase {
+public class CatTailElement extends ModelElement {
     public static int tailLength;
     public static int animationSpeed;
 
     private final ModelLayerLocation animatedCat;
     private final ModelLayerLocation animatedCatCollar;
 
-    public CatTailElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedCat = modelLayerRegistry.register("animated_cat");
-        this.animatedCatCollar = modelLayerRegistry.register("animated_cat", "collar");
+    public CatTailElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedCat = factory.apply("animated_cat", "main");
+        this.animatedCatCollar = factory.apply("animated_cat", "collar");
     }
 
     @Override
@@ -46,13 +48,13 @@ public class CatTailElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedCat, () -> OcelotTailModel.createAnimatedBodyMesh(CubeDeformation.NONE));
-        context.registerLayerDefinition(this.animatedCatCollar, () -> OcelotTailModel.createAnimatedBodyMesh(new CubeDeformation(0.01F)));
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedCat, () -> OcelotTailModel.createAnimatedBodyMesh(CubeDeformation.NONE));
+        context.accept(this.animatedCatCollar, () -> OcelotTailModel.createAnimatedBodyMesh(new CubeDeformation(0.01F)));
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         callback.accept(builder.comment("Define tail length.").defineInRange("tail_length", OcelotTailModel.OCELOT_TAIL_LENGTH, 1, OcelotTailModel.OCELOT_TAIL_LENGTH), v -> tailLength = v);
         callback.accept(builder.comment("Animation swing speed for tail.").defineInRange("animation_speed", 7, 1, 20), v -> animationSpeed = v);
     }

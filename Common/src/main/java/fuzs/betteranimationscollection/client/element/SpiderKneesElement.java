@@ -1,17 +1,20 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.SpiderKneesModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
 import net.minecraft.client.model.SpiderModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.world.entity.LivingEntity;
 
-public class SpiderKneesElement extends ModelElementBase {
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+public class SpiderKneesElement extends ModelElement {
     private final ModelLayerLocation animatedSpider;
 
-    public SpiderKneesElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedSpider = modelLayerRegistry.register("animated_spider");
+    public SpiderKneesElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedSpider = factory.apply("animated_spider", "main");
     }
 
     @Override
@@ -25,7 +28,7 @@ public class SpiderKneesElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedSpider, SpiderKneesModel::createAnimatedSpiderBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedSpider, SpiderKneesModel::createAnimatedSpiderBodyLayer);
     }
 }

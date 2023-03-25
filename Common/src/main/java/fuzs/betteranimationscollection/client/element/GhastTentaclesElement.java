@@ -1,22 +1,25 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.GhastTentaclesModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.GhastModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.common.ForgeConfigSpec;
 
-public class GhastTentaclesElement extends ModelElementBase {
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+public class GhastTentaclesElement extends ModelElement {
     public static int maxTentaclesLength;
     public static int animationSpeed;
 
     private final ModelLayerLocation animatedGhast;
 
-    public GhastTentaclesElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedGhast = modelLayerRegistry.register("animated_ghast");
+    public GhastTentaclesElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedGhast = factory.apply("animated_ghast", "main");
     }
 
     @Override
@@ -31,12 +34,12 @@ public class GhastTentaclesElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedGhast, GhastTentaclesModel::createAnimatedBodyLayer);
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedGhast, GhastTentaclesModel::createAnimatedBodyLayer);
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         callback.accept(builder.comment("Define the max length of tentacles.").defineInRange("max_tentacles_length", GhastTentaclesModel.GHAST_MAX_TENTACLES_LENGTH, 2, GhastTentaclesModel.GHAST_MAX_TENTACLES_LENGTH), v -> maxTentaclesLength = v);
         callback.accept(builder.comment("Animation swing speed of tentacles.").defineInRange("animation_speed", 5, 1, 20), v -> animationSpeed = v);
     }

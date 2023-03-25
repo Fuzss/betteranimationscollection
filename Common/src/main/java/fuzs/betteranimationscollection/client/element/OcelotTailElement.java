@@ -1,23 +1,26 @@
 package fuzs.betteranimationscollection.client.element;
 
 import fuzs.betteranimationscollection.client.model.OcelotTailModel;
-import fuzs.puzzleslib.client.core.ClientModConstructor;
-import fuzs.puzzleslib.client.model.geom.ModelLayerRegistry;
-import fuzs.puzzleslib.config.ValueCallback;
-import fuzs.puzzleslib.config.core.AbstractConfigBuilder;
+import fuzs.puzzleslib.api.config.v3.ValueCallback;
 import net.minecraft.client.model.OcelotModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.common.ForgeConfigSpec;
 
-public class OcelotTailElement extends ModelElementBase {
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+public class OcelotTailElement extends ModelElement {
     public static int tailLength;
     public static int animationSpeed;
 
     private final ModelLayerLocation animatedOcelot;
 
-    public OcelotTailElement(ModelLayerRegistry modelLayerRegistry) {
-        this.animatedOcelot = modelLayerRegistry.register("animated_ocelot");
+    public OcelotTailElement(BiFunction<String, String, ModelLayerLocation> factory) {
+        this.animatedOcelot = factory.apply("animated_ocelot", "main");
     }
 
     @Override
@@ -32,12 +35,12 @@ public class OcelotTailElement extends ModelElementBase {
     }
 
     @Override
-    public void onRegisterLayerDefinitions(ClientModConstructor.LayerDefinitionsContext context) {
-        context.registerLayerDefinition(this.animatedOcelot, () -> OcelotTailModel.createAnimatedBodyMesh(CubeDeformation.NONE));
+    public void onRegisterLayerDefinitions(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> context) {
+        context.accept(this.animatedOcelot, () -> OcelotTailModel.createAnimatedBodyMesh(CubeDeformation.NONE));
     }
 
     @Override
-    public void setupModelConfig(AbstractConfigBuilder builder, ValueCallback callback) {
+    public void setupModelConfig(ForgeConfigSpec.Builder builder, ValueCallback callback) {
         callback.accept(builder.comment("Define tail length.").defineInRange("tail_length", OcelotTailModel.OCELOT_TAIL_LENGTH, 1, OcelotTailModel.OCELOT_TAIL_LENGTH), v -> tailLength = v);
         callback.accept(builder.comment("Animation swing speed for tail.").defineInRange("animation_speed", 7, 1, 20), v -> animationSpeed = v);
     }
