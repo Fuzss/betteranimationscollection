@@ -5,8 +5,8 @@ import fuzs.betteranimationscollection.client.element.ModelElements;
 import fuzs.betteranimationscollection.client.handler.RemoteSoundHandler;
 import fuzs.betteranimationscollection.config.ClientConfig;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.api.client.core.v1.context.ClientReloadListenersContext;
 import fuzs.puzzleslib.api.client.core.v1.context.LayerDefinitionsContext;
+import fuzs.puzzleslib.api.core.v1.context.AddReloadListenersContext;
 import fuzs.puzzleslib.api.core.v1.context.ModLifecycleContext;
 import fuzs.puzzleslib.api.event.v1.entity.living.LivingEvents;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -40,7 +40,7 @@ public class BetterAnimationsCollectionClient implements ClientModConstructor {
     }
 
     @Override
-    public void onRegisterClientReloadListeners(ClientReloadListenersContext context) {
+    public void onRegisterResourcePackReloadListeners(AddReloadListenersContext context) {
         context.registerReloadListener("animated_models", (PreparableReloadListener.PreparationBarrier preparationBarrier, ResourceManager resourceManager, ProfilerFiller profilerFiller, ProfilerFiller profilerFiller2, Executor executor, Executor executor2) -> {
             return preparationBarrier.wait(Unit.INSTANCE).thenRunAsync(ModelElements::applyAnimatedModels, executor2);
         });
