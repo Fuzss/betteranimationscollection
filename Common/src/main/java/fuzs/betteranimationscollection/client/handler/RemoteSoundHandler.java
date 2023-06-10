@@ -48,7 +48,7 @@ public class RemoteSoundHandler {
 
     public EventResult onLivingTick(LivingEntity entity) {
         this.soundListener.ensureInitialized();
-        if (!entity.level.isClientSide || !(entity instanceof Mob mob)) return EventResult.PASS;
+        if (!entity.level().isClientSide || !(entity instanceof Mob mob)) return EventResult.PASS;
         Stream.concat(this.noisyEntities.stream(), this.attackableEntities.stream()).forEach(clazz -> {
             if (clazz.isAssignableFrom(entity.getClass())) {
                 if (mob.ambientSoundTime >= 0) {
